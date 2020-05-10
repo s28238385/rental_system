@@ -12,7 +12,7 @@
         <link href="{{ URL::to('css/style.css') }}" rel="stylesheet" type="text/css">
     </head>
     <body>
-        @include('layouts.header')
+        @include('partials.header')
 
         @yield('content')
 
