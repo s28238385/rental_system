@@ -156,9 +156,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        // for Custom Component 2020/5/10
-        App\Providers\FormServiceProvider::class,
-
         // for larvaelcollective 2020/5/10
         Collective\Html\HtmlServiceProvider::class,
 
