@@ -12,7 +12,11 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layouts.master');
+});
+
+Route::get('/calender', function(){
+    return view('partials.calender');
 });
 
 // route to  ApplyController@create
