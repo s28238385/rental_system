@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+// route to  ApplyController@create
+Route::get('newapply', 'ApplyController@create');
+
+// store apply
+Route::post('newapply', 'ApplyController@store');
