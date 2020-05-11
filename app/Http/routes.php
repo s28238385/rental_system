@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('layouts.master');
 });
+
+Route::get('/calender', function(){
+    return view('partials.calender');
+});
