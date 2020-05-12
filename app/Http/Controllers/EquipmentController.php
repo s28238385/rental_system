@@ -37,4 +37,36 @@ class EquipmentController extends Controller
 
         return redirect()->route('equipment.list');
     }
+
+    public function getEdit($id){
+        $equipment = Equipment::find($id);
+
+        return view('equipment.edit', ['equipment' => $equipment]);
+    }
+
+    public function postEdit(Request $request, $id){
+        $this->validate($request, [
+            'genre' => 'required',
+            'item',
+            'quantity' => 'required'
+        ]);
+
+        $equipment = Equipment::find($id);
+
+        $equipment->genre = $request->input('genre');
+        $equipment->item = $request->input('item');
+        $equipment->quantity = $request->input('quantity');
+
+        $equipment->save();
+
+        return redirect()->route('equipment.list');
+    }
+
+    public function getDelete($id){
+        $equipment = Equipment::find($id);
+
+        $equipment->delete();
+
+        return redirect()->route('equipment.list');
+    }
 }
