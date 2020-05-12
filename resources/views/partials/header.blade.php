@@ -9,7 +9,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="#">教室預約狀況</a>
             </li>
-            <!--@if(Auth::check())-->
+            <!--@--><!--if(Auth::check())-->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     教室預約
@@ -19,7 +19,7 @@
                         <a class="dropdown-item" href="#">長期預約</a>
                     </div>
                 </li>
-            <!--@endif-->
+            <!--@--><!--endif-->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 教室設備借用
@@ -29,7 +29,7 @@
                     <a class="dropdown-item" href="#">申請清單</a>
                 </div>
             </li>
-            <!--@if(Auth::check())-->
+            <!--@--><!--if(Auth::check())-->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     管理員
@@ -40,11 +40,11 @@
                         <a class="dropdown-item" href="#">登出</a>
                     </div>
                 </li>
-            <!--@else-->
+            <!--@--><!--else-->
                 <li class="nav-item">
                     <a class="nav-link" href="#">管理者登入</a>
                 </li>
-            <!--@endif-->
+            <!--@-><!--endif-->
         </ul>
     </div>
 </nav>
