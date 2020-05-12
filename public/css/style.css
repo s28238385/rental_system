@@ -2,22 +2,25 @@
     font-family: 'Noto Sans TC', sans-serif !important;
 }
 
-#calender table {
+#week-switch {
+    caption-side: top;
+}
+
+.week-switch-button {
+    width: 20%;
+}
+/*#calender table {
     margin: 5vh 5vw;
     width: 90%;
     border: 1px solid black;
 }
 
-#calender caption {
-    caption-side: top;
-}
 
-#calender caption button {
-    width: 20%;
-}
+
+
 
 #calender th, td {
     width: calc(100% / 8);
     border: 1px solid black;
     text-align: center;
-}
+}*/

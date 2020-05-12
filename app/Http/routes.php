@@ -11,10 +11,10 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/master', function () {
     return view('layouts.master');
 });
 
-Route::get('/calender', function(){
+/*Route::get('/calender', function(){
     return view('partials.calender');
-});
+});*/
