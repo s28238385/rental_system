@@ -18,3 +18,35 @@ Route::get('/master', function () {
 /*Route::get('/calender', function(){
     return view('partials.calender');
 });*/
+
+Route::group(['prefix' => 'equipment'], function(){
+    Route::get('/list', [
+        'uses' => "EquipmentController@getList",
+        'as' => 'equipment.list'
+    ]);
+
+    Route::get('/add', [
+        'uses' => 'EquipmentController@getAdd',
+        'as' => 'equipment.add'
+    ]);
+
+    Route::post('/add', [
+        'uses' => 'EquipmentController@postAdd',
+        'as' => 'equipment.add'
+    ]);
+
+    Route::get('/edit/{id}', [
+        'uses' => 'EquipmentController@getEdit',
+        'as' => 'equipment.edit'
+    ]);
+
+    Route::post('/edit/{id}', [
+        'uses' => 'EquipmentController@postEdit',
+        'as' => 'equipment.edit'
+    ]);
+
+    Route::get('delete/{id}', [
+        'uses' => 'EquipmentController@getDelete',
+        'as' => 'equipment.delete'
+    ]);
+});
