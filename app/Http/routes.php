@@ -50,3 +50,7 @@ Route::group(['prefix' => 'equipment'], function(){
         'as' => 'equipment.delete'
     ]);
 });
+
+Route::get('/searching', function(){
+    return view('searching.index');
+});
