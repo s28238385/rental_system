@@ -2,79 +2,7 @@
 
 @section('content')
 
-<script>
-    (function(){
-            $(document).ready(function () {
-
-                // 身分改變時
-                $('#identity').change(function () {
-                    // 選擇身份顯示or隱藏學部、班年級
-                    $('.degree, .grade').toggleClass('d-none');
-
-                    // 分機或手機
-                    if($('#identity option:selected').text() == "學生"){
-                        $('label[for="phone"]').text('手機號碼');
-                    }else{
-                        $('label[for="phone"]').text('分機');
-                    }
-                });
-                $('#identity').val(0).change();
-
-                // 選擇學部改變班年級
-                $('#degree').change(function () {
-
-                    var options_class = ['A', 'B'];
-                    var options_grade = ['一', '二', '三', '四', '五', '六', '七'];
-                    
-                    switch ($("#degree option:selected").text()) {
-                        case '大學部':
-                            stop = 4;
-                            break;
-                        case '碩士班':
-                        case '碩士在職專班':
-                            stop = 2;
-                            break;
-                        case '博士班':
-                            stop = 7;
-                            break;
-                    }
-
-                    $('#grade').empty();
-
-                    if(stop == 4){
-                        for(var i = 0; i < stop; i++){
-                            for(var j = 0; j < options_class.length; j++){
-                                $('#grade').append(new Option(options_grade[i] + options_class[j]));
-                            }
-                        }
-                        return;
-                    }
-
-                    for(var i = 0; i < stop; i++){
-                        $('#grade').append(new Option(options_grade[i]));
-                    }
-                });
-                // 先觸發第一次選擇
-                $('#degree').val(0).change();
-
-                // 是否借用教室的核取方塊改變時
-                $('#wantRentChk').change(function () {
-                    $('#classroomSection').toggleClass('d-none');
-                });
-
-                $('#phone').change(function () {
-
-                });
-
-
-                $('#moreBtn').click(function () {
-                    alert('借用更多');
-                });
-            })
-        })();
-
-</script>
-
+<script type="text/javascript" src="{{ URL::asset('js/newapply.js') }}"></script>
 
 <div class="container pt-3">
     <h1>@顯示借用器材規則畫面</h1>
@@ -82,20 +10,11 @@
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum ad unde delectus, ut exercitationem eos? Id
             quia
             enim assumenda ullam natus quidem corrupti suscipit provident beatae, doloribus soluta mollitia ducimus.</p>
-        <button type="button" class="btn btn-success" onclick="showForm()">同意</button>
+        <button type="button" class="btn btn-success" id="agreeBtn">同意</button>
     </div>
 
 
     <div class="card p-3">
-        {{-- 基本資料
-	姓名string
-	身分string
-	抵押證件string
-	電話（分機或手機varchar
-
-是否借用教室？ --}}
-
-
 
         <h2 class="text-primary">基本資料</h2>
         {!!Form::open(['action' => 'ApplyController@store']) !!}
@@ -194,44 +113,46 @@
     <div class="card p-3 mt-3">
         <h2 class="text-primary">借用設備</h2>
 
-        <div class="contianer">
-            <div class="d-flex py-3 align-items-center">
-                <div class="text-info col-1">
-                    <h4 id="numEquipment">num</h4>
+        <div class="equipmentContainer">
+            <div id="equipment">
+                <div class="d-flex py-3 align-items-center">
+                    <div class="text-info col-1">
+                        <h4 id="equipmentNum">1</h4>
+                    </div>
+                    <button type="button" class="btn btn-danger btn-sm" id="dltBtn">刪除</button>
                 </div>
-                <button type="button" class="btn btn-danger btn-sm" btn-lg btn-block">刪除</button>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        {!!Form::label('equipment_type[]', '借用設備種類') !!}
+                        {!!Form::select('equipment_type[]', $equipment_type['options'], 0, ['class' =>
+                        'form-control'])
+                        !!}
+                    </div>
+                    <div class="form-group col-md-3">
+                        {!!Form::label('equipment_name[]', '借用設備名稱') !!}
+                        {!!Form::select('equipment_name[]', $equipment['options'], 0, ['class' => 'form-control']) !!}
+                    </div>
+                    <div class="form-group col-md-3">
+                        {!!Form::label('equipment_num[]', '借用數量') !!}
+                        {!!Form::selectRange('equipment_num[]', 1, 5, 0, ['class'=>'form-control']) !!}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        {!!Form::label('usage[]', '用途') !!}
+                        {!!Form::text('usage[]', old('usage'), ['class'=>'form-control']) !!}
+                    </div>
+                    <div class="form-group col-md-3">
+                        {!!Form::label('return_time[]', '歸還時間') !!}
+                        {!!Form::text('return_time[]', '', array('class' => 'form-control','id' => 'datepicker')) !!}
+                    </div>
+                    <div class="form-group col-md-3">
+                        {!!Form::label('remark[]', '備註') !!}
+                        {!!Form::text('remark[]', old('remark'), ['class'=>'form-control']) !!}
+                    </div>
+                </div>
+                <hr>
             </div>
-            <div class="form-row">
-                <div class="form-group col-md-3">
-                    {!!Form::label('equipment_type', '借用設備種類') !!}
-                    {!!Form::select('equipment_type', $equipment_type['options'], 0, ['class' =>
-                    'form-control'])
-                    !!}
-                </div>
-                <div class="form-group col-md-3">
-                    {!!Form::label('equipment_name', '借用設備名稱') !!}
-                    {!!Form::select('equipment_name', $equipment['options'], 0, ['class' => 'form-control']) !!}
-                </div>
-                <div class="form-group col-md-3">
-                    {!!Form::label('equipment_num', '借用數量') !!}
-                    {!!Form::selectRange('equipment_num', 1, 5, 0, ['class'=>'form-control']) !!}
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-3">
-                    {!!Form::label('usage', '用途') !!}
-                    {!!Form::text('usage', old('usage'), ['class'=>'form-control']) !!}
-                </div>
-                <div class="form-group col-md-3">
-                    {!!Form::label($return_time['name'], $return_time['label']) !!}
-                    {!!Form::text('date', '', array('class' => 'form-control','id' => 'datepicker')) !!}
-                </div>
-                <div class="form-group col-md-3">
-                    {!!Form::label('remark', '備註') !!}
-                    {!!Form::text('remark', old('remark'), ['class'=>'form-control']) !!}
-                </div>
-            </div>
-            <hr>
         </div>
 
         <div class="form-row">

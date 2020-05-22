@@ -11,16 +11,51 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/master', function () {
     return view('layouts.master');
 });
 
-Route::get('/calender', function(){
+/*Route::get('/calender', function(){
     return view('partials.calender');
+});*/
+
+Route::group(['prefix' => 'equipment'], function () {
+    Route::get('/list', [
+        'uses' => "EquipmentController@getList",
+        'as' => 'equipment.list'
+    ]);
+
+    Route::get('/add', [
+        'uses' => 'EquipmentController@getAdd',
+        'as' => 'equipment.add'
+    ]);
+
+    Route::post('/add', [
+        'uses' => 'EquipmentController@postAdd',
+        'as' => 'equipment.add'
+    ]);
+
+    Route::get('/edit/{id}', [
+        'uses' => 'EquipmentController@getEdit',
+        'as' => 'equipment.edit'
+    ]);
+
+    Route::post('/edit/{id}', [
+        'uses' => 'EquipmentController@postEdit',
+        'as' => 'equipment.edit'
+    ]);
+
+    Route::get('delete/{id}', [
+        'uses' => 'EquipmentController@getDelete',
+        'as' => 'equipment.delete'
+    ]);
 });
 
-// route to  ApplyController@create
 Route::get('newapply', 'ApplyController@create');
 
 // store apply
 Route::post('newapply', 'ApplyController@store');
+
+Route::get('/searching', function () {
+    return view('searching.index');
+});
