@@ -2,22 +2,26 @@
     $(document).ready(function () {
 
         $('#agreeBtn').click(function (e) {
-            // to do
+            $('#ruleSection').remove();
+            $('#formSection').toggleClass('d-none');
         });
 
         // 身分改變時
         $('#identity').change(function () {
             // 選擇身份顯示or隱藏學部、班年級
-            $('.degree, .grade').toggleClass('d-none');
+            $('#degreePart, #gradePart, #cardPart').toggleClass('d-none');
 
             // 分機或手機
             if ($('#identity option:selected').text() == "學生") {
                 $('label[for="phone"]').text('手機號碼');
+
+                $('#degreePart, #gradePart, #cardPart').removeClass('d-none');
             } else {
                 $('label[for="phone"]').text('分機');
+
+                $('#degreePart, #gradePart, #cardPart').addClass('d-none');
             }
         });
-        $('#identity').val(0).change();
 
         // 選擇學部改變班年級
         $('#degree').change(function () {
@@ -54,7 +58,7 @@
             }
         });
         // 先觸發第一次選擇
-        $('#degree').val(0).change();
+        $('#degree').change();
 
         // 是否借用教室的核取方塊改變時
         $('#wantRentChk').change(function () {
@@ -62,6 +66,17 @@
         });
 
         $('#phone').change(function () {
+            if ($('#identity option:selected').text() == "學生") {
+                // 手機
+                if (!$('#phone').val().match('/^09\d{8}$/')) {
+                    $('#phone').addClass('is-invalid');
+                }
+            } else {
+                // 分機
+                if (!$('#phone').val().match('/^d{5}$/')) {
+                    $('#phone').addClass('is-invalid');
+                }
+            }
 
         });
 
@@ -73,7 +88,7 @@
             var equipment = $('#temp').clone();
             $('#equipment').unwrap();
 
-            equipment.find('#equipmentNum').text(++equipmentNum);
+            equipment.find('#equipmentNum').text('No.' + ++equipmentNum);
             equipment.find('#dltBtn').attr('id', 'dltBtn' + equipmentNum).show();
             equipment.find('#equipment').attr('id', 'equipment' + equipmentNum);
             $('#dltBtn' + (equipmentNum - 1)).hide();
@@ -83,5 +98,6 @@
                 $('#dltBtn' + equipmentNum).show();
             });
         });
+
     })
 })();
