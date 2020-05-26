@@ -7,7 +7,7 @@ class CreateEquipmentTable extends Migration
 {
     public function up()
     {
-        Schema::create('equipment', function(Blueprint $table){
+        Schema::create('equipment', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
             $table->string('genre')->unique();
@@ -15,7 +15,7 @@ class CreateEquipmentTable extends Migration
             $table->integer('quantity');
         });
     }
-    
+
     public function down()
     {
         Schema::drop('equipments');

@@ -19,7 +19,7 @@ Route::get('/master', function () {
     return view('partials.calender');
 });*/
 
-Route::group(['prefix' => 'equipment'], function(){
+Route::group(['prefix' => 'equipment'], function () {
     Route::get('/list', [
         'uses' => "EquipmentController@getList",
         'as' => 'equipment.list'
@@ -58,4 +58,12 @@ Route::get('/searching', [
 
 Route::get('/reserve_time', function () {
     return view('searching.reserve_time');
+});
+Route::get('newapply', 'ApplyController@create');
+
+// store apply
+Route::post('newapply', 'ApplyController@store');
+
+Route::get('/searching', function () {
+    return view('searching.index');
 });
