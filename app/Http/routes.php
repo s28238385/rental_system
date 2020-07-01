@@ -59,3 +59,30 @@ Route::post('newapply', 'ApplyController@store');
 Route::get('/searching', function () {
     return view('searching.index');
 });
+
+//reserve
+Route::get('/reservation/classroom_short', function () {
+    return view('reservation/classroom_short');
+});
+
+Route::get('/reservation/classroom_long', function () {
+    return view('reservation/classroom_long');
+});
+
+Route::get('/reservation/view_short', function () {
+    return view('reservation/view_short');
+});
+
+Route::get('/reservation/view_long', function () {
+    return view('reservation/view_long');
+});
+
+Route::resource('post', 'PostController');
+Route::auth();
+
+Route::get('/home', 'HomeController@index');
+Route::get("/reservation/classroom_short", "PostController@store_short");
+Route::post("/reservation/classroom_short", "PostController@store_short");
+
+Route::get("/reservation/classroom_long", "PostController@store_long");
+Route::post("/reservation/classroom_long", "PostController@store_long");
