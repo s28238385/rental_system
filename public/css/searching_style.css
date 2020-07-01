@@ -1,0 +1,20 @@
+.card {
+    width: 18rem; 
+    margin: 2rem auto;
+}
+
+.modal-img {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    width: 600px;
+  }
+
+  .nav-item {
+      margin: auto 0.3rem;
+  }
+
+  .nav-item:hover {
+      background-color: aqua;
+      border-radius: .25rem;
+  }

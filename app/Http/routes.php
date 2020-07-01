@@ -51,6 +51,14 @@ Route::group(['prefix' => 'equipment'], function () {
     ]);
 });
 
+Route::get('/searching', [
+    'uses' => 'SearchingClassroomController@getList',
+    'as' => 'classroom.getList'
+]);
+
+Route::get('/reserve_time', function () {
+    return view('searching.reserve_time');
+});
 Route::get('newapply', 'ApplyController@create');
 
 // store apply
