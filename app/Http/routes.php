@@ -64,6 +64,4 @@ Route::get('newapply', 'ApplyController@create');
 // store apply
 Route::post('newapply', 'ApplyController@store');
 
-Route::get('/searching', function () {
-    return view('searching.index');
-});
+Route::get('/searching', 'SearchingClassroomController@getList');
