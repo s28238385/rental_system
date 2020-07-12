@@ -1,9 +1,14 @@
 @extends("layouts.master")
 
 @section("content")
-
+    
 <form method = "POST">
-
+    <div class="form-row align-items-center" style = "padding:10px 25px;">
+        <label for="exampleInputEmail1">借用日期</label>
+        <div class="col-auto my-1">
+            <input type = "text" class="form-control mr-sm-2" id="datepicker" name="datepicker"></select>
+        </div>
+    </div>
 
     <div class="form-row align-items-center" style = "padding:10px 25px;">
         <label for="exampleInputEmail1">借用教室</label>
