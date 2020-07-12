@@ -17,9 +17,15 @@
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
+    <!--Font Awesome資源-->
+    <script src="https://kit.fontawesome.com/4c16bca124.js" crossorigin="anonymous"></script>
+
+    <!--保留給任何的擴充資源連結-->
+    @yield('href')
 </head>
 
 <body>
+    <!--引入通用的header-->
     @include('partials.header')
 
     @yield('content')
@@ -43,7 +49,7 @@
         $( "#datepicker" ).datepicker();
         } );
     </script>
-    
+
 </body>
 
 </html>
