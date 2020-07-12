@@ -51,19 +51,22 @@ Route::group(['prefix' => 'equipment'], function () {
     ]);
 });
 
-Route::get('/searching', [
-    'uses' => 'SearchingClassroomController@getList',
-    'as' => 'classroom.getList'
-]);
-
-Route::get('/reserve_time', function () {
-    return view('searching.reserve_time');
+Route::group(['prefix' => 'searching'], function(){
+    Route::get('/', [
+        'uses' => 'SearchingClassroomController@getList',
+        'as' => 'classroom.getList'
+    ]);
+    /*Route::get('/status', [
+        'uses' => 'SearchingClassroomController@getStatus',
+        'as' => 'classroom.getStatus'
+    ]);*/
+    Route::post('/status', [
+        'uses' => 'SearchingClassroomController@postStatus',
+        'as' => 'classroom.status'
+    ]);
 });
+
 Route::get('newapply', 'ApplyController@create');
 
 // store apply
 Route::post('newapply', 'ApplyController@store');
-
-Route::get('/searching', function () {
-    return view('searching.index');
-});
