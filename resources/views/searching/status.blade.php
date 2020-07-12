@@ -10,6 +10,16 @@
 <input type="hidden" id="chosen_status" value="#{{ $chosen_status }}" >
 
 @section('content')
+{{-- cover style.css --}}
+<style>
+#classroomTab .nav-link{
+  color: #aaa;
+}
+#classroomTab .active{
+  color: #000;
+}
+</style>
+
 <div class="container">
     {{-- leave blank --}}
     <div class="leave_blank"></div>
@@ -40,18 +50,19 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-<script>
-  $(document).ready(function(){
-    //enter point
-    var chosen_status = $('#chosen_status').val();
-    //console.log(chosen_status);//test
-    $('.nav-tabs a[href="'+chosen_status+'"]').tab('show');
+  <script>
+    $(document).ready(function(){
+      //enter point
+      var chosen_status = $('#chosen_status').val();
+      //console.log(chosen_status);//test
+      $('.nav-tabs a[href="'+chosen_status+'"]').tab('show');
 
 
-    $('.nav-tabs a').click(function(){
-      //console.log('click');//test
-      $(this).tab('show');
+      $('.nav-tabs a').click(function(){
+        //console.log('click');//test
+        $(this).tab('show');
+      });
     });
-  });
-</script>
+  </script>
 @endsection
+
