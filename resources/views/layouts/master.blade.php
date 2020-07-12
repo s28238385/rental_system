@@ -13,9 +13,16 @@
 
     <!--自訂CSS樣式表-->
     <link href="{{ URL::to('css/style.css') }}" rel="stylesheet" type="text/css">
+
+    <!--Font Awesome資源-->
+    <script src="https://kit.fontawesome.com/4c16bca124.js" crossorigin="anonymous"></script>
+
+    <!--保留給任何的擴充資源連結-->
+    @yield('href')
 </head>
 
 <body>
+    <!--引入通用的header-->
     @include('partials.header')
 
     @yield('content')
