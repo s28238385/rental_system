@@ -10,11 +10,11 @@
                 <button type="button" class="btn btn-outline-primary week-switch-button" onclick="toNextWeek()">下一周</button>
             </div>
             <div class="d-flex justify-content-end">
-                <form class="form-inline my-1">
-                    <label for="search-block" class="mr-2 text-black">前往指定日期：</label>
+                
+                    <label for="search-block" class="mr-2 my-2 text-black">前往指定日期：</label>
                     <input id="search-block" name="search-block" class="form-control mr-sm-2" type="search" placeholder="例：1970-01-01" aria-label="Search">
-                    <button class="btn btn-outline-primary my-2 my-sm-0" type="button" onclick="toCertainWeek()">前往</button>
-                </form>
+                    <button class="btn btn-outline-primary my-2" type="button" onclick="toCertainWeek()">前往</button>
+                
             </div>
         </caption>
         <tr class="calender-data">
