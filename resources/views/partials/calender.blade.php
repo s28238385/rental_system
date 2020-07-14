@@ -1,11 +1,20 @@
-@section('calender')
-<div id="calender">
+@extends('layouts.master')
+
+@section('content')
+<div id="calender" class="container">
     <table class="table table-bordered">
         <caption id="week-switch">
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between my-1">
                 <button type="button" class="btn btn-outline-primary week-switch-button" onclick="toPreviousWeek()">上一周</button>
                 <button type="button" class="btn btn-outline-primary week-switch-button" onclick="toThisWeek()">回本周</button>
                 <button type="button" class="btn btn-outline-primary week-switch-button" onclick="toNextWeek()">下一周</button>
+            </div>
+            <div class="d-flex justify-content-end">
+                
+                    <label for="search-block" class="mr-2 my-2 text-black">前往指定日期：</label>
+                    <input id="search-block" name="search-block" class="form-control mr-sm-2" type="search" placeholder="例：1970-01-01" aria-label="Search">
+                    <button class="btn btn-outline-primary my-2" type="button" onclick="toCertainWeek()">前往</button>
+                
             </div>
         </caption>
         <tr class="calender-data">
@@ -160,8 +169,8 @@
         </tr>
     </table>
 </div>
-@endsection('content')
+@endsection
 
 @section('script')
 <script src="{{ URL::to('js/calender.js') }}" type="text/javascript"></script>
-@endsection('script')
+@endsection

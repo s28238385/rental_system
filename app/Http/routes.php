@@ -15,9 +15,9 @@ Route::get('/master', function () {
     return view('layouts.master');
 });
 
-/*Route::get('/calender', function(){
+Route::get('/calender', function(){
     return view('partials.calender');
-});*/
+});
 
 Route::group(['prefix' => 'equipment'], function () {
     Route::get('/list', [
@@ -51,14 +51,21 @@ Route::group(['prefix' => 'equipment'], function () {
     ]);
 });
 
-Route::get('/searching', [
-    'uses' => 'SearchingClassroomController@getList',
-    'as' => 'classroom.getList'
-]);
-
-Route::get('/reserve_time', function () {
-    return view('searching.reserve_time');
+Route::group(['prefix' => 'searching'], function(){
+    Route::get('/', [
+        'uses' => 'SearchingClassroomController@getList',
+        'as' => 'classroom.getList'
+    ]);
+    /*Route::get('/status', [
+        'uses' => 'SearchingClassroomController@getStatus',
+        'as' => 'classroom.getStatus'
+    ]);*/
+    Route::post('/status', [
+        'uses' => 'SearchingClassroomController@postStatus',
+        'as' => 'classroom.status'
+    ]);
 });
+
 Route::get('newapply', 'ApplyController@create');
 
 // store apply
