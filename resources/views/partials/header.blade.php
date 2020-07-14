@@ -15,8 +15,8 @@
                     教室預約
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">單次預約</a>
-                        <a class="dropdown-item" href="#">長期預約</a>
+                        <a class="dropdown-item" href="/reservation/classroom_short">單次預約</a>
+                        <a class="dropdown-item" href="/reservation/classroom_long">長期預約</a>
                     </div>
                 </li>
             <!--@--><!--endif-->
