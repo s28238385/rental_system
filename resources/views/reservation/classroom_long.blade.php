@@ -140,13 +140,13 @@
         }
         
     }
-    else if($_POST["Name"] == ""){
+    else if(isset($_POST["Name"])){
         echo "<script>alert('申請人不可為空!!');</script>";
     }
-    else if($_POST["Reason"] == ""){
+    else if(isset($_POST["Reason"])){
         echo "<script>alert('申請內容不可為空!!');</script>";
     }
-    else if($_POST["DateStart"] == "" || $_POST["DateEnd"] == ""){
+    else if(isset($_POST["DateStart"])|| isset($_POST["DateEnd"])){
         echo "<script>alert('日期不可為空!!');</script>";
     }
      

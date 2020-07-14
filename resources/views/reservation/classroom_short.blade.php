@@ -113,13 +113,13 @@
         DB::insert('insert into shortterm (教室,姓名,內容,日期,開始節次,結束節次,登記時間) values (?, ?, ?, ?, ?, ?, ?)', [$classroom,$name,$reason,$date,$start,$end,$today]);
         }
     }
-    else if($_POST["Name"] == ""){
+    else if(isset($_POST["Name"])){
         echo "<script>alert('申請人不可為空!!');</script>";
     }
-    else if($_POST["Reason"] == ""){
+    else if(isset($_POST["Reason"])){
         echo "<script>alert('申請內容不可為空!!');</script>";
     }
-    else if($_POST["Date"] == ""){
+    else if(isset($_POST["Date"])){
         echo "<script>alert('日期不可為空!!');</script>";
     }
      
