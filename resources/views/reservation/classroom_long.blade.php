@@ -26,114 +26,14 @@
     <div class="form-row align-items-center" style = "padding:10px 25px;">
         <label for="exampleInputEmail1">開始日期</label>
         <div class="col-auto my-1">
-            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="Month_start">
-                <option value="01" selected>一月</option>
-                <option value="02">二月</option>
-                <option value="03">三月</option>
-                <option value="04">四月</option>
-                <option value="05">五月</option>
-                <option value="06">六月</option>
-                <option value="07">七月</option>
-                <option value="08">八月</option>
-                <option value="09">九月</option>
-                <option value="10">十月</option>
-                <option value="11">十一月</option>
-                <option value="12">十二月</option>
-            </select>
-        </div>
-        <div class="col-auto my-1">
-            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="Day_start">
-                <option value="01" selected>01</option>
-                <option value="02">02</option>
-                <option value="03">03</option>
-                <option value="04">04</option>
-                <option value="05">05</option>
-                <option value="06">06</option>
-                <option value="07">07</option>
-                <option value="08">08</option>
-                <option value="09">09</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-                <option value="13">13</option>
-                <option value="14">14</option>
-                <option value="15">15</option>
-                <option value="16">16</option>
-                <option value="17">17</option>
-                <option value="18">18</option>
-                <option value="19">19</option>
-                <option value="20">20</option>
-                <option value="21">21</option>
-                <option value="22">22</option>
-                <option value="23">23</option>
-                <option value="24">24</option>
-                <option value="25">25</option>
-                <option value="26">26</option>
-                <option value="27">27</option>
-                <option value="28">28</option>
-                <option value="29">29</option>
-                <option value="30">30</option>
-                <option value="31">31</option>
-                
-
-            </select>
+            <input type = "text" class="form-control mr-sm-2" id="from" name="DateStart"></select>
         </div>
     </div>
 
     <div class="form-row align-items-center" style = "padding:10px 25px;">
         <label for="exampleInputEmail1">結束日期</label>
         <div class="col-auto my-1">
-            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="Month_end">
-                <option value="01" selected>一月</option>
-                <option value="02">二月</option>
-                <option value="03">三月</option>
-                <option value="04">四月</option>
-                <option value="05">五月</option>
-                <option value="06">六月</option>
-                <option value="07">七月</option>
-                <option value="08">八月</option>
-                <option value="09">九月</option>
-                <option value="10">十月</option>
-                <option value="11">十一月</option>
-                <option value="12">十二月</option>
-            </select>
-        </div>
-        <div class="col-auto my-1">
-            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="Day_end">
-                <option value="01" selected>01</option>
-                <option value="02">02</option>
-                <option value="03">03</option>
-                <option value="04">04</option>
-                <option value="05">05</option>
-                <option value="06">06</option>
-                <option value="07">07</option>
-                <option value="08">08</option>
-                <option value="09">09</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-                <option value="13">13</option>
-                <option value="14">14</option>
-                <option value="15">15</option>
-                <option value="16">16</option>
-                <option value="17">17</option>
-                <option value="18">18</option>
-                <option value="19">19</option>
-                <option value="20">20</option>
-                <option value="21">21</option>
-                <option value="22">22</option>
-                <option value="23">23</option>
-                <option value="24">24</option>
-                <option value="25">25</option>
-                <option value="26">26</option>
-                <option value="27">27</option>
-                <option value="28">28</option>
-                <option value="29">29</option>
-                <option value="30">30</option>
-                <option value="31">31</option>
-                
-
-            </select>
+            <input type = "text" class="form-control mr-sm-2" id="to" name="DateEnd"></select>
         </div>
     </div>
 
@@ -205,20 +105,26 @@
     date_default_timezone_set("Asia/Taipei");
     if ( isset($_POST["Classroom"]) ) {
         $today = date("Y-m-d h:i:s");
-        $year = date("Y");
-        $day_start = $_POST["Day_start"];
-        $month_start = $_POST["Month_start"];
-        $date_start = $year."-".$month_start."-".$day_start;
+        $preDateStart = $_POST["DateStart"];
+        $array_date_start = explode("/",$preDateStart);
+        $date_start = $array_date_start[2]."-".$array_date_start[0]."-".$array_date_start[1];
 
-        $day_end = $_POST["Day_end"];
-        $month_end = $_POST["Month_end"];
-        $date_end = $year."-".$month_end."-".$day_end;
+        $preDateEnd = $_POST["DateEnd"];
+        $array_date_end = explode("/",$preDateEnd);
+        $date_end = $array_date_end[2]."-".$array_date_end[0]."-".$array_date_end[1];
 
         $dow = $_POST["DOW"];
         $classroom = $_POST["Classroom"];
         $start = $_POST["Start"];
         $end = $_POST["End"];
-        DB::insert('insert into longterm (教室,開始日期,結束日期,星期,開始節次,結束節次,登記時間) values (?, ?, ?, ?, ?, ?, ?)', [$classroom,$date_start,$date_end,$dow,$start,$end,$today]);
+
+        if($start >= $end){
+            echo "<script>alert('開始節次不可以大於結束節次!!');</script>";
+        }
+        else{
+            DB::insert('insert into longterm (教室,開始日期,結束日期,星期,開始節次,結束節次,登記時間) values (?, ?, ?, ?, ?, ?, ?)', [$classroom,$date_start,$date_end,$dow,$start,$end,$today]);
+        }
+        
 
      }
      
