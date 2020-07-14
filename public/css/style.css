@@ -42,3 +42,11 @@ i {
 .week-switch-button {
     width: 20%;
 }
+
+.text-black {
+    color: black;
+}
+
+#search-block {
+    max-width: 170px;
+}

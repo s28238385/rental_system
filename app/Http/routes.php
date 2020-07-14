@@ -15,9 +15,9 @@ Route::get('/master', function () {
     return view('layouts.master');
 });
 
-/*Route::get('/calender', function(){
+Route::get('/calender', function(){
     return view('partials.calender');
-});*/
+});
 
 Route::group(['prefix' => 'equipment'], function () {
     Route::get('/list', [
