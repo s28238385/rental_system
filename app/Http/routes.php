@@ -71,10 +71,6 @@ Route::get('newapply', 'ApplyController@create');
 // store apply
 Route::post('newapply', 'ApplyController@store');
 
-Route::get('/searching', function () {
-    return view('searching.index');
-});
-
 //reserve
 Route::get('/reservation/classroom_short', function () {
     return view('reservation/classroom_short');

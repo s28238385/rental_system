@@ -48,10 +48,13 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
     </script>
 
+    <!--datepicker jquery-->
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
+
+    <!--datepicker range-->
     <script>
     $( function() {
         var dateFormat = "mm/dd/yy",
@@ -85,10 +88,30 @@
         }
     } );
     </script>
+
+    <!--datepicker-->
     <script>
         $( function() {
         $( "#datepicker" ).datepicker();
         } );
+    </script>
+
+    <!--表單驗證-->
+    <script>
+    $('form').submit(function(){
+        var isFormValid = true;
+        $(this).find('input, textarea').each(function(){
+            var $this = $(this);
+            // 使用 trim 把空白去除
+            if ($.trim($this.val()).length === 0){
+            $this.tooltip('show').closest('div').addClass('error');
+            isFormValid = false;
+            }else{
+            $this.tooltip('destroy').closest('div').removeClass('error');
+            }
+        });
+        return isFormValid;
+    });
     </script>
 
     <!--<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
