@@ -1,6 +1,10 @@
 @extends('layouts/master')
 
+<!-- status style -->
 <link href="{{ URL::to('css/status_style.css') }}" rel="stylesheet" type="text/css">
+
+{{-- 使手機板可正常顯示 --}}
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 @section('title')
 教室預約狀況
@@ -44,25 +48,25 @@
     @include('partials/calender')
         @yield('calender')
 </div>
-@endsection
 
-<!-- Bootstrap js cdn -->
-@section('script')
+  <!-- Bootstrap js cdn -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      //enter point
+      var chosen_status = $('#chosen_status').val();
+      //console.log(chosen_status);//test
+      $('.nav-tabs a[href="'+chosen_status+'"]').tab('show');
 
 
-<script type="text/javascript">
-  $(document).ready(function(){
-    //enter point
-    var chosen_status = $('#chosen_status').val();
-    //console.log(chosen_status);//test
-    $('.nav-tabs a[href="'+chosen_status+'"]').tab('show');
-
-
-      $('.nav-tabs a').click(function(){
-        //console.log('click');//test
-        $(this).tab('show');
+        $('.nav-tabs a').click(function(){
+          //console.log('click');//test
+          $(this).tab('show');
+        });
       });
-    });
   </script>
-@endsection
+@endsection<!-- end content -->
 

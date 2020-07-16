@@ -5,6 +5,9 @@
 <!-- searching style -->
 <link href="{{ URL::to('css/searching_style.css') }}" rel="stylesheet" type="text/css">
 
+{{-- 使手機板可正常顯示 --}}
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
 @extends('layouts/master')
 
 @section('title')
