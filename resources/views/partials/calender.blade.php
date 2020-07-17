@@ -1,11 +1,5 @@
-<<<<<<< HEAD
-
 @section('calender')
-<div id="calender" class="container">
-=======
-@section('content')
 <div id="calender">
->>>>>>> 3f1ec43a3713cd76867d13b38fae6db8d0af0792
     <table class="table table-bordered">
         <caption id="week-switch">
             <div class="d-flex justify-content-between my-1">
@@ -175,4 +169,5 @@
 
 @section('script')
 <script src="{{ URL::asset('js/calender.js') }}" type="text/javascript"></script>
+<script src="{{ URL::asset('js/reservation_for_calender.js') }}" type="text/javascript"></script>
 @endsection
