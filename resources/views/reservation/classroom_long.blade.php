@@ -2,9 +2,8 @@
 
 @section("content")
 
-<form method = "POST"> 
-    <div style = "padding:10px 25px;">   
-
+<form action="{{ route('reserve.long') }}" method = "POST"> 
+    <div style = "padding:10px 25px;">
         <div class="form-row" style = "padding:5px 15px;">
             <div class="form-group col-md-2">
                 <label for="reserveClassroom">借用教室</label>
@@ -136,7 +135,7 @@
             echo "<script>alert('開始節次不可以大於結束節次!!');</script>";
         }
         else{
-            DB::insert('insert into longterm (教室,姓名,內容,開始日期,結束日期,星期,開始節次,結束節次,登記時間) values (?, ?, ?, ?, ?, ?, ?, ?, ?)', [$classroom,$name,$reason,$date_start,$date_end,$dow,$start,$end,$today]);
+            DB::insert('insert into longTerm (教室,姓名,內容,開始日期,結束日期,星期,開始節次,結束節次,登記時間) values (?, ?, ?, ?, ?, ?, ?, ?, ?)', [$classroom,$name,$reason,$date_start,$date_end,$dow,$start,$end,$today]);
         }
         
     }

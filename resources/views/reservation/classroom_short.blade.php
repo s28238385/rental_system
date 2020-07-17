@@ -2,9 +2,8 @@
 
 @section("content")
     
-<form method = "POST">
+<form action="{{ route('reserve.short') }}" method = "POST">
     <div style = "padding:10px 25px;">    
-
         <div class="form-row" style = "padding:5px 15px;">
             <div class="form-group col-md-2">
                 <label for="reserveClassroom">借用教室</label>
@@ -110,7 +109,7 @@
             echo "<script>alert('開始節次不可以大於結束節次!!');</script>";
         }
         else{
-        DB::insert('insert into shortterm (教室,姓名,內容,日期,開始節次,結束節次,登記時間) values (?, ?, ?, ?, ?, ?, ?)', [$classroom,$name,$reason,$date,$start,$end,$today]);
+        DB::insert('insert into shortTerm (教室,姓名,內容,日期,開始節次,結束節次,登記時間) values (?, ?, ?, ?, ?, ?, ?)', [$classroom,$name,$reason,$date,$start,$end,$today]);
         }
     }
     else if(isset($_POST["Name"])){

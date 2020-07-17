@@ -80,20 +80,31 @@ Route::get('/reservation/classroom_long', function () {
     return view('reservation/classroom_long');
 });
 
-Route::get('/reservation/view_short', function () {
-    return view('reservation/view_short');
-});
-
-Route::get('/reservation/view_long', function () {
-    return view('reservation/view_long');
-});
-
 Route::resource('post', 'PostController');
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
-Route::get("/reservation/classroom_short", "PostController@store_short");
-Route::post("/reservation/classroom_short", "PostController@store_short");
 
-Route::get("/reservation/classroom_long", "PostController@store_long");
-Route::post("/reservation/classroom_long", "PostController@store_long");
+Route::group(['prefix' => 'reservation'],function(){
+    Route::get('/classroom_short',[
+        'use' => 'ReserveController@getShort',
+        'as' => 'reserve.short'
+    ]);
+
+    Route::post('/classroom_short',[
+        'use' => 'ReserveController@postShort',
+        'as' => 'reserve.short'
+    ]);
+
+    Route::get('/classroom_long',[
+        'use' => 'ReserveController@getLong',
+        'as' => 'reserve.long'
+    ]);
+
+    Route::post('/classroom_long',[
+        'use' => 'ReserveController@postLong',
+        'as' => 'reserve.long'
+    ]);
+});
+
+
