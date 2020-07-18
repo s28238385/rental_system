@@ -33,7 +33,9 @@ i {
 .dropdown-item {
     color :#3a4750;
 }
-
+.navbar-text{
+    color: #d3ffe4;
+}
 /*calender使用的CSS*/
 #week-switch {
     caption-side: top;
@@ -47,6 +49,6 @@ i {
     color: black;
 }
 
-#search-block {
-    max-width: 170px;
+#date-select {
+    height: 36px;
 }
