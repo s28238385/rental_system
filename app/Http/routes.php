@@ -166,29 +166,38 @@ Route::get('newapply', 'ApplyController@create');
 // store apply
 Route::post('newapply', 'ApplyController@store');
 
+<<<<<<< HEAD
 //reserve
 Route::get('/reservation/classroom_short', function () {
     return view('reservation/classroom_short');
 });
-
-Route::get('/reservation/classroom_long', function () {
-    return view('reservation/classroom_long');
-});
-
-Route::get('/reservation/view_short', function () {
-    return view('reservation/view_short');
-});
-
-Route::get('/reservation/view_long', function () {
-    return view('reservation/view_long');
-});
-
+=======
 Route::resource('post', 'PostController');
 Route::auth();
 
-Route::get('', 'HomeController@index');
-Route::get("/reservation/classroom_short", "PostController@store_short");
-Route::post("/reservation/classroom_short", "PostController@store_short");
+Route::get('/home', 'HomeController@index');
+>>>>>>> e42682eeab56d6940fd4f327968a91f58025f9ff
 
-Route::get("/reservation/classroom_long", "PostController@store_long");
-Route::post("/reservation/classroom_long", "PostController@store_long");
+Route::group(['prefix' => 'reservation'],function(){
+    Route::get('/classroom_short',[
+        'uses' => 'ReserveController@getShort',
+        'as' => 'reserve.short'
+    ]);
+
+    Route::post('/classroom_short',[
+        'uses' => 'ReserveController@postShort',
+        'as' => 'reserve.short'
+    ]);
+
+    Route::get('/classroom_long',[
+        'uses' => 'ReserveController@getLong',
+        'as' => 'reserve.long'
+    ]);
+
+    Route::post('/classroom_long',[
+        'uses' => 'ReserveController@postLong',
+        'as' => 'reserve.long'
+    ]);
+});
+
+
