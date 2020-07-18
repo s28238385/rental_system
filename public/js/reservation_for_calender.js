@@ -1,3 +1,4 @@
+/*
 $('document').ready(function(){
     let date = "7/16";
 
@@ -10,3 +11,4 @@ $('document').ready(function(){
 
     
 });
+*/
