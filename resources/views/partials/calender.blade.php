@@ -1,3 +1,4 @@
+@extends('layouts.master')
 @section('content')
 <div id="calender">
     <table class="table table-bordered">

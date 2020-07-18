@@ -15,6 +15,10 @@ Route::get('/master', function () {
     return view('layouts.master');
 });
 
+Route::get('/', function(){
+    return view('homepage');
+});
+
 Route::get('/calender', function(){
     return view('partials.calender');
 });

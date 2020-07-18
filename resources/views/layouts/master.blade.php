@@ -27,8 +27,7 @@
     <!--保留給任何的擴充資源連結-->
     @yield('href')
 </head>
-
-<body>
+<body class="">
     <!--引入通用的header-->
     @include('partials.header')
 
@@ -47,5 +46,4 @@
     </script>-->
     @yield('script')
 </body>
-
 </html>
