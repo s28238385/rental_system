@@ -2,7 +2,7 @@
 
 @section("content")
     
-<form action="{{ route('reserve.short') }}" method = "POST">
+<form  action="{{ route('reserve.short') }}" method = "POST">
     <div style = "padding:10px 25px;">    
         <div class="form-row" style = "padding:5px 15px;">
             <div class="form-group col-md-2">
@@ -95,21 +95,8 @@
 <?php
     date_default_timezone_set("Asia/Taipei");
     if ( !empty($_POST["Name"]) && !empty($_POST["Reason"]) && !empty($_POST["Date"])) {
-        $today = date("Y-m-d h:i:s");
-        $preDate = $_POST["Date"];
-        $array_date = explode("/",$preDate);
-        $date = $array_date[2]."-".$array_date[0]."-".$array_date[1];
-
-        $classroom = $_POST["Classroom"];
-        $start = $_POST["Start"];
-        $end = $_POST["End"];
-        $name = $_POST["Name"];
-        $reason = $_POST["Reason"];
         if($start >= $end){
             echo "<script>alert('開始節次不可以大於結束節次!!');</script>";
-        }
-        else{
-        DB::insert('insert into shortTerm (教室,姓名,內容,日期,開始節次,結束節次,登記時間) values (?, ?, ?, ?, ?, ?, ?)', [$classroom,$name,$reason,$date,$start,$end,$today]);
         }
     }
     else if(isset($_POST["Name"])){
