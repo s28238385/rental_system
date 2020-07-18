@@ -1,4 +1,4 @@
-@section('content')
+@section('calender')
 <div id="calender">
     <table class="table table-bordered">
         <caption id="week-switch">

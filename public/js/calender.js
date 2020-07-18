@@ -27,30 +27,29 @@ Date.prototype.getSunday = function() {
 
     switch(day){
         case 0:
-            return this;
             break;
         case 1:
-            return this.addDay(-1);
+            this.addDay(-1);
             break;
 
         case 2:
-            return this.addDay(-2);
+            this.addDay(-2);
             break;
 
         case 3:
-            return this.addDay(-3);
+            this.addDay(-3);
             break;
 
         case 4:
-            return this.addDay(-4);
+            this.addDay(-4);
             break;
 
         case 5:
-            return this.addDay(-5);
+            this.addDay(-5);
             break;
 
         case 6:
-            return this.addDay(-6);
+            this.addDay(-6);
             break;
     }
 }
@@ -63,9 +62,9 @@ Date.prototype.toPreviousWeek = function(){
 
 Date.prototype.toThisWeek = function(){
     this.setTime(Date.now());
-    sundayOfShowingWeek = this.getSunday();
-
-    fillInDates(sundayOfShowingWeek);
+    this.getSunday();
+    
+    fillInDates(this);
 }
 
 Date.prototype.toNextWeek = function(){
@@ -75,16 +74,15 @@ Date.prototype.toNextWeek = function(){
 }
 
 $('document').ready(function(){
-    let date = new Date();
     let sundayOfShowingWeek = new Date();
-    date.toThisWeek();
+    sundayOfShowingWeek.toThisWeek();
 
     $('#toPreviousWeek').click(function(){
         sundayOfShowingWeek.toPreviousWeek();
     });
 
     $('#toThisWeek').click(function(){
-        date.toThisWeek();
+        sundayOfShowingWeek.toThisWeek();
     });
 
     $('#toNextWeek').click(function(){
