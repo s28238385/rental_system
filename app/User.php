@@ -9,10 +9,14 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
+     * 
+     * 
      * @var array
      */
+    const ROLE_USER='user';
+    const ROLE_MANAGER='manager';
     protected $fillable = [
-        'name', 'email', 'password',
+        'name','email', 'password','role',
     ];
 
     /**
@@ -20,7 +24,4 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
 }
