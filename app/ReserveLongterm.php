@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class ShortTerm extends Authenticatable
+class ReserveLongterm extends Authenticatable
 {
     /**
      * The attributes that are mass assignable.
@@ -12,7 +12,7 @@ class ShortTerm extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'classroom', 'name', 'reason','date','startTime','endTime','registerTime'
+        'classroom', 'name', 'reason','startDate','endDate','DayOfWeek','startTime','endTime'
     ];
 
     /**

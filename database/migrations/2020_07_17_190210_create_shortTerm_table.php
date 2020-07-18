@@ -12,7 +12,7 @@ class CreateShortTermTable extends Migration
      */
     public function up()
     {
-        Schema::create('short_terms', function (Blueprint $table) {
+        Schema::create('reserve_shortterms', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
             $table->string('classroom');

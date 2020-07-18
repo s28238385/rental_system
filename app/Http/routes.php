@@ -190,8 +190,3 @@ Route::group(['prefix' => 'reservation'],function(){
 
 
 Route::get('', 'HomeController@index');
-Route::get("/reservation/classroom_short", "PostController@store_short");
-Route::post("/reservation/classroom_short", "PostController@store_short");
-
-Route::get("/reservation/classroom_long", "PostController@store_long");
-Route::post("/reservation/classroom_long", "PostController@store_long");

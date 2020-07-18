@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-use App\ShortTerm;
-use App\LongTerm;
+use App\ReserveShortterm;
+use App\ReserveLongterm;
 
 
 class ReserveController extends Controller
@@ -24,7 +24,7 @@ class ReserveController extends Controller
         $array_date = explode("/",$preDate);
         $date = $array_date[2]."-".$array_date[0]."-".$array_date[1];
 
-        $reserveShort = new ShortTerm([
+        $reserveShort = new ReserveShortterm([
             'classroom' => $request->input('Classroom'),
             'name' => $request->input('Name'),
             'reason' => $request->input('Reason'),
@@ -52,7 +52,7 @@ class ReserveController extends Controller
         $array_date_end = explode("/",$preDateEnd);
         $date_end = $array_date_end[2]."-".$array_date_end[0]."-".$array_date_end[1];
 
-        $reserveLong = new LongTerm([
+        $reserveLong = new ReserveLongterm([
             'classroom' => $request->input('Classroom'),
             'name' => $request->input('Name'),
             'reason' => $request->input('Reason'),

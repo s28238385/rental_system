@@ -12,7 +12,7 @@ class CreateLongTermTable extends Migration
      */
     public function up()
     {
-        Schema::create('long_terms', function (Blueprint $table) {
+        Schema::create('reserve_longterms', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
             $table->string('classroom');
