@@ -1,8 +1,8 @@
 $('document').ready(function(){
     let date = "7/16";
 
-    if ($('.calender-data').find(date)) {
-        console.log(date+' is found');
-    }
+    //$('.calender-data').children('#Sun').text(date+" is here");
+        //console.log(date+' is found');//test
+
     
 });

@@ -29,7 +29,7 @@
                     <div class="card-body">
                         <div class="row justify-content-around">
                             <!-- reserve status -->
-                            {{-- use chosen_status to pass which card is clicked --}}
+                            {{-- 用 chosen_status 傳給 status 以判斷進入點 --}}
                             <form action="{{ route('classroom.status') }}" method="POST">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <input type="hidden" name="chosen_status" value="{{ $classroom->classroomName }}" >

@@ -11,6 +11,7 @@
 @endsection
 
 {{-- enter point --}}
+{{-- 經 searching 選擇教室後傳來的 chosen_status --}}
 <input type="hidden" id="chosen_status" value="#{{ $chosen_status }}" >
 
 @section('content')
@@ -68,5 +69,7 @@
         });
       });
   </script>
+  <script src="{{ URL::asset('js/reservation_for_calender.js') }}" type="text/javascript"></script>
+
 @endsection<!-- end content -->
 

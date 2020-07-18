@@ -51,18 +51,23 @@ Route::group(['prefix' => 'equipment'], function () {
     ]);
 });
 
+//searchingClassroom
 Route::group(['prefix' => 'searching'], function(){
     Route::get('/', [
         'uses' => 'SearchingClassroomController@getList',
         'as' => 'classroom.getList'
     ]);
-    /*Route::get('/status', [
-        'uses' => 'SearchingClassroomController@getStatus',
-        'as' => 'classroom.getStatus'
-    ]);*/
+    
+    //經searching選擇教室後的status導向
     Route::post('/status', [
         'uses' => 'SearchingClassroomController@postStatus',
         'as' => 'classroom.status'
+    ]);
+
+    //直接訪問status網址處理 
+    Route::get('/status', [
+        'uses' => 'SearchingClassroomController@getStatus',
+        'as' => 'classroom.getStatus'
     ]);
 });
 
