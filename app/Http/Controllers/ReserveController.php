@@ -6,10 +6,11 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-//use App\Post;
+use App\ShortTerm;
+use App\LongTerm;
 
 
-class PostController extends Controller
+class ReserveController extends Controller
 {
     //
     public function getShort()
@@ -19,16 +20,17 @@ class PostController extends Controller
 
     public function postShort(Request $request)
     {
-        $today = date("Y-m-d h:i:s");
+        $preDate = $request->input('Date');
+        $array_date = explode("/",$preDate);
+        $date = $array_date[2]."-".$array_date[0]."-".$array_date[1];
 
-        $reserveShort = new shortTerm([
-            '教室' => $request->input('Classroom'),
-            '姓名' => $request->input('Name'),
-            '內容' => $request->input('Reason'),
-            '日期' => $request->input('Date'),
-            '開始節次' => $request->input('Start'),
-            '結束節次' => $request->input('End'),
-            '登記時間' => $today
+        $reserveShort = new ShortTerm([
+            'classroom' => $request->input('Classroom'),
+            'name' => $request->input('Name'),
+            'reason' => $request->input('Reason'),
+            'date' => $date,
+            'startTime' => $request->input('Start'),
+            'endTime' => $request->input('End')
         ]);
 
         $reserveShort -> save();
@@ -42,18 +44,23 @@ class PostController extends Controller
 
     public function postLong(Request $request)
     {
-        $today = date("Y-m-d h:i:s");
+        $preDateStart = $request->input('DateStart');
+        $array_date_start = explode("/",$preDateStart);
+        $date_start = $array_date_start[2]."-".$array_date_start[0]."-".$array_date_start[1];
 
-        $reserveShort = new longTerm([
-            '教室' => $request->input('Classroom'),
-            '姓名' => $request->input('Name'),
-            '內容' => $request->input('Reason'),
-            '開始日期' => $request->input('DateStart'),
-            '結束日期' => $request->input('DateEnd'),
-            '星期' => $request->input('DOW'),
-            '開始節次' => $request->input('Start'),
-            '結束節次' => $request->input('End'),
-            '登記時間' => $today
+        $preDateEnd = $request->input('DateEnd');
+        $array_date_end = explode("/",$preDateEnd);
+        $date_end = $array_date_end[2]."-".$array_date_end[0]."-".$array_date_end[1];
+
+        $reserveLong = new LongTerm([
+            'classroom' => $request->input('Classroom'),
+            'name' => $request->input('Name'),
+            'reason' => $request->input('Reason'),
+            'startDate' => $date_start,
+            'endDate' => $date_end,
+            'DayOfWeek' => $request->input('DOW'),
+            'startTime' => $request->input('Start'),
+            'endTime' => $request->input('End')
         ]);
 
         $reserveLong -> save();

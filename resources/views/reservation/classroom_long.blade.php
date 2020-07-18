@@ -115,29 +115,9 @@
 <?php
     date_default_timezone_set("Asia/Taipei");
     if ( !empty($_POST["Name"]) && !empty($_POST["Reason"]) && !empty($_POST["DateStart"]) && !empty($_POST["DateEnd"])) {
-        $today = date("Y-m-d h:i:s");
-        $preDateStart = $_POST["DateStart"];
-        $array_date_start = explode("/",$preDateStart);
-        $date_start = $array_date_start[2]."-".$array_date_start[0]."-".$array_date_start[1];
-
-        $preDateEnd = $_POST["DateEnd"];
-        $array_date_end = explode("/",$preDateEnd);
-        $date_end = $array_date_end[2]."-".$array_date_end[0]."-".$array_date_end[1];
-
-        $dow = $_POST["DOW"];
-        $classroom = $_POST["Classroom"];
-        $name = $_POST["Name"];
-        $reason = $_POST["Reason"];
-        $start = $_POST["Start"];
-        $end = $_POST["End"];
-
         if($start >= $end){
             echo "<script>alert('開始節次不可以大於結束節次!!');</script>";
         }
-        else{
-            DB::insert('insert into longTerm (教室,姓名,內容,開始日期,結束日期,星期,開始節次,結束節次,登記時間) values (?, ?, ?, ?, ?, ?, ?, ?, ?)', [$classroom,$name,$reason,$date_start,$date_end,$dow,$start,$end,$today]);
-        }
-        
     }
     else if(isset($_POST["Name"])){
         echo "<script>alert('申請人不可為空!!');</script>";
