@@ -31,6 +31,6 @@ class CreateShortTermTable extends Migration
      */
     public function down()
     {
-        Schema::drop('short_terms');
+        Schema::drop('reserve_shortterms');
     }
 }
