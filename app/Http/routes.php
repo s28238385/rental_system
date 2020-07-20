@@ -189,4 +189,3 @@ Route::group(['prefix' => 'reservation'],function(){
 });
 
 
-Route::get('', 'HomeController@index');
