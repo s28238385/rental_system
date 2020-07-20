@@ -112,3 +112,57 @@
 ?> 
 
 @endsection("content")
+
+
+<!-- Bootstrap js cdn -->
+@section('script')
+
+<!--datepicker jquery-->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+
+<!--datepicker range-->
+<script>
+    $( function() {
+        var dateFormat = "mm/dd/yy",
+        from = $( "#from" )
+            .datepicker({
+            defaultDate: "+1w",
+            changeMonth: false,
+            numberOfMonths: 1
+            })
+            .on( "change", function() {
+            to.datepicker( "option", "minDate", getDate( this ) );
+            }),
+        to = $( "#to" ).datepicker({
+            defaultDate: "+1w",
+            changeMonth: false,
+            numberOfMonths: 1
+        })
+        .on( "change", function() {
+            from.datepicker( "option", "maxDate", getDate( this ) );
+        });
+
+        function getDate( element ) {
+        var date;
+        try {
+            date = $.datepicker.parseDate( dateFormat, element.value );
+        } catch( error ) {
+            date = null;
+        }
+
+        return date;
+        }
+    } );
+</script>
+
+<!--datepicker-->
+<script>
+    $( function() {
+    $( "#datepicker" ).datepicker();
+    } );
+</script>
+
+@endsection
