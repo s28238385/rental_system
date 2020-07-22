@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\SearchingClassroom;
+use App\ReserveShortterm;
 use Illuminate\Http\Request;
 use DB;
 
@@ -27,6 +28,31 @@ class SearchingClassroomController extends Controller
         return redirect()->route('classroom.getList');
     }
 
+    
+    public function ajaxGetReservation(Request $request){
 
+        if ( $request->ajax() ) {
+            $classroom = $request->input("classroom");
+            
+            // $data = DB::table('resrve_shortterm')
+            //         ->select('*')
+            //         ->where('classroom', $classroom)
+            //         ->get();
+            $name = ReserveShortterm::select('*')
+                    ->where('classroom', $classroom)// ->where('id', 1)
+                    ->value('name');
+            $reason = ReserveShortterm::select('*')
+                    ->where('classroom', $classroom)// ->where('classroom', $classroom)
+                    ->value('reason');
+
+            //echo json_encode($data);
+            $data = array(
+                'name' => $name,
+                'reason' => $reason
+            );
+            echo json_encode($data);;
+        }
+        
+    }
 
 }

@@ -160,23 +160,19 @@ Route::group(['prefix' => 'searching'], function(){
         'as' => 'classroom.getStatus'
     ]);
 });
+Route::get('/statusCalender', [
+    'uses' => 'SearchingClassroomController@ajaxGetReservation'
+]);
 
 Route::get('newapply', 'ApplyController@create');
 
 // store apply
 Route::post('newapply', 'ApplyController@store');
 
-<<<<<<< HEAD
-//reserve
-Route::get('/reservation/classroom_short', function () {
-    return view('reservation/classroom_short');
-});
-=======
 Route::resource('post', 'PostController');
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
->>>>>>> e42682eeab56d6940fd4f327968a91f58025f9ff
 
 Route::group(['prefix' => 'reservation'],function(){
     Route::get('/classroom_short',[
