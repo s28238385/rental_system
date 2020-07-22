@@ -23,14 +23,14 @@ i {
 }
 
 
-.dropdown-menu {
+/*.dropdown-menu {
     background-color: rgba(130,210,210,0.749);
     
 }
 
 .dropdown-item {
     color :#3a4750;
-}
+}*/
 .navbar-text{
     color: #d3ffe4;
 }
@@ -66,7 +66,7 @@ i {
 
 .black-background {
     background-color: rgba(0, 0, 0, 0.8);
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 .yellow-title {
@@ -100,3 +100,20 @@ i {
 .text-muted:hover {
     color: grey !important;
 }
+
+.mh-85 {
+    max-height: 85%;
+}
+
+.scrollbar {
+    scrollbar-color: grey rgba(0, 0, 0, 0.8);
+}
+
+.scrollbar::-webkit-scrollbar {
+    width: 8px;
+}
+    
+.scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: grey;
+} 
