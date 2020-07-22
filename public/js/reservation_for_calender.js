@@ -23,8 +23,8 @@ $('document').ready(function(){
             data:{classroom:classroom,date:date},
             dataType:'json',
             success:function(data){
-                //console.log("ajax success");
-                //console.log(data.name);
+                console.log("ajax success");
+                console.log(data.name);
                 $('.show_res').append(data.reason);
                 //$("td[headers='Mon']").html(data.name+"<br/>"+data.reason);
             }
@@ -43,7 +43,10 @@ $('document').ready(function(){
         let arr_date_1 = cal_header.split("<br>"); //年<br/>月/日<br/>星期
         let arr_date_2 = arr_date_1[1].split("/");//月/日
         
-        //let date = arr_date_1[0] + "-" + arr_date_2[0] + "-" + arr_date_2[1];
+        arr_date_2[0] = arr_date_2[0].padStart(2, "0");
+        arr_date_2[1] = arr_date_2[1].padStart(2, "0");
+        
+        let date = arr_date_1[0] + "-" + arr_date_2[0] + "-" + arr_date_2[1];
         //console.log(date);
 
         //let date = Date(arr_date_1[0],arr_date_2[0]-1,arr_date_2[1])
