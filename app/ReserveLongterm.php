@@ -4,19 +4,15 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class ReserveLongterm extends Authenticatable
 {
     /**
      * The attributes that are mass assignable.
      *
-     * 
-     * 
      * @var array
      */
-    const ROLE_USER='user';
-    const ROLE_MANAGER='manager';
     protected $fillable = [
-        'name','email', 'password','role',
+        'classroom', 'name', 'reason','startDate','endDate','DayOfWeek','startTime','endTime'
     ];
 
     /**
@@ -24,4 +20,7 @@ class User extends Authenticatable
      *
      * @var array
      */
+    /*protected $hidden = [
+        'password', 'remember_token',
+    ];*/
 }

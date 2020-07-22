@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -11,9 +12,98 @@
 |
 */
 
+Route::get('/',[
+    'uses'=>'UserController@getSignin',
+    'as'=>'user.signin',
+    
+]);
+
+Route::group(['prefix'=>'user'],function(){
+    Route::group(['middleware'=>'guest'],function(){
+        
+        Route::get('/signin',[
+            'uses'=>'UserController@getSignin',
+            'as'=>'user.signin',
+            
+        ]);
+        
+        Route::post('/signin',[
+            'uses'=>'UserController@postSignin',
+            'as'=>'user.signin',
+            
+        ]);
+        
+    
+    });
+    Route::group(['middleware'=>'auth'],function(){
+        Route::get('/profile',[
+            'uses'=>'UserController@getProfile',
+            'as'=>'user.profile',
+            
+        ]);
+        Route::get('/logout',[
+            'uses'=>'UserController@getLogout',
+            'as'=>'user.logout',
+            
+        ]);
+        Route::post('/changepw',[
+            'uses'=>'UserController@postChangepw',
+            'as'=>'user.changepw',
+            
+        ]);
+        Route::get('/changepw',[
+            'uses'=>'UserController@getChangepw',
+            'as'=>'user.changepw',
+            
+        ]);
+        Route::get('/resetphone',[
+            'uses'=>'UserController@getresetphone',
+            'as'=>'user.resetphone',
+            
+        ]);
+        Route::post('/resetphone',[
+            'uses'=>'UserController@postresetphone',
+            'as'=>'user.resetphone',
+            
+        ]);
+        Route::get('/userlist',[
+            'uses'=>'UserController@getUserList',
+            'as'=>'user.userlist',
+            
+        ]);
+        Route::get('/deleteacc/{id}',[
+            'uses'=>'UserController@getdelAcc',
+            'as'=>'user.deleteacc',
+        ]);
+        Route::get('/resetpassword/{id}',[
+            'uses'=>'UserController@getresetPassword',
+            'as'=>'user.resetpassword',
+        ]);
+        Route::post('/resetpassword/{id}',[
+            'uses'=>'UserController@postresetPassword',
+            'as'=>'user.resetpassword',
+        ]);
+        Route::get('/signup',[
+            'uses'=>'UserController@getSignup',
+            'as'=>'user.signup',
+            
+        ]);
+        Route::post('/signup',[
+            'uses'=>'UserController@postSignup',
+            'as'=>'user.signup',
+            
+        ]);
+    
+    });
+});  
 Route::get('/master', function () {
     return view('layouts.master');
 });
+    
+
+/*Route::get('/', function () {
+    return view('layouts.master');
+});*/
 
 Route::get('/', function(){
     return view('homepage');
@@ -75,33 +165,31 @@ Route::get('newapply', 'ApplyController@create');
 // store apply
 Route::post('newapply', 'ApplyController@store');
 
-Route::get('/searching', function () {
-    return view('searching.index');
-});
-
-//reserve
-Route::get('/reservation/classroom_short', function () {
-    return view('reservation/classroom_short');
-});
-
-Route::get('/reservation/classroom_long', function () {
-    return view('reservation/classroom_long');
-});
-
-Route::get('/reservation/view_short', function () {
-    return view('reservation/view_short');
-});
-
-Route::get('/reservation/view_long', function () {
-    return view('reservation/view_long');
-});
-
 Route::resource('post', 'PostController');
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
-Route::get("/reservation/classroom_short", "PostController@store_short");
-Route::post("/reservation/classroom_short", "PostController@store_short");
 
-Route::get("/reservation/classroom_long", "PostController@store_long");
-Route::post("/reservation/classroom_long", "PostController@store_long");
+Route::group(['prefix' => 'reservation'],function(){
+    Route::get('/classroom_short',[
+        'uses' => 'ReserveController@getShort',
+        'as' => 'reserve.short'
+    ]);
+
+    Route::post('/classroom_short',[
+        'uses' => 'ReserveController@postShort',
+        'as' => 'reserve.short'
+    ]);
+
+    Route::get('/classroom_long',[
+        'uses' => 'ReserveController@getLong',
+        'as' => 'reserve.long'
+    ]);
+
+    Route::post('/classroom_long',[
+        'uses' => 'ReserveController@postLong',
+        'as' => 'reserve.long'
+    ]);
+});
+
+
