@@ -1,8 +1,11 @@
-@extends ('layout')
+@extends ('layouts.master')
+
+@section('script')
+<script type="text/javascript" src="{{ URL::asset('js/newapply.js') }}"></script>
+@endsection
 
 @section('content')
 
-<script type="text/javascript" src="{{ URL::asset('js/newapply.js') }}"></script>
 
 <div class="container pt-3">
     <div class="card p-3 mb-3" id="ruleSection">
@@ -117,14 +120,6 @@
                 <div class="form-group col-md-3" id="classroomPart">
                     <label for="classroom">借用教室</label>
                     {!!Form::select('classroom', $classroom['options'], 0, ['class' => 'form-control']) !!}
-                    {{-- <select class="form-control" name="classroom" id="classroom">
-                            <option selected="selected">學生證</option>
-                            <option>身分證</option>
-                            <option>健保卡</option>
-                            <option>駕照</option>
-                            <option>其他</option>
-                            <option>無</option>
-                        </select> --}}
                 </div>
                 <div class="form-group col-md-3">
                     <label for="key_type">鑰匙種類</label>
@@ -153,20 +148,20 @@
                     <div class="form-row">
                         <div class="form-group col-md-3">
                             <label for="genre[]">借用設備種類</label>
-                            <select class="form-control" name="genre[]" id="genre[]">
+                            {!!Form::select('genre[]', $genre['options'], 0, ['class' =>'form-control'])!!}
+                            {{-- <select class="form-control" name="genre[]" id="genre[]">
                                 <option selected="selected">鑰匙</option>
                                 <option>其他</option>
-                            </select>
-                            {{-- {!!Form::select('equipment_type[]', $equipment_type['options'], 0, ['class' =>'form-control'])!!} --}}
+                            </select> --}}
                         </div>
                         <div class="form-group col-md-3">
                             <label for="item[]">借用設備名稱</label>
-                            <select class="form-control" name="item[]" id="item[]">
+                            {!!Form::select('item[]', $item['options'], 0, ['class' => 'form-control'])!!}
+                            {{-- <select class="form-control" name="item[]" id="item[]">
                                 <option selected="selected">鑰匙</option>
                                 <option>麥克風</option>
                                 <option>電池盒</option>
-                            </select>
-                            {{-- {!!Form::select('equipment_name[]', $equipment['options'], 0, ['class' => 'form-control'])!!} --}}
+                            </select> --}}
                         </div>
                         <div class="form-group col-md-3">
                             <label for="quantity[]">借用數量</label>
