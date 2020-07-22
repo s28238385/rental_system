@@ -2,11 +2,6 @@ body {
     font-family: 'Noto Sans TC', sans-serif !important;
 }
 
-.padding-3-percent {
-    padding-left: 3%;
-    padding-right: 3%;
-}
-
 /*
  *header
  */
@@ -50,9 +45,45 @@ i {
  *homepage
  */
 .homepage {
-    width: 100vw;
     background-image: url('../img/homepage.jpg');
-    /*background-size: 100% 100%;*/
+    background-size: cover;
     background-repeat: no-repeat;
+    background-position: center center;
+}
 
+.black-background {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 20px;
+}
+
+.yellow-title {
+    color: rgba(250, 216, 89, 1);
+}
+
+.yellow-index {
+    color: rgba(250, 216, 89, 1);
+}
+
+.yellow-index:hover {
+    color: rgba(247, 202, 24, 1);
+}
+
+.yellow-subindex {
+    color: rgba(255, 236, 139, 1);
+}
+
+.yellow-subindex:hover {
+    color: rgba(247, 202, 24, 1);
+}
+
+.border-bottom-white-2px {
+    border-bottom: 2px solid white;
+}
+
+.border-bottom-white-1px {
+    border-bottom: 1px solid white;
+}
+
+.text-muted:hover {
+    color: grey !important;
 }

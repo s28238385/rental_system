@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg py-1 padding-3-percent">
+<nav class="navbar navbar-expand-lg py-1 px-5">
     <a class="navbar-brand header-button" href="#">資管系教室設備借用系統</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span><i class="fas fa-bars"></i></span>
@@ -9,6 +9,15 @@
             <li class="nav-item">
                 <a class="nav-link header-button" href="#">教室預約狀況</a>
             </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle header-button" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    教室設備借用
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">新增申請</a>
+                        <a class="dropdown-item" href="#">申請清單</a>
+                    </div>
+                </li>
             <!--@--><!--if(Auth::check())-->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle header-button" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -20,15 +29,6 @@
                     </div>
                 </li>
             <!--@--><!--endif-->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle header-button" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    教室設備借用
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">新增申請</a>
-                        <a class="dropdown-item" href="#">申請清單</a>
-                    </div>
-                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle header-button" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     設備管理
