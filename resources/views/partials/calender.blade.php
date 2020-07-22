@@ -169,4 +169,5 @@
 
 @section('script')
 <script src="{{ URL::asset('js/calender.js') }}" type="text/javascript"></script>
+<script src="{{ URL::asset('js/reservation_for_calender.js') }}" type="text/javascript"></script>
 @endsection
