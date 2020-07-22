@@ -141,53 +141,59 @@ Route::group(['prefix' => 'equipment'], function () {
     ]);
 });
 
+//searchingClassroom
 Route::group(['prefix' => 'searching'], function(){
     Route::get('/', [
         'uses' => 'SearchingClassroomController@getList',
         'as' => 'classroom.getList'
     ]);
-    /*Route::get('/status', [
-        'uses' => 'SearchingClassroomController@getStatus',
-        'as' => 'classroom.getStatus'
-    ]);*/
+    
+    //經searching選擇教室後的status導向
     Route::post('/status', [
         'uses' => 'SearchingClassroomController@postStatus',
         'as' => 'classroom.status'
     ]);
+
+    //直接訪問status網址處理 
+    Route::get('/status', [
+        'uses' => 'SearchingClassroomController@getStatus',
+        'as' => 'classroom.getStatus'
+    ]);
 });
+Route::get('/statusCalender', [
+    'uses' => 'SearchingClassroomController@ajaxGetReservation'
+]);
 
 Route::get('newapply', 'ApplyController@create');
 
 // store apply
 Route::post('newapply', 'ApplyController@store');
 
-Route::get('/searching', function () {
-    return view('searching.index');
-});
-
-//reserve
-Route::get('/reservation/classroom_short', function () {
-    return view('reservation/classroom_short');
-});
-
-Route::get('/reservation/classroom_long', function () {
-    return view('reservation/classroom_long');
-});
-
-Route::get('/reservation/view_short', function () {
-    return view('reservation/view_short');
-});
-
-Route::get('/reservation/view_long', function () {
-    return view('reservation/view_long');
-});
-
 Route::resource('post', 'PostController');
 Route::auth();
 
-Route::get('', 'HomeController@index');
-Route::get("/reservation/classroom_short", "PostController@store_short");
-Route::post("/reservation/classroom_short", "PostController@store_short");
+Route::get('/home', 'HomeController@index');
 
-Route::get("/reservation/classroom_long", "PostController@store_long");
-Route::post("/reservation/classroom_long", "PostController@store_long");
+Route::group(['prefix' => 'reservation'],function(){
+    Route::get('/classroom_short',[
+        'uses' => 'ReserveController@getShort',
+        'as' => 'reserve.short'
+    ]);
+
+    Route::post('/classroom_short',[
+        'uses' => 'ReserveController@postShort',
+        'as' => 'reserve.short'
+    ]);
+
+    Route::get('/classroom_long',[
+        'uses' => 'ReserveController@getLong',
+        'as' => 'reserve.long'
+    ]);
+
+    Route::post('/classroom_long',[
+        'uses' => 'ReserveController@postLong',
+        'as' => 'reserve.long'
+    ]);
+});
+
+
