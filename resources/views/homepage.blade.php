@@ -14,7 +14,7 @@
                 </div>
                 <div class="pt-3 d-flex justify-content-center">
                     <div>
-                        <a href="" class="text-decoration-none"><h3 class="px-3 py-1 yellow-index" href="#">教室預約狀況</h3></a>
+                        <a href="" class="text-decoration-none"><h3 class="px-3 py-1 yellow-index" href="{{route('classroom.getList')}}">教室預約狀況</h3></a>
                         <div>
                             <h3 type="button" id="borrow" class="px-3 yellow-index" href="#">教室設備借用</h3>
                             <div id="subindex" class="d-none pb-3">
