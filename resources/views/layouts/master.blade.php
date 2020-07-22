@@ -33,10 +33,6 @@
 
     @yield('content')
 
-<<<<<<< HEAD
     @yield('script')
-=======
-    @yield('script') 
->>>>>>> master
 </body>
 </html>
