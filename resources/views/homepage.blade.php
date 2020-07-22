@@ -52,7 +52,7 @@
                     </div>
                 @else
                     <div class="mt-4">
-                        <a class="text-decoration-none" href="#"><h6 class="text-muted">管理者登入</h6></a>
+                        <a class="text-decoration-none" href="{{route('user.signin')}}"><h6 class="text-muted">管理者登入</h6></a>
                     </div>
                 @endif
             </div>
