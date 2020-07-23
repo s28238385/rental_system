@@ -58,29 +58,27 @@
 
     <!-- include calender -->
     @include('partials/calender')
-        @yield('calender')
-</div>
 
-  {{-- <!-- Bootstrap js cdn -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> --}}
+</div><!-- end cotainer -->
 
-  {{-- 此段 script 經測試似乎無法放置於 @section('script') --}}
-  {{-- 推測原因是和calender衝突 --}}
-  <script type="text/javascript">
-    $(document).ready(function(){
-      //enter point
-      var chosen_status = $('#chosen_status').val();
-      //console.log(chosen_status); //test
-      $('.nav-tabs a[href="'+chosen_status+'"]').tab('show');
-
-
-        $('.nav-tabs a').click(function(){
-          //console.log('click');//test
-          $(this).tab('show');
-        });
-      });
-  </script>
 @endsection<!-- end content -->
+
+@section('script')
+<script type="text/javascript">
+  $(document).ready(function(){
+    //enter point
+    var chosen_status = $('#chosen_status').val();
+    //console.log(chosen_status); //test
+    $('.nav-tabs a[href="'+chosen_status+'"]').tab('show');
+
+
+      $('.nav-tabs a').click(function(){
+        //console.log('click');//test
+        $(this).tab('show');
+      });
+    });
+</script>
+
+<script src="{{ URL::asset('js/reservation_for_calender.js') }}" type="text/javascript"></script>
+@endsection
 

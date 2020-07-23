@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\SearchingClassroom;
 use App\ReserveShortterm;
+use App\ReserveLongterm;
 use Illuminate\Http\Request;
 use DB;
 
@@ -28,27 +29,33 @@ class SearchingClassroomController extends Controller
         return redirect()->route('classroom.getList');
     }
 
-    
+    //根據 calender 當前日期及當前教室取得 reservation table 內
+    //相符的資料
     public function ajaxGetReservation(Request $request){
 
         if ( $request->ajax() ) {
             $classroom = $request->input("classroom");
-            
-            // $data = DB::table('resrve_shortterm')
-            //         ->select('*')
-            //         ->where('classroom', $classroom)
-            //         ->get();
+
+            //和reservation字串衝突處理
+            $arr = explode("_", $classroom);
+            if ($classroom == "I1_507_1") {
+                $classroom = $arr[0] . "-" . $arr[1] . "-" . $arr[2];
+            }else {
+                $classroom = $arr[0] . "-" . $arr[1];
+            }
+
             $name = ReserveShortterm::select('*')
-                    ->where('classroom', $classroom)// ->where('id', 1)
+                    ->where('classroom', $classroom)
                     ->value('name');
             $reason = ReserveShortterm::select('*')
-                    ->where('classroom', $classroom)// ->where('classroom', $classroom)
+                    ->where('classroom', $classroom)
                     ->value('reason');
 
-            //echo json_encode($data);
+            
             $data = array(
                 'name' => $name,
-                'reason' => $reason
+                'reason' => $reason,
+                'classroom' => $classroom //test
             );
             echo json_encode($data);;
         }
