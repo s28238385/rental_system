@@ -1,4 +1,3 @@
-@section('calender')
 <div id="calender">
     <table class="table table-bordered">
         <caption id="week-switch">
@@ -24,7 +23,87 @@
             <th id="Sat" class="text-center"></th>
         </tr>
         <tr>
-            <th headers="time" id="8-9" class="text-center">08:00<br>~<br>09:00</th>
+            <th headers="time" id="1" class="text-center">08:00<br>~<br>09:00</th>
+            <td headers="Sun" id="Sun-1"></td>
+            <td headers="Mon" id="Mon-1"></td>
+            <td headers="Tue" id="Tue-1"></td>
+            <td headers="Wed" id="Wed-1"></td>
+            <td headers="Thu" id="Thu-1"></td>
+            <td headers="Fri" id="Fri-1"></td>
+            <td headers="Sat" id="Sat-1"></td>
+        </tr>
+        <tr>
+            <th headers="time" id="2" class="text-center">09:00<br>~<br>10:00</th>
+            <td headers="Sun" id="Sun-2"></td>
+            <td headers="Mon" id="Mon-2"></td>
+            <td headers="Tue" id="Tue-2"></td>
+            <td headers="Wed" id="Wed-2"></td>
+            <td headers="Thu" id="Thu-2"></td>
+            <td headers="Fri" id="Fri-2"></td>
+            <td headers="Sat" id="Sat-2"></td>
+        </tr>
+        <tr>
+            <th headers="time" id="3" class="text-center">10:00<br>~<br>11:00</th>
+            <td headers="Sun" id="Sun-3"></td>
+            <td headers="Mon" id="Mon-3"></td>
+            <td headers="Tue" id="Tue-3"></td>
+            <td headers="Wed" id="Wed-3"></td>
+            <td headers="Thu" id="Thu-3"></td>
+            <td headers="Fri" id="Fri-3"></td>
+            <td headers="Sat" id="Sat-3"></td>
+        </tr>
+        <tr>
+            <th headers="time" id="4" class="text-center">11:00<br>~<br>12:00</th>
+            <td headers="Sun" id="Sun-4"></td>
+            <td headers="Mon" id="Mon-4"></td>
+            <td headers="Tue" id="Tue-4"></td>
+            <td headers="Wed" id="Wed-4"></td>
+            <td headers="Thu" id="Thu-4"></td>
+            <td headers="Fri" id="Fri-4"></td>
+            <td headers="Sat" id="Sat-4"></td>
+        </tr>
+        <tr>
+            <th headers="time" id="Z" class="text-center">12:00<br>~<br>13:00</th>
+            <td headers="Sun" id="Sun-Z"></td>
+            <td headers="Mon" id="Mon-Z"></td>
+            <td headers="Tue" id="Tue-Z"></td>
+            <td headers="Wed" id="Wed-Z"></td>
+            <td headers="Thu" id="Thu-Z"></td>
+            <td headers="Fri" id="Fri-Z"></td>
+            <td headers="Sat" id="Sat-Z"></td>
+        </tr>
+        <tr>
+            <th headers="time" id="5" class="text-center">13:00<br>~<br>14:00</th>
+            <td headers="Sun" id="Sun-5"></td>
+            <td headers="Mon" id="Mon-5"></td>
+            <td headers="Tue" id="Tue-5"></td>
+            <td headers="Wed" id="Wed-5"></td>
+            <td headers="Thu" id="Thu-5"></td>
+            <td headers="Fri" id="Fri-5"></td>
+            <td headers="Sat" id="Sat-5"></td>
+        </tr>
+        <tr>
+            <th headers="time" id="6" class="text-center">14:00<br>~<br>15:00</th>
+            <td headers="Sun" id="Sun-6"></td>
+            <td headers="Mon" id="Mon-6"></td>
+            <td headers="Tue" id="Tue-6"></td>
+            <td headers="Wed" id="Wed-6"></td>
+            <td headers="Thu" id="Thu-6"></td>
+            <td headers="Fri" id="Fri-6"></td>
+            <td headers="Sat" id="Sat-6"></td>
+        </tr>
+        <tr>
+            <th headers="time" id="7" class="text-center">15:00<br>~<br>16:00</th>
+            <td headers="Sun" id="Sun-7"></td>
+            <td headers="Mon" id="Mon-7"></td>
+            <td headers="Tue" id="Tue-7"></td>
+            <td headers="Wed" id="Wed-7"></td>
+            <td headers="Thu" id="Thu-7"></td>
+            <td headers="Fri" id="Fri-7"></td>
+            <td headers="Sat" id="Sat-7"></td>
+        </tr>
+        <tr>
+            <th headers="time" id="8" class="text-center">16:00<br>~<br>17:00</th>
             <td headers="Sun" id="Sun-8"></td>
             <td headers="Mon" id="Mon-8"></td>
             <td headers="Tue" id="Tue-8"></td>
@@ -34,7 +113,7 @@
             <td headers="Sat" id="Sat-8"></td>
         </tr>
         <tr>
-            <th headers="time" id="9-10" class="text-center">09:00<br>~<br>10:00</th>
+            <th headers="time" id="9" class="text-center">17:00<br>~<br>18:00</th>
             <td headers="Sun" id="Sun-9"></td>
             <td headers="Mon" id="Mon-9"></td>
             <td headers="Tue" id="Tue-9"></td>
@@ -44,130 +123,46 @@
             <td headers="Sat" id="Sat-9"></td>
         </tr>
         <tr>
-            <th headers="time" id="10-11" class="text-center">10:00<br>~<br>11:00</th>
-            <td headers="Sun" id="Sun-10"></td>
-            <td headers="Mon" id="Mon-10"></td>
-            <td headers="Tue" id="Tue-10"></td>
-            <td headers="Wed" id="Wed-10"></td>
-            <td headers="Thu" id="Thu-10"></td>
-            <td headers="Fri" id="Fri-10"></td>
-            <td headers="Sat" id="Sat-10"></td>
+            <th headers="time" id="A" class="text-center">18:00<br>~<br>19:00</th>
+            <td headers="Sun" id="Sun-A"></td>
+            <td headers="Mon" id="Mon-A"></td>
+            <td headers="Tue" id="Tue-A"></td>
+            <td headers="Wed" id="Wed-A"></td>
+            <td headers="Thu" id="Thu-A"></td>
+            <td headers="Fri" id="Fri-A"></td>
+            <td headers="Sat" id="Sat-A"></td>
         </tr>
         <tr>
-            <th headers="time" id="11-12" class="text-center">11:00<br>~<br>12:00</th>
-            <td headers="Sun" id="Sun-11"></td>
-            <td headers="Mon" id="Mon-11"></td>
-            <td headers="Tue" id="Tue-11"></td>
-            <td headers="Wed" id="Wed-11"></td>
-            <td headers="Thu" id="Thu-11"></td>
-            <td headers="Fri" id="Fri-11"></td>
-            <td headers="Sat" id="Sat-11"></td>
+            <th headers="time" id="B" class="text-center">19:00<br>~<br>20:00</th>
+            <td headers="Sun" id="Sun-B"></td>
+            <td headers="Mon" id="Mon-B"></td>
+            <td headers="Tue" id="Tue-B"></td>
+            <td headers="Wed" id="Wed-B"></td>
+            <td headers="Thu" id="Thu-B"></td>
+            <td headers="Fri" id="Fri-B"></td>
+            <td headers="Sat" id="Sat-B"></td>
         </tr>
         <tr>
-            <th headers="time" id="12-13" class="text-center">12:00<br>~<br>13:00</th>
-            <td headers="Sun" id="Sun-12"></td>
-            <td headers="Mon" id="Mon-12"></td>
-            <td headers="Tue" id="Tue-12"></td>
-            <td headers="Wed" id="Wed-12"></td>
-            <td headers="Thu" id="Thu-12"></td>
-            <td headers="Fri" id="Fri-12"></td>
-            <td headers="Sat" id="Sat-12"></td>
+            <th headers="time" id="C" class="text-center">20:00<br>~<br>21:00</th>
+            <td headers="Sun" id="Sun-C"></td>
+            <td headers="Mon" id="Mon-C"></td>
+            <td headers="Tue" id="Tue-C"></td>
+            <td headers="Wed" id="Wed-C"></td>
+            <td headers="Thu" id="Thu-C"></td>
+            <td headers="Fri" id="Fri-C"></td>
+            <td headers="Sat" id="Sat-C"></td>
         </tr>
         <tr>
-            <th headers="time" id="13-14" class="text-center">13:00<br>~<br>14:00</th>
-            <td headers="Sun" id="Sun-13"></td>
-            <td headers="Mon" id="Mon-13"></td>
-            <td headers="Tue" id="Tue-13"></td>
-            <td headers="Wed" id="Wed-13"></td>
-            <td headers="Thu" id="Thu-13"></td>
-            <td headers="Fri" id="Fri-13"></td>
-            <td headers="Sat" id="Sat-13"></td>
-        </tr>
-        <tr>
-            <th headers="time" id="14-15" class="text-center">14:00<br>~<br>15:00</th>
-            <td headers="Sun" id="Sun-14"></td>
-            <td headers="Mon" id="Mon-14"></td>
-            <td headers="Tue" id="Tue-14"></td>
-            <td headers="Wed" id="Wed-14"></td>
-            <td headers="Thu" id="Thu-14"></td>
-            <td headers="Fri" id="Fri-14"></td>
-            <td headers="Sat" id="Sat-14"></td>
-        </tr>
-        <tr>
-            <th headers="time" id="15-16" class="text-center">15:00<br>~<br>16:00</th>
-            <td headers="Sun" id="Sun-15"></td>
-            <td headers="Mon" id="Mon-15"></td>
-            <td headers="Tue" id="Tue-15"></td>
-            <td headers="Wed" id="Wed-15"></td>
-            <td headers="Thu" id="Thu-15"></td>
-            <td headers="Fri" id="Fri-15"></td>
-            <td headers="Sat" id="Sat-15"></td>
-        </tr>
-        <tr>
-            <th headers="time" id="16-17" class="text-center">16:00<br>~<br>17:00</th>
-            <td headers="Sun" id="Sun-16"></td>
-            <td headers="Mon" id="Mon-16"></td>
-            <td headers="Tue" id="Tue-16"></td>
-            <td headers="Wed" id="Wed-16"></td>
-            <td headers="Thu" id="Thu-16"></td>
-            <td headers="Fri" id="Fri-16"></td>
-            <td headers="Sat" id="Sat-16"></td>
-        </tr>
-        <tr>
-            <th headers="time" id="17-18" class="text-center">17:00<br>~<br>18:00</th>
-            <td headers="Sun" id="Sun-17"></td>
-            <td headers="Mon" id="Mon-17"></td>
-            <td headers="Tue" id="Tue-17"></td>
-            <td headers="Wed" id="Wed-17"></td>
-            <td headers="Thu" id="Thu-17"></td>
-            <td headers="Fri" id="Fri-17"></td>
-            <td headers="Sat" id="Sat-17"></td>
-        </tr>
-        <tr>
-            <th headers="time" id="18-19" class="text-center">18:00<br>~<br>19:00</th>
-            <td headers="Sun" id="Sun-18"></td>
-            <td headers="Mon" id="Mon-18"></td>
-            <td headers="Tue" id="Tue-18"></td>
-            <td headers="Wed" id="Wed-18"></td>
-            <td headers="Thu" id="Thu-18"></td>
-            <td headers="Fri" id="Fri-18"></td>
-            <td headers="Sat" id="Sat-18"></td>
-        </tr>
-        <tr>
-            <th headers="time" id="19-20" class="text-center">19:00<br>~<br>20:00</th>
-            <td headers="Sun" id="Sun-19"></td>
-            <td headers="Mon" id="Mon-19"></td>
-            <td headers="Tue" id="Tue-19"></td>
-            <td headers="Wed" id="Wed-19"></td>
-            <td headers="Thu" id="Thu-19"></td>
-            <td headers="Fri" id="Fri-19"></td>
-            <td headers="Sat" id="Sat-19"></td>
-        </tr>
-        <tr>
-            <th headers="time" id="20-21" class="text-center">20:00<br>~<br>21:00</th>
-            <td headers="Sun" id="Sun-20"></td>
-            <td headers="Mon" id="Mon-20"></td>
-            <td headers="Tue" id="Tue-20"></td>
-            <td headers="Wed" id="Wed-20"></td>
-            <td headers="Thu" id="Thu-20"></td>
-            <td headers="Fri" id="Fri-20"></td>
-            <td headers="Sat" id="Sat-20"></td>
-        </tr>
-        <tr>
-            <th headers="time" id="21-22" class="text-center">21:00<br>~<br>22:00</th>
-            <td headers="Sun" id="Sun-21"></td>
-            <td headers="Mon" id="Mon-21"></td>
-            <td headers="Tue" id="Tue-21"></td>
-            <td headers="Wed" id="Wed-21"></td>
-            <td headers="Thu" id="Thu-21"></td>
-            <td headers="Fri" id="Fri-21"></td>
-            <td headers="Sat" id="Sat-21"></td>
+            <th headers="time" id="D" class="text-center">21:00<br>~<br>22:00</th>
+            <td headers="Sun" id="Sun-D"></td>
+            <td headers="Mon" id="Mon-D"></td>
+            <td headers="Tue" id="Tue-D"></td>
+            <td headers="Wed" id="Wed-D"></td>
+            <td headers="Thu" id="Thu-D"></td>
+            <td headers="Fri" id="Fri-D"></td>
+            <td headers="Sat" id="Sat-D"></td>
         </tr>
     </table>
 </div>
-@endsection
 
-@section('script')
 <script src="{{ URL::asset('js/calender.js') }}" type="text/javascript"></script>
-<script src="{{ URL::asset('js/reservation_for_calender.js') }}" type="text/javascript"></script>
-@endsection

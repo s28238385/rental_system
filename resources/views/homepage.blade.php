@@ -16,46 +16,51 @@
                 </div>
                 <div class="pt-3 d-flex justify-content-center">
                     <div>
-                        <a href="" class="text-decoration-none">
+                        <<<<<<< HEAD <a href="" class="text-decoration-none">
                             <h3 class="px-3 py-1 yellow-index" href="#">教室預約狀況</h3>
-                        </a>
-                        <div>
-                            <h3 type="button" id="borrow" class="px-3 yellow-index" href="#">教室設備借用</h3>
-                            <div id="subindex" class="d-none pb-3">
-                                <a class="text-decoration-none" href="{{route('newapply.create')}}">
-                                    <h5 class="px-2 yellow-subindex">新增申請</h5>
-                                </a>
-                                <a class="text-decoration-none" href="#">
-                                    <h5 class="px-2 yellow-subindex">申請清單</h5>
-                                </a>
+                            </a>
+                            =======
+                            <a href="" class="text-decoration-none">
+                                <h3 class="px-3 py-1 yellow-index" href="{{route('classroom.getList')}}">教室預約狀況</h3>
+                            </a>
+                            >>>>>>> cbaab1d970c9b9e3015ec0d31c3d3c7d66d1c897
+                            <div>
+                                <h3 type="button" id="borrow" class="px-3 yellow-index" href="#">教室設備借用</h3>
+                                <div id="subindex" class="d-none pb-3">
+                                    <a class="text-decoration-none" href="{{route('newapply.create')}}">
+                                        <h5 class="px-2 yellow-subindex">新增申請</h5>
+                                    </a>
+                                    <a class="text-decoration-none" href="#">
+                                        <h5 class="px-2 yellow-subindex">申請清單</h5>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        @if(Auth::check())
-                        <div>
-                            <h3 type="button" id="appointment" class="px-3 yellow-index" href="#">教室預約</h3>
-                            <div id="subindex" class="d-none pb-3">
-                                <a class="text-decoration-none" href="">
-                                    <h5 class="px-2 yellow-subindex">單次預約</h5>
-                                </a>
-                                <a class="text-decoration-none" href="">
-                                    <h5 class="px-2 yellow-subindex">長期預約</h5>
-                                </a>
+                            @if(Auth::check())
+                            <div>
+                                <h3 type="button" id="appointment" class="px-3 yellow-index" href="#">教室預約</h3>
+                                <div id="subindex" class="d-none pb-3">
+                                    <a class="text-decoration-none" href="">
+                                        <h5 class="px-2 yellow-subindex">單次預約</h5>
+                                    </a>
+                                    <a class="text-decoration-none" href="">
+                                        <h5 class="px-2 yellow-subindex">長期預約</h5>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        @can('manager')
-                        <div>
-                            <h3 type="button" id="equipment" class="px-3 yellow-index" href="#">設備管理</h3>
-                            <div id="subindex" class="d-none pb-3">
-                                <a class="text-decoration-none" href="{{route('equipment.add')}}">
-                                    <h5 class="px-2 yellow-subindex">新增設備</h5>
-                                </a>
-                                <a class="text-decoration-none" href="#">
-                                    <h5 class="px-2 yellow-subindex">設備清單</h5>
-                                </a>
+                            @can('manager')
+                            <div>
+                                <h3 type="button" id="equipment" class="px-3 yellow-index" href="#">設備管理</h3>
+                                <div id="subindex" class="d-none pb-3">
+                                    <a class="text-decoration-none" href="{{route('equipment.add')}}">
+                                        <h5 class="px-2 yellow-subindex">新增設備</h5>
+                                    </a>
+                                    <a class="text-decoration-none" href="#">
+                                        <h5 class="px-2 yellow-subindex">設備清單</h5>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        @endcan
-                        @endif
+                            @endcan
+                            @endif
                     </div>
                 </div>
                 @if(Auth::check())
@@ -74,7 +79,7 @@
                 </div>
                 @else
                 <div class="mt-4">
-                    <a class="text-decoration-none" href="#">
+                    <a class="text-decoration-none" href="{{route('user.signin')}}">
                         <h6 class="text-muted">管理者登入</h6>
                     </a>
                 </div>

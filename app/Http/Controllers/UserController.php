@@ -38,7 +38,7 @@ class UserController extends Controller
         if (!Auth::check()) {
             return view('user.signin');
         } else
-            return view('user.profile');
+            return view('homepage');
     }
     public function postSignin(Request $request)
     {
@@ -47,7 +47,7 @@ class UserController extends Controller
             'password' => 'required|min:6'
         ]);
         if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
-            return redirect()->route('user.profile');
+            return view('homepage');
         }
         return redirect()->back()->withErrors(['fail' => 'Email or password is wrong!']);
     }
@@ -61,7 +61,7 @@ class UserController extends Controller
     public function getLogout()
     {
         Auth::logout();
-        return  redirect()->route('user.signin');
+        return  view('homepage');
     }
     public function postChangepw(Request $request)
     {
@@ -150,7 +150,7 @@ class UserController extends Controller
             'newpassword' => 'required|min:6',
             'confirmnewpassword' => 'required_with:newpassword|same:newpassword|min:6'
         ]);
-        $id = Auth::user()->id;
+        
         $oldpassword = $request->input('oldpassword');
         $newpassword = $request->input('newpassword');
         $res = DB::table('users')->where('id', $id)->select('password')->first();
