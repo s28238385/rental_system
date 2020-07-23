@@ -178,7 +178,17 @@ class ApplyController extends Controller
             $equipment->apply_id = $apply->id;
             $equipment->save();
         }
-        return 'success!!還沒有首頁QQ';
+
+        $data = ['alert' => '<div class="row justify-content-md-center pt-2 fixed-top">
+        <div class="alert alert-success alert-sm alert-dismissible col-md-2 fade show text-center" role="alert">
+        <strong>申請提交成功</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        </div>'];
+
+        return view('/homepage', $data);
     }
 
     /**
