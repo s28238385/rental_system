@@ -8,16 +8,16 @@
             <div class="form-group col-md-2">
                 <label for="reserveClassroom">借用教室</label>
                 <select class="custom-select" id="inlineFormCustomSelect" name="Classroom">
-                    <option value="I-314" selected>I-314</option>
-                    <option value="I-315">I-315</option>
-                    <option value="I1-002">I1-002</option>
-                    <option value="I1-017">I1-017</option>
-                    <option value="I1-105">I1-105</option>
-                    <option value="I1-107">I1-107</option>
-                    <option value="I1-223">I1-223</option>
-                    <option value="I1-404">I1-404</option>
-                    <option value="I1-507-1">I1-507-1</option>
-                    <option value="I1-933">I1-933</option>
+                    <option value="I_314" selected>I_314</option>
+                    <option value="I_315">I_315</option>
+                    <option value="I1_002">I1_002</option>
+                    <option value="I1_017">I1_017</option>
+                    <option value="I1_105">I1_105</option>
+                    <option value="I1_107">I1_107</option>
+                    <option value="I1_223">I1_223</option>
+                    <option value="I1_404">I1_404</option>
+                    <option value="I1_507-1">I1_507-1</option>
+                    <option value="I1_933">I1_933</option>
                 </select>
             </div>
 
@@ -81,25 +81,27 @@
                     <option value="18:00:00">18:00</option>
                     <option value="19:00:00">19:00</option>
                     <option value="20:00:00">20:00</option>
+                    <option value="21:00:00">21:00</option>
                 </select>
             </div>
         
             <div class="form-group col-md-2">
                 <label for="endTime">結束節次</label>
                 <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="End">
-                    <option value ="08:50:00" selected>08:50</option>
-                    <option value="09:50:00">09:50</option>
-                    <option value="10:50:00">10:50</option>
-                    <option value="11:50:00">11:50</option>
-                    <option value="12:50:00">12:50</option>
-                    <option value="13:50:00">13:50</option>
-                    <option value="14:50:00">14:50</option>
-                    <option value="15:50:00">15:50</option>
-                    <option value="16:50:00">16:50</option>
-                    <option value="17:50:00">17:50</option>
-                    <option value="18:50:00">18:50</option>
-                    <option value="19:50:00">19:50</option>
-                    <option value="20:50:00">20:50</option>
+                    <option value="09:00:00" selected>09:00</option>
+                    <option value="10:00:00">10:00</option>
+                    <option value="11:00:00">11:00</option>
+                    <option value="12:00:00">12:00</option>
+                    <option value="13:00:00">13:00</option>
+                    <option value="14:00:00">14:00</option>
+                    <option value="15:00:00">15:00</option>
+                    <option value="16:00:00">16:00</option>
+                    <option value="17:00:00">17:00</option>
+                    <option value="18:00:00">18:00</option>
+                    <option value="19:00:00">19:00</option>
+                    <option value="20:00:00">20:00</option>
+                    <option value="21:00:00">21:00</option>
+                    <option value="22:00:00">22:00</option>
                 </select>
             </div>
         </div>
@@ -184,4 +186,12 @@
     } );
 </script>
 
+<script>
+    var msg = '{{Session::get('alert')}}';
+    var exist = '{{Session::has('alert')}}';
+    if(exist){
+      alert(msg);
+    }
+  </script>
+  
 @endsection
