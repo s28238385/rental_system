@@ -1,11 +1,7 @@
-<!-- Bootstrap css cdn -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-
 <!-- searching style -->
 <link href="{{ URL::to('css/searching_style.css') }}" rel="stylesheet" type="text/css">
 
-{{-- 使手機板可正常顯示 --}}
+{{-- 使手機版可正常顯示 --}}
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 @extends('layouts/master')

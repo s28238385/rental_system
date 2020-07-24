@@ -162,6 +162,7 @@ Route::group(['prefix' => 'searching'], function () {
         'as' => 'classroom.getStatus'
     ]);
 });
+// 載入預約資料到calender上
 Route::get('/statusCalender', [
     'uses' => 'SearchingClassroomController@ajaxGetReservation'
 ]);

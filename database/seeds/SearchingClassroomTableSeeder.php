@@ -115,7 +115,7 @@ class SearchingClassroomTableSeeder extends Seeder
 
         $Classroom = new \App\SearchingClassroom([
             'classroomName' => 'I1_507_1',
-            'imagePath' => '/searching_img/I1_507-1.jpg',
+            'imagePath' => '/searching_img/I1_507_1.jpg',
             'equipmentDescription' => '
             座位數：15。
             基本設備：投影機、冷氣。
