@@ -12,6 +12,8 @@ use App\SearchingClassroom;
 
 use App\RentEquipment;
 
+use App\Equipment;
+
 use DateTime;
 
 class ApplyController extends Controller
@@ -34,6 +36,8 @@ class ApplyController extends Controller
     public function create()
     {
         $classroomNames = SearchingClassroom::all(['classroomName'])->pluck('classroomName')->toarray();
+        $genres = Equipment::all(['genre'])->pluck('genre')->toarray();
+        $items = Equipment::all(['item'])->pluck('item')->toarray();
 
         $attributes = [
             'name' => [
@@ -92,16 +96,6 @@ class ApplyController extends Controller
                 'name' => 'classroom',
                 'label' => '借用教室',
                 'options' => $classroomNames
-                // 'options' => [
-                //     "I1-223",
-                //     "I1-002",
-                //     "I1-017",
-                //     "I1-105",
-                //     "I1-107",
-                //     "I1-404",
-                //     "I-314",
-                //     "I-315",
-                // ]
             ],
             'key_type' => [
                 'name' => 'key_type',
@@ -112,15 +106,15 @@ class ApplyController extends Controller
                 'name' => 'teacher',
                 'label' => '授課教師'
             ],
-            'equipment_type' => [
-                'name' => 'equipment_type',
+            'genre' => [
+                'name' => 'genre',
                 'label' => '借用設備種類',
-                'options' => []
+                'options' => $genres
             ],
-            'equipment' => [
-                'name' => 'equipment',
+            'item' => [
+                'name' => 'item',
                 'label' => '借用項目',
-                'options' => []
+                'options' => $items
             ],
             'equipment_num' => [
                 'name' => 'equipment_num',
@@ -184,7 +178,17 @@ class ApplyController extends Controller
             $equipment->apply_id = $apply->id;
             $equipment->save();
         }
-        return 'success!!還沒有首頁QQ';
+
+        $data = ['alert' => '<div class="row justify-content-md-center pt-2 fixed-top">
+        <div class="alert alert-success alert-sm alert-dismissible col-md-2 fade show text-center" role="alert">
+        <strong>申請提交成功</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        </div>'];
+
+        return view('/homepage', $data);
     }
 
     /**
