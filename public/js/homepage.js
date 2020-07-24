@@ -1,5 +1,6 @@
 $(document).ready(function(){
     $('nav').addClass('d-none');
+    $('body').addClass('homepage vh-100');
 
     $('#borrow').click(function(){
         $('#borrow').toggleClass('border-bottom-white-1px pb-1');
@@ -14,5 +15,9 @@ $(document).ready(function(){
     $('#equipment').click(function(){
         $('#equipment').toggleClass('border-bottom-white-1px pb-1');
         $('#equipment').siblings('#subindex').toggleClass('d-none');
+    });
+
+    $('#user').click(function(){
+        $('#user').siblings('#subindex').toggleClass('d-none');
     });
 });

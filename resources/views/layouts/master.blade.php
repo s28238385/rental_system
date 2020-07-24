@@ -37,8 +37,9 @@
     <!--引入通用的header-->
     @include('partials.header')
 
-    @yield('content')
-
+    <div class="container">
+        @yield('content')
+    </div>
     @yield('script')
 </body>
 

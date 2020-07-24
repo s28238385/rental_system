@@ -10,12 +10,11 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function getSignup()
-    {
+    public function getSignup() {
         return view('user.signup');
     }
-    public function postSignup(Request $request)
-    {
+
+    public function postSignup(Request $request) {
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users',
@@ -31,145 +30,99 @@ class UserController extends Controller
             'role' => $request->input('role'),
         ]);
         $user->save();
+
         return redirect()->route('user.userlist');
     }
-    public function getSignin()
-    {
-        if (!Auth::check()) {
-            return view('user.signin');
-        } else
-            return view('homepage');
+
+    public function getSignin() {
+        return view('user.signin');
     }
-    public function postSignin(Request $request)
-    {
+
+    public function postSignin(Request $request) {
         $this->validate($request, [
             'email' => 'email|required',
             'password' => 'required|min:6'
         ]);
+
         if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
-            return view('homepage');
+            return redirect('/');
         }
+
         return redirect()->back()->withErrors(['fail' => 'Email or password is wrong!']);
     }
-    public function getProfile()
-    {
-        return view('user.profile');
-    }
-    public function getIndex()
-    {
-    }
-    public function getLogout()
-    {
+
+    public function getLogout() {
         Auth::logout();
-        return  view('homepage');
+
+        return redirect('/');
     }
-    public function postChangepw(Request $request)
-    {
-        $this->validate($request, [
-            'oldpassword' => 'required|min:6',
-            'newpassword' => 'required|min:6',
-            'confirmnewpassword' => 'required_with:newpassword|same:newpassword|min:6'
-        ]);
-        $id = Auth::user()->id;
-        $oldpassword = $request->input('oldpassword');
-        $newpassword = $request->input('newpassword');
-        $res = DB::table('users')->where('id', $id)->select('password')->first();
-        if (!Hash::check($oldpassword, $res->password)) {
-            echo 2;
-            return redirect()->back()->withErrors(['fail' => 'oldpassword is wrong!']); //原密碼不對
-        }
-        $update = array(
-            'password'  => bcrypt($newpassword),
-        );
-        $result = DB::table('users')->where('id', $id)->update($update);
-        if ($result) {
-            echo 1;
-            return redirect()->route('user.profile')->with(['success'=> '修改密碼成功!!!']);
-        } else {
-            echo 3;
-            exit;
-            return redirect()->route('user.profile');
-        }
-    }
-    public function getChangepw()
-    {
+
+    public function getChangepw() {
         return view('user.changepw');
     }
-    public function getresetphone()
-    {
-        return view('user.resetphone');
-    }
-    public function postresetphone(Request $request)
-    {
-        $this->validate($request, [
-            'oldphone' => 'required|min:10',
-            'newphone' => 'required|min:10',
-        ]);
-        $id = Auth::user()->id;
-        $oldphone = $request->input('oldphone');
-        $newphone = $request->input('newphone');
-        $res = DB::table('users')->where('id', $id)->select('phone')->first();
-        if ($res->phone != $oldphone) {
-            echo 2;
-            return redirect()->back()->withErrors(['fail' => 'old password is wrong!']); //原密碼不對
-        }
-        $update = array(
-            'phone'  => $newphone,
-        );
-        $result = DB::table('users')->where('id', $id)->update($update);
-        if ($result) {
-            echo 1;
-            return redirect()->route('user.profile');
-        } else {
-            echo 3;
-            return redirect()->route('user.profile');
-        }
-    }
-    public function getUserList()
-    {
-        return view('user.userlist');
-    }
-    public function getdelAcc($id)
-    {
-        DB::table('users')->where('id', $id)->delete();
-        return redirect()->route('user.userlist');
-    }
-    public function getresetPassword($id)
-    {
-        $email = DB::table('users')->where('id', $id)->select('email')->first();
-        $name=DB::table('users')->where('id', $id)->select('name')->first();
-        
-        return view('user.managerresetpw', [
-            'id' => $id,'email'=>$email,'name'=>$name
-        ]);
-    }
-    public function postresetPassword(Request $request,$id)
-    {
+
+    public function postChangepw(Request $request) {
         $this->validate($request, [
             'oldpassword' => 'required|min:6',
             'newpassword' => 'required|min:6',
             'confirmnewpassword' => 'required_with:newpassword|same:newpassword|min:6'
         ]);
+
+        $user = User::find( Auth::user()->id );
         
-        $oldpassword = $request->input('oldpassword');
-        $newpassword = $request->input('newpassword');
-        $res = DB::table('users')->where('id', $id)->select('password')->first();
-        if (!Hash::check($oldpassword, $res->password)) {
-            echo 2;
-            
-            return redirect()->back()->withErrors(['fail' => 'old password is wrong!']); //原密碼不對
+        if ( !Hash::check($request->input('oldpassword'), $user->password) ) {
+            return redirect()->back()->withErrors(['fail' => 'Oldpassword is wrong!']); //原密碼不對
         }
-        $update = array(
-            'password'  => bcrypt($newpassword),
-        );
-        $result = DB::table('users')->where('id', $id)->update($update);
-        if ($result) {
-            echo 1;
-            return redirect()->route('user.userlist')->with(['success'=> '修改密碼成功!!!']);
+
+        $user->password = bcrypt($request->input('newpassword'));
+        $saved = $user->save();
+
+        if ($saved) {
+            return redirect('/')->with(['success'=> '修改密碼成功！']);
         } else {
-            echo 3;
-            
-            return redirect()->route('user.userlist')->with(['success'=>'修改密碼失敗!!!']);
+            return redirect('/')->with(['fail' => '修改密碼失敗！']);
+        }
     }
-}
+
+    public function getUserList() {
+        $users = User::all();
+
+        return view('user.userlist', ['users' => $users]);
+    }
+
+    public function getdelAcc($id) {
+        $user = User::find($id);
+        $stored = $user->delete();
+
+        if($stored) {
+            return redirect()->route('user.userlist')->with(['success' => '刪除該使用者成功！']);
+        }
+        else {
+            return redirect()->route('user.userlist')->with(['fail' => '刪除該使用者失敗！']);
+        }
+    }
+
+    public function getresetPassword($id) {
+        $user = User::find($id);
+        
+        return view('user.managerresetpw', ['user' => $user]);
+    }
+
+    public function postresetPassword(Request $request, $id) {
+        $this->validate($request, [
+            'newpassword' => 'required|min:6',
+            'confirmnewpassword' => 'required_with:newpassword|same:newpassword|min:6'
+        ]);
+        
+        $user = User::find($id);
+
+        $user->password = bcrypt($request->input('newpassword'));
+        $stored = $user->save();
+        
+        if ($stored) {
+            return redirect()->route('user.userlist')->with(['success'=> '修改密碼成功！']);
+        } else {
+            return redirect()->route('user.userlist')->with(['fail'=> '修改密碼失敗！']);
+        }
+    }
 }

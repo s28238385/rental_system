@@ -15,7 +15,7 @@ class SuperUserSeeder extends Seeder
             'name' => 'admin',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('admin123'),
-            'role' => 'manager',
+            'role' => 'manager'
         ]);
         $user->save();
     }

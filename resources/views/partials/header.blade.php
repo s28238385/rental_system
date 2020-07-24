@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg py-1 px-5">
-    <a class="navbar-brand header-button" href="#">資管系教室設備借用系統</a>
+    <a class="navbar-brand header-button" href="/">資管系教室設備借用系統</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span><i class="fas fa-bars"></i></span>
     </button>
@@ -13,7 +13,7 @@
                         教室設備借用
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">新增申請</a>
+                        <a class="dropdown-item" href="{{ route('newapply.create') }}">新增申請</a>
                         <a class="dropdown-item" href="#">申請清單</a>
                     </div>
                 </li>

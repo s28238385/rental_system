@@ -12,88 +12,78 @@ use Illuminate\Support\Facades\Route;
 | and give it the controller to call when that URI is requested.
 |
 */
-
-Route::get('/', [
-    'uses' => 'UserController@getSignin',
-    'as' => 'user.signin',
-
-]);
+Route::get('/', function () {
+    return view('homepage');
+});
 
 Route::group(['prefix' => 'user'], function () {
     Route::group(['middleware' => 'guest'], function () {
-
         Route::get('/signin', [
             'uses' => 'UserController@getSignin',
-            'as' => 'user.signin',
-
+            'as' => 'user.signin'
         ]);
 
         Route::post('/signin', [
             'uses' => 'UserController@postSignin',
-            'as' => 'user.signin',
-
+            'as' => 'user.signin'
         ]);
     });
+
     Route::group(['middleware' => 'auth'], function () {
         Route::get('/profile', [
             'uses' => 'UserController@getProfile',
-            'as' => 'user.profile',
-
+            'as' => 'user.profile'
         ]);
+
         Route::get('/logout', [
             'uses' => 'UserController@getLogout',
-            'as' => 'user.logout',
-
+            'as' => 'user.logout'
         ]);
+
         Route::post('/changepw', [
             'uses' => 'UserController@postChangepw',
-            'as' => 'user.changepw',
-
+            'as' => 'user.changepw'
         ]);
+
         Route::get('/changepw', [
             'uses' => 'UserController@getChangepw',
-            'as' => 'user.changepw',
+            'as' => 'user.changepw'
+        ]);
 
-        ]);
-        Route::get('/resetphone', [
-            'uses' => 'UserController@getresetphone',
-            'as' => 'user.resetphone',
+        Route::group(['middleware' => 'role'], function(){
+            Route::get('/userlist', [
+                'uses' => 'UserController@getUserList',
+                'as' => 'user.userlist'
+            ]);
 
-        ]);
-        Route::post('/resetphone', [
-            'uses' => 'UserController@postresetphone',
-            'as' => 'user.resetphone',
+            Route::get('/deleteacc/{id}', [
+                'uses' => 'UserController@getdelAcc',
+                'as' => 'user.deleteacc'
+            ]);
 
-        ]);
-        Route::get('/userlist', [
-            'uses' => 'UserController@getUserList',
-            'as' => 'user.userlist',
+            Route::get('/resetpassword/{id}', [
+                'uses' => 'UserController@getresetPassword',
+                'as' => 'user.resetpassword'
+            ]);
 
-        ]);
-        Route::get('/deleteacc/{id}', [
-            'uses' => 'UserController@getdelAcc',
-            'as' => 'user.deleteacc',
-        ]);
-        Route::get('/resetpassword/{id}', [
-            'uses' => 'UserController@getresetPassword',
-            'as' => 'user.resetpassword',
-        ]);
-        Route::post('/resetpassword/{id}', [
-            'uses' => 'UserController@postresetPassword',
-            'as' => 'user.resetpassword',
-        ]);
-        Route::get('/signup', [
-            'uses' => 'UserController@getSignup',
-            'as' => 'user.signup',
+            Route::post('/resetpassword/{id}', [
+                'uses' => 'UserController@postresetPassword',
+                'as' => 'user.resetpassword'
+            ]);
 
-        ]);
-        Route::post('/signup', [
-            'uses' => 'UserController@postSignup',
-            'as' => 'user.signup',
+            Route::get('/signup', [
+                'uses' => 'UserController@getSignup',
+                'as' => 'user.signup'
+            ]);
 
-        ]);
+            Route::post('/signup', [
+                'uses' => 'UserController@postSignup',
+                'as' => 'user.signup'
+            ]);
+        });
     });
 });
+
 Route::get('/master', function () {
     return view('layouts.master');
 });
@@ -103,9 +93,7 @@ Route::get('/master', function () {
     return view('layouts.master');
 });*/
 
-Route::get('/', function () {
-    return view('homepage');
-});
+
 
 Route::get('/calender', function () {
     return view('partials.calender');
