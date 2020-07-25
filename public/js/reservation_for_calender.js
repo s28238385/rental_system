@@ -16,11 +16,9 @@ function get_reservation(classroom,date,period,day){
                 $("td[headers='"+day+"']#"+day+"-"+period).html("");
             }
 
+            // 回傳calender最後一個單元格，結束loader
             if (data.loadEnd == 1) {
                 $('#loaderModal').modal('hide');
-                // $('#loaderModal').on('shown.bs.modal', function (e) {
-                    
-                // })
             }
         }
     })

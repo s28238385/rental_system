@@ -34,14 +34,18 @@
       <div>預約教室前，請先在此頁面查尋可借用時間再預約。</div>
       <br/>
       @if (Auth::check())
-        <div style="margin-bottom: 1rem">
-          <a href="{{route('reserve.short')}}" class="btn btn-outline-primary" type="button">單次預約</a>&nbsp僅借用教室一天時使用。
-        </div>
-        <div>
-          <a href="{{route('reserve.long')}}" class="btn btn-outline-primary" type="button">長期預約</a>&nbsp借用教室大於一天時使用，如一般上課。
-        </div>
+        @can('manager')
+          <div style="margin-bottom: 1rem">
+            <a href="{{route('reserve.short')}}" class="btn btn-outline-primary" type="button">單次預約</a>&nbsp僅借用教室一天時使用。
+          </div>
+          <div>
+            <a href="{{route('reserve.long')}}" class="btn btn-outline-primary" type="button">長期預約</a>&nbsp借用教室大於一天時使用，如一般上課。
+          </div>
+        @else
+        預約功能僅限管理員操作，如欲預約請先登入管理員。
+        @endcan
       @else
-        預約功能僅限管理員操作，如欲預約請先登入。
+        預約功能僅限管理員操作，如欲預約請先登入管理員。
       @endif
       
     </div>
@@ -65,7 +69,7 @@
 
     {{-- get reservation test button --}}
     {{-- <button type="button" class="show_res">ajax test </button> --}}
-    <button type="button" data-toggle="modal" data-target="#loaderModal" class="">loader test </button>
+    {{-- <button type="button" data-toggle="modal" data-target="#loaderModal" class="">loader test </button> --}}
 
     <!-- include calender -->
     @include('partials/calender')
