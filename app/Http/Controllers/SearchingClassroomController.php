@@ -6,7 +6,6 @@ use App\SearchingClassroom;
 use App\ReserveShortterm;
 use App\ReserveLongterm;
 use Illuminate\Http\Request;
-use DB;
 
 use App\Http\Requests;
 
@@ -174,7 +173,7 @@ class SearchingClassroomController extends Controller
                     ->value('reason');
             }
             
-            // 檢查是否遍歷完calender
+            // 檢查是否遍歷完calender，以結束loader
             if ($day == "Sat" && $currentPeriod == 'D') {
                 $loadEnd = 1;
             }else {
