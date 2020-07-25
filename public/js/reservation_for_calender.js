@@ -18,9 +18,6 @@ function get_reservation(classroom,date,period,day){
 
             if (data.loadEnd == 1) {
                 $('#loaderModal').modal('hide');
-                // $('#loaderModal').on('shown.bs.modal', function (e) {
-                    
-                // })
             }
         }
     })

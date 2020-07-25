@@ -65,7 +65,7 @@
 
     {{-- get reservation test button --}}
     {{-- <button type="button" class="show_res">ajax test </button> --}}
-    <button type="button" data-toggle="modal" data-target="#loaderModal" class="">loader test </button>
+    {{-- <button type="button" data-toggle="modal" data-target="#loaderModal" class="">loader test </button> --}}
 
     <!-- include calender -->
     @include('partials/calender')
