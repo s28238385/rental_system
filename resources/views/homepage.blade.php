@@ -102,7 +102,6 @@ if(isset($alert)){
     echo $alert;
 }
 ?>
-
 @endsection
 
 @section('script')

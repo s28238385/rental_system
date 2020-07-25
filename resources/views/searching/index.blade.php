@@ -1,11 +1,7 @@
-<!-- Bootstrap css cdn -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-
 <!-- searching style -->
 <link href="{{ URL::to('css/searching_style.css') }}" rel="stylesheet" type="text/css">
 
-{{-- 使手機板可正常顯示 --}}
+{{-- 使手機版可正常顯示 --}}
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 @extends('layouts/master')
@@ -78,29 +74,7 @@
         </div>
     </div>
     <!-- end Modal -->
-
-{{-- <!-- Bootstrap js cdn -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> --}}
- 
-{{-- <script>
-    $(document).ready(function(){
-        //load detail
-        $('#detailModal').on('show.bs.modal', function(event){
-            var button = $(event.relatedTarget);
-            var title = button.data('mytitle');
-            var imagePath = button.data('myimgpath');
-            var description = button.data('mydescription');
-            var modal = $(this);
-
-            modal.find('.modal-header #title').text(title);
-            modal.find('.modal-body #description').val(description);
-            modal.find('.modal-body #classroomImage').attr("src", imagePath);
-        });
-    });
-</script> --}}
-
+    
 @endsection<!-- end content -->
 
 @section('script')

@@ -3,11 +3,11 @@
 <!-- status style -->
 <link href="{{ URL::to('css/status_style.css') }}" rel="stylesheet" type="text/css">
 
-{{-- 使手機板可正常顯示 --}}
+{{-- 使手機版可正常顯示 --}}
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 {{-- for ajax post method --}}
-<meta name="csrf-token" content="{{ csrf_token() }}">
+{{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
 
 @section('title')
 教室預約狀況
@@ -31,9 +31,23 @@
 <div class="container">
     {{-- user_explain --}}
     <div class="user_explain">
-      如要借用教室，請先查尋可借用時間再點選
-      <button class="btn btn-outline-primary" type="button">預約</button>
-      按鈕
+      <div>預約教室前，請先在此頁面查尋可借用時間再預約。</div>
+      <br/>
+      @if (Auth::check())
+        @can('manager')
+          <div style="margin-bottom: 1rem">
+            <a href="{{route('reserve.short')}}" class="btn btn-outline-primary" type="button">單次預約</a>&nbsp僅借用教室一天時使用。
+          </div>
+          <div>
+            <a href="{{route('reserve.long')}}" class="btn btn-outline-primary" type="button">長期預約</a>&nbsp借用教室大於一天時使用，如一般上課。
+          </div>
+        @else
+        預約功能僅限管理員操作，如欲預約請先登入管理員。
+        @endcan
+      @else
+        預約功能僅限管理員操作，如欲預約請先登入管理員。
+      @endif
+      
     </div>
     
     <ul class="nav nav-tabs nav-justified" id="classroomTab" role="tablist">
@@ -53,34 +67,49 @@
         @endforeach 
     </div>
 
-    {{-- ajax test button --}}
-    <button type="button" class="show_res">ajax test </button>
+    {{-- get reservation test button --}}
+    {{-- <button type="button" class="show_res">ajax test </button> --}}
+    {{-- <button type="button" data-toggle="modal" data-target="#loaderModal" class="">loader test </button> --}}
 
     <!-- include calender -->
     @include('partials/calender')
-        @yield('calender')
+
+</div><!-- end cotainer -->
+
+<!-- Modal -->
+<div class="modal fade" id="loaderModal" tabindex="-1" aria-hidden="true" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+          <div class="modal-body container-fluid">
+            <div class="row justify-content-center" style="padding: 5%">
+              <div class="loader" ></div>
+            </div>
+            <div class="row justify-content-center" style="margin-top: 5%">
+              資料載入中，請稍候
+            </div>
+          </div>
+      </div>
+  </div>
 </div>
+<!--  end Modal -->
 
-  {{-- <!-- Bootstrap js cdn -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> --}}
-
-  {{-- 此段 script 經測試似乎無法放置於 @section('script') --}}
-  {{-- 推測原因是和calender衝突 --}}
-  <script type="text/javascript">
-    $(document).ready(function(){
-      //enter point
-      var chosen_status = $('#chosen_status').val();
-      //console.log(chosen_status); //test
-      $('.nav-tabs a[href="'+chosen_status+'"]').tab('show');
-
-
-        $('.nav-tabs a').click(function(){
-          //console.log('click');//test
-          $(this).tab('show');
-        });
-      });
-  </script>
 @endsection<!-- end content -->
+
+@section('script')
+<script type="text/javascript">
+  $(document).ready(function(){
+    //enter point
+    var chosen_status = $('#chosen_status').val();
+    //console.log(chosen_status); //test
+    $('.nav-tabs a[href="'+chosen_status+'"]').tab('show');
+
+      $('.nav-tabs a').click(function(){
+        //console.log('click');//test
+        $(this).tab('show');
+      });
+    });
+</script>
+{{-- 載入預約資料到calender上 --}}
+<script src="{{ URL::asset('js/reservation_for_calender.js') }}" type="text/javascript"></script>
+@endsection
 
