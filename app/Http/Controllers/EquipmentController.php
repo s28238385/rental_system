@@ -32,10 +32,14 @@ class EquipmentController extends Controller
             'item' => $request->input('item'),
             'quantity' => $request->input('quantity')
         ]);
-        //dd($equipment);
-        $equipment->save();
+        $stroed = $equipment->save();
 
-        return redirect()->route('equipment.list');
+        if($stored){
+            return redirect()->route('equipment.list')->with('success', '新增設備成功！');
+        }
+        else{
+            return redirect()->route('equipment.list')->with('fail', '新增設備失敗！');
+        }
     }
 
     public function getEdit($id){
@@ -56,10 +60,14 @@ class EquipmentController extends Controller
         $equipment->genre = $request->input('genre');
         $equipment->item = $request->input('item');
         $equipment->quantity = $request->input('quantity');
+        $stored = $equipment->save();
 
-        $equipment->save();
-
-        return redirect()->route('equipment.list');
+        if($stored){
+            return redirect()->route('equipment.list')->with('success', '修改設備成功！');
+        }
+        else{
+            return redirect()->route('equipment.list')->with('fail', '修改設備失敗！');
+        }
     }
 
     public function getDelete($id){
