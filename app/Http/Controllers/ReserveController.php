@@ -20,6 +20,13 @@ class ReserveController extends Controller
 
     public function postShort(Request $request)
     {
+        if($request->input('Name') == ""){
+            return redirect()->route('reserve.short')->with('alert', '申請人不可為空!');
+        }
+        if($request->input('Date') == ""){
+            return redirect()->route('reserve.short')->with('alert', '申請日期不可為空!');
+        }
+
         $this->validate($request, [
             'Classroom' => 'required',
             'Name' => 'required',
@@ -82,6 +89,14 @@ class ReserveController extends Controller
 
     public function postLong(Request $request)
     {
+        
+        if($request->input('Name') == ""){
+            return redirect()->route('reserve.short')->with('alert', '申請人不可為空!');
+        }
+        if($request->input('DateSart') == "" || $request->input('DateEnd') == ""){
+            return redirect()->route('reserve.short')->with('alert', '申請日期不可為空!');
+        }
+
         $this->validate($request, [
             'Classroom' => 'required',
             'Name' => 'required',
