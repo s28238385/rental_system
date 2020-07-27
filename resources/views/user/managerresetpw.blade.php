@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+@section('title')
+重設密碼
+@endsection
+
 @section('content')
 <div class="text-center mt-5 mb-3">
     <h1 class="color-2F91CD font-weight-normal">重設密碼</h1>

@@ -13,6 +13,15 @@ body {
 .hint {
     max-width: 250px;
 }
+
+.color-2F91CD {
+    color: #2F91CD;
+}
+
+.table-cell {
+    width: 25%;
+}
+
 /*
  *header
  */
@@ -120,9 +129,3 @@ i {
     background-color: grey;
 }
 
-/*
- *user
- */
-.color-2F91CD {
-    color: #2F91CD;
-}

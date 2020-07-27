@@ -104,7 +104,5 @@ $('document').ready(function(){
     $('#toCertainWeek').click(function(){
         get_start();
     })
-
-    
 });
 

@@ -64,7 +64,7 @@
                                 <a class="text-decoration-none" href="{{route('equipment.add')}}">
                                     <h5 class="px-2 yellow-subindex">新增設備</h5>
                                 </a>
-                                <a class="text-decoration-none" href="#">
+                                <a class="text-decoration-none" href="{{ route('equipment.list') }}">
                                     <h5 class="px-2 yellow-subindex">設備清單</h5>
                                 </a>
                             </div>

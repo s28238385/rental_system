@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+@section('title')
+變更密碼
+@endsection
+
 @section('content')
 <div class="text-center mt-5">
     <h1 class="color-2F91CD font-weight-normal mb-3">變更密碼</h1>

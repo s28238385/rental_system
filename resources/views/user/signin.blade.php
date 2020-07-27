@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+@section('title')
+管理者登入
+@endsection
+
 @section('content')
 <div class="text-center">
     <div class="row align-items-center justify-content-center mt-5">
@@ -12,7 +16,7 @@
                     @endforeach
                 </div>
             @endif
-            <form action="{{route('user.signin')}}" method="post">
+            <form action="{{ route('user.signin') }}" method="post">
                 <div class="form-group">
                     <label for="email" class="sr-only">電子信箱</label>
                     <input type="text" id="email" name="email" class="form-control" placeholder="Email address" autocomplete="off">

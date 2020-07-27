@@ -3,17 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
-
 use App\Apply;
-
 use App\SearchingClassroom;
-
 use App\RentEquipment;
-
 use App\Equipment;
-
 use DateTime;
 
 class ApplyController extends Controller

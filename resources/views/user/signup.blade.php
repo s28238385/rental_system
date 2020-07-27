@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+@section('title')
+新增使用者
+@endsection
+
 @section('content')
 <div class="text-center mt-4">
     <h1 class="color-2F91CD font-weight-normal mb-3">新增使用者</h1>

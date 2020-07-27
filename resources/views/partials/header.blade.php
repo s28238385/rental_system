@@ -33,8 +33,8 @@
                             設備管理
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{route('equipment.add')}}">新增設備</a>
-                            <a class="dropdown-item" href="#">設備清單</a>
+                            <a class="dropdown-item" href="{{ route('equipment.add') }}">新增設備</a>
+                            <a class="dropdown-item" href="{{ route('equipment.list') }}">設備清單</a>
                         </div>
                     </li>
                 @endcan
