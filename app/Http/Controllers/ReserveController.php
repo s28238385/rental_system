@@ -20,6 +20,13 @@ class ReserveController extends Controller
 
     public function postShort(Request $request)
     {
+        if($request->input('Name') == ""){
+            return redirect()->route('reserve.short')->with('alert', '申請人不可為空!');
+        }
+        if($request->input('Date') == ""){
+            return redirect()->route('reserve.short')->with('alert', '申請日期不可為空!');
+        }
+
         $this->validate($request, [
             'Classroom' => 'required',
             'Name' => 'required',
@@ -60,12 +67,17 @@ class ReserveController extends Controller
             'endTime' => $request->input('End')
         ]);
         
-        if($count == 0){
-            $reserveShort -> save();
-            return redirect()->route('reserve.short');
+        if($request->input('Start') < $request->input('End')){
+            if($count == 0){
+                $reserveShort -> save();
+                return redirect()->route('reserve.short')->with('alert', '單次預約新增成功!');
+            }
+            else{
+                return redirect()->route('reserve.short')->with('alert', '所選時段已被預約!');
+            }
         }
         else{
-            return redirect()->route('reserve.short');
+            return redirect()->route('reserve.short')->with('alert', '開始節次不可以大於結束節次!');
         }
         
     }
@@ -77,6 +89,14 @@ class ReserveController extends Controller
 
     public function postLong(Request $request)
     {
+        
+        if($request->input('Name') == ""){
+            return redirect()->route('reserve.short')->with('alert', '申請人不可為空!');
+        }
+        if($request->input('DateSart') == "" || $request->input('DateEnd') == ""){
+            return redirect()->route('reserve.short')->with('alert', '申請日期不可為空!');
+        }
+
         $this->validate($request, [
             'Classroom' => 'required',
             'Name' => 'required',
@@ -138,17 +158,22 @@ class ReserveController extends Controller
             'endTime' => $request->input('End')
         ]);
         
-        if($count == 0){
-            $reserveLong -> save();
-            return redirect()->route('reserve.long');
+
+        if($request->input('Start') < $request->input('End')){
+            if($count == 0){
+                $reserveLong -> save();
+                return redirect()->route('reserve.long')->with('alert', '長期預約新增成功!');
+            }
+            else{
+                return redirect()->route('reserve.long')->with('alert', '所選時段已被預約!');
+            }
         }
         else{
-            return redirect()->route('reserve.long');
+            return redirect()->route('reserve.long')->with('alert', '開始節次不可以大於結束節次!');
         }
+        
 
         
     }
     
-
-
 }
