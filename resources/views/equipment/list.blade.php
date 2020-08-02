@@ -31,8 +31,8 @@
 <table class="table table-hover">
     <thead>
         <tr>
-            <th id="genre" class="table-cell pl-4" scope="col">名稱</th>
-            <th id="item" class="table-cell" scope="col">子分類</th>
+            <th id="name" class="table-cell pl-4" scope="col">名稱</th>
+            <th id="index" class="table-cell" scope="col">索引</th>
             <th id="quantity" class="table-cell" scope="col">數量</th>
             <th id="management" class="teble-cell" scope="col">管理</th>
         </tr>
@@ -45,11 +45,11 @@
         @else
             @foreach($equipments as $equipment)
                 <tr>
-                    <td class="pl-4 table-cell"><?=$equipment['genre'];?></td>
-                    <td class="teble-cell"><?=$equipment['item'];?></td>
-                    <td class="teble-cell"><?=$equipment['quantity'];?></td>
+                    <td class="pl-4 table-cell"><?=$equipment->name;?></td>
+                    <td class="teble-cell"><?=$equipment->index;?></td>
+                    <td class="teble-cell"><?=$equipment->quantity;?></td>
                     <td class="teble-cell">
-                        <div id="management-button" class="d-flex justify-content-start">
+                        <div id="management-button">
                             <!--<a href=""><button type="button" class="btn btn-outline-primary btn-sm mr-1">查看</button></a>-->
                             <a href="{{ route('equipment.edit', ['id' => $equipment->id]) }}" type="button" class="btn btn-outline-primary btn-sm px-3 mx-1">編輯</a>
                             <a href="{{ route('equipment.delete', ['id' => $equipment->id]) }}" type="button" class="btn btn-outline-primary btn-sm px-3 mx-1" onclick="return confirm('確定刪除設備?')">刪除</a>

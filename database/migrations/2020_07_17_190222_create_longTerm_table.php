@@ -33,6 +33,6 @@ class CreateLongTermTable extends Migration
      */
     public function down()
     {
-        Schema::drop('reserve_longterms');
+        Schema::dropIfExists('reserve_longterms');
     }
 }

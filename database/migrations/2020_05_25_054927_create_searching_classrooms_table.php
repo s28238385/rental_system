@@ -28,6 +28,6 @@ class CreateSearchingClassroomsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('searching_classrooms');
+        Schema::dropIfExists('searching_classrooms');
     }
 }

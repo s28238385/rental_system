@@ -79,7 +79,17 @@ Route::group(['prefix' => 'user'], function () {
     });
 });
 
-Route::group(['prefix' => 'appcation'], function() {
+Route::group(['prefix' => 'application'], function() {
+    Route::get('/list', [
+        'uses' => 'ApplicationController@getList',
+        'as' => 'application.list'
+    ]);
+
+    Route::get('/information/{application_id}', [
+        'uses' => 'ApplicationController@getInformation',
+        'as' => 'application.information'
+    ]);
+
     Route::get('/new', [
         'uses' => 'ApplicationController@getNew',
         'as' => 'application.new'
@@ -88,6 +98,21 @@ Route::group(['prefix' => 'appcation'], function() {
     Route::post('/new', [
         'uses' => 'ApplicationController@postNew',
         'as' => 'application.new'
+    ]);
+
+    Route::get('/edit/{application_id}', [
+        'uses' => 'ApplicationController@getEdit',
+        'as' => 'application.edit'
+    ]);
+
+    Route::post('/edit/{application_id}', [
+        'uses' => 'ApplicationController@postEdit',
+        'as' => 'application.edit'
+    ]);
+
+    Route::get('/delete/{application_id}', [
+        'uses' => 'ApplicationController@getDelete',
+        'as' => 'application.delete'
     ]);
 });
 
@@ -106,7 +131,7 @@ Route::get('/calender', function () {
     return view('partials.calender');
 });
 
-Route::group(['prefix' => 'equipment'], function () {
+Route::group(['prefix' => 'equipment', 'middleware' => ['auth', 'role']], function () {
     Route::get('/list', [
         'uses' => "EquipmentController@getList",
         'as' => 'equipment.list'
@@ -162,7 +187,7 @@ Route::get('/statusCalender', [
     'uses' => 'SearchingClassroomController@ajaxGetReservation'
 ]);
 
-Route::get('newapply', [
+/*Route::get('newapply', [
     'uses' => 'ApplyController@create',
     'as' => 'newapply.create'
 ]);
@@ -176,7 +201,7 @@ Route::post('newapply', [
 Route::resource('post', 'PostController');
 Route::auth();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/home', 'HomeController@index');*/
 
 Route::group(['prefix' => 'reservation'], function () {
     Route::get('/classroom_short', [

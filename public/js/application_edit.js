@@ -1,10 +1,4 @@
 $("document").ready(function () {
-    //閱讀規則後彈出借用表單
-    $("#agreeBtn").click(function() {
-        $("#ruleSection").remove();
-        $("#formSection").toggleClass("d-none");
-    });
-
     // 身分改變時
     $("#identity").change(() => {
         // 選擇身份顯示or隱藏學部、班年級
@@ -12,7 +6,6 @@ $("document").ready(function () {
 
         // 分機或手機
         if ($("#identity option:selected").text() === "學生") {
-            $('#grade').prop('required', false);
             $('label[for="phone"]').children('.text').text("手機號碼");
             $("#degreePart, #gradePart, #cardPart").removeClass("d-none");
             if($("#phone").val() != "" && !$("#phone").val().match(/^09\d{8}$/)){
@@ -22,7 +15,6 @@ $("document").ready(function () {
                 $("#phone").removeClass('is-invalid');
             }
         } else {
-            $('#grade').prop('required', false);
             $('label[for="phone"]').children('.text').text("分機");
             $("#degreePart, #gradePart, #cardPart").addClass("d-none");
             $("#certificateOther").parent().addClass('d-none');
@@ -87,7 +79,6 @@ $("document").ready(function () {
     let namekey, indexkey, index, quantity;
 
     function equipmentBuildUp(equipment/*jQuery Object*/) {
-        equipment.find("#equipment_name").children().remove().end();
         Object.keys(equipments).forEach((element) => equipment.find('#equipment_name').append(new Option(element)));
         namekey = equipment.find("#equipment_name option:selected").val();
         equipment.find("#index").children().remove().end();
@@ -113,7 +104,6 @@ $("document").ready(function () {
         indexkey = index.find("option:selected").val();
         quantity = $(this).parents("#equipment").find("#quantity");
         quantity.children().remove().end();
-        console.log(namekey, indexkey);
         for (let i = 1; i <= equipments[namekey][indexkey]["quantity"]; i++) {
             quantity.append(new Option(i));
         }
@@ -127,7 +117,6 @@ $("document").ready(function () {
         indexkey = $(this).find("option:selected").val();
         quantity = $(this).parents("#equipment").find("#quantity");
         quantity.children().remove().end();
-        console.log(namekey, indexkey);
         for (let i = 1; i <= equipments[namekey][indexkey]["quantity"]; i++) {
             quantity.append(new Option(i));
         }
@@ -166,4 +155,39 @@ $("document").ready(function () {
             $("button[type='submit']").removeClass('disabled');
         }
     });
+
+    //處理傳入資料
+    let application = <?php echo json_encode($application); ?>;
+    let rent_equipments = <?php echo json_encode($rent_equipments); ?>;
+    console.log(rent_equipments)
+
+    $("#identity option:contains(" + application['identity'] + ")").prop('selected', true).change();
+
+    if(application['certificate'] != null){
+        if(application['certificate'] === '學生證' | application['certificate'] === '身分證' | application['certificate'] === '健保卡' |application['certificate'] === '駕照'){
+            $("#certificate option:contains(" + application['certificate'] + ")").prop('selected', true).change();
+        }
+        else {
+            $("#certificate option:contains(其他)").prop('selected', true).change();
+        }
+    }
+
+    if(application['classroom'] != null){
+        $("#wantRentChk").prop('checked', true).change();
+        $("#classroom option:contains(" + application['classroom'] + ")").prop('selected', true);
+        $("#key_type option:contains(" + application['key_type'] + ")").prop('selected', true);
+    }
+
+    function fillInRentEquipment(rent_equipment){
+        $("#moreBtn").click();
+        $(".equipmentContainer").children().last().find("#equipment_name option:contains(" + rent_equipment['name'] + ")").prop('selected', true).change();
+        $(".equipmentContainer").children().last().find("#index option:contains(" + rent_equipment['index'] + ")").prop('selected', true).change();
+        $(".equipmentContainer").children().last().find("#quantity option:contains(" + rent_equipment['quantity'] + ")").prop('selected', true);
+        $(".equipmentContainer").children().last().find("#usage").val(rent_equipment['usage']);
+        $(".equipmentContainer").children().last().find("#remark").val(rent_equipment['remark']);
+    }
+
+    if(rent_equipments != ""){
+        Object.keys(rent_equipments).forEach( (element) => fillInRentEquipment(rent_equipments[element]));
+    }
 });

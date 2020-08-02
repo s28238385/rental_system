@@ -37,10 +37,10 @@
                 <div>
                     <h3 type="button" id="borrow" class="px-3 yellow-index">教室設備借用</h3>
                     <div id="subindex" class="d-none pb-3">
-                        <a class="text-decoration-none" href="{{route('newapply.create')}}">
+                        <a class="text-decoration-none" href="{{route('application.new')}}">
                             <h5 class="px-2 yellow-subindex">新增申請</h5>
                         </a>
-                        <a class="text-decoration-none" href="#">
+                        <a class="text-decoration-none" href="{{ route('application.list') }}">
                             <h5 class="px-2 yellow-subindex">申請清單</h5>
                         </a>
                     </div>

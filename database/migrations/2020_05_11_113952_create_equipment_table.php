@@ -10,14 +10,14 @@ class CreateEquipmentTable extends Migration
         Schema::create('equipment', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('genre')->unique();
-            $table->string('item')->nullable();
+            $table->string('name');
+            $table->string('index')->nullable();
             $table->integer('quantity');
         });
     }
 
     public function down()
     {
-        Schema::drop('equipments');
+        Schema::dropIfExists('equipment');
     }
 }

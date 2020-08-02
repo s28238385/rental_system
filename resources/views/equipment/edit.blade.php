@@ -16,13 +16,14 @@
             </div>
         @endif
         <form action="{{ route('equipment.edit', ['id' => $equipment->id]) }}" method="post">
+            {{ csrf_field() }}
             <div class="form-group">
-                <label for="genre">名稱：<span class="required">*</span></label>
-                <input type="text" id="genre" name="genre" class="form-control" placeholder="種類" autocomplete="off" value="<?=$equipment->genre?>">
+                <label for="name">名稱：<span class="required">*</span></label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="種類" autocomplete="off" value="<?=$equipment->name?>">
             </div>
             <div class="form-group">
-                <label for="item">子分類：</label>
-                <input type="text" id="item" name="item" class="form-control" placeholder="項目" autocomplete="off" value="<?=$equipment->item?>">
+                <label for="index">索引：</label>
+                <input type="text" id="index" name="index" class="form-control" placeholder="項目" autocomplete="off" value="<?=$equipment->index?>">
             </div>
             <div class="form-group">
                 <label for="quantity">數量：<span class="required">*</span></label>
@@ -31,8 +32,7 @@
             <div class="d-flex justify-content-center">
                 <button type="submit" class="btn btn-outline-primary px-3">修改</button>
             </div>
-            {{ csrf_field() }}
         </form>
     </div>
 </div>
-@endsection('content')
+@endsection

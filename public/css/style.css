@@ -1,5 +1,5 @@
 body {
-    font-family: 'Noto Sans TC', sans-serif !important;
+    font-family: "Noto Sans TC", sans-serif !important;
 }
 
 .alert-danger p:last-child {
@@ -15,7 +15,7 @@ body {
 }
 
 .color-2F91CD {
-    color: #2F91CD;
+    color: #2f91cd;
 }
 
 .table-cell {
@@ -29,20 +29,22 @@ i {
     color: white;
 }
 
-.navbar{
+.navbar {
     background-color: #0abbb5;
 }
 
-.navbar-brand, .nav-link{
+.navbar-brand,
+.nav-link {
     color: white;
 }
 
-.navbar-brand:hover, .nav-link:hover {
+.navbar-brand:hover,
+.nav-link:hover {
     color: white;
     filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.5));
 }
 
-.navbar-text{
+.navbar-text {
     color: #d3ffe4;
 }
 
@@ -69,7 +71,7 @@ i {
  *homepage
  */
 .homepage {
-    background-image: url('../img/homepage.jpg');
+    background-image: url("../img/homepage.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -123,9 +125,19 @@ i {
 .scrollbar::-webkit-scrollbar {
     width: 8px;
 }
-    
+
 .scrollbar::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: grey;
 }
 
+/*
+ *application
+  */
+.shadow-up {
+    box-shadow: 0 -1px 3px grey;
+}
+
+/*.table-cell-8 {
+    width: calc(100% / 8);
+}*/

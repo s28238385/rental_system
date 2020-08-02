@@ -22,16 +22,17 @@ class CreateRentEquipmentsTable extends Migration
             // return_time: 歸還時間
             // remark: 備註
             // apply_id: fk屬於哪一次申請
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->timestamps();
-            $table->string('genre');
-            $table->string('item')->nullable();
+            $table->bigInteger('application_id')->unsigned();
+            $table->string('name');
+            $table->string('index')->nullable();
             $table->integer('quantity');
             $table->string('usage');
-            $table->dateTime('return_time');
             $table->text('remark')->nullable();
-            $table->integer('apply_id')->unsigned();
-            $table->foreign('apply_id')->references('id')->on('applies');
+            $table->enum('status', ['已建立', '借出中', '已歸還']);
+            
+            $table->foreign('application_id')->references('id')->on('applications');
         });
     }
 
@@ -42,6 +43,6 @@ class CreateRentEquipmentsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('rent_equipments');
+        Schema::dropIfExists('rent_equipments');
     }
 }

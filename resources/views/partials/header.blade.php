@@ -13,8 +13,8 @@
                         教室設備借用
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ route('newapply.create') }}">新增申請</a>
-                        <a class="dropdown-item" href="#">申請清單</a>
+                        <a class="dropdown-item" href="{{ route('application.new') }}">新增申請</a>
+                        <a class="dropdown-item" href="{{ route('application.list') }}">申請清單</a>
                     </div>
                 </li>
             @if(Auth::check())
