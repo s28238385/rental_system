@@ -39,6 +39,13 @@
     <div class="container">
         @yield('content')
     </div>
+
+    <footer>
+        <nav class="w-100">
+            <p class="text-center text-muted"><small>Copyright 2020 © 中央大學大數據暨程式設計研究社</small></p>
+        </nav>
+    </footer>
+
     @yield('script')
 </body>
 

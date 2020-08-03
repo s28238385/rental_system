@@ -70,7 +70,7 @@
                             </div>
                         </div>
                     @endcan
-                    <div class="mt-4">
+                    <div class="mt-3">
                         <h6 type="button" id="user" class="text-muted">你好， <?=Auth::user()->name?>！<i class="text-muted fas fa-caret-down"></i></h6>
                         <div id="subindex" class="d-none">
                             @can('manager')
@@ -87,12 +87,15 @@
                         </div>
                     </div>
                 @else
-                    <div class="mt-4">
+                    <div class="mt-3">
                         <a class="text-decoration-none" href="{{route('user.signin')}}">
                             <h6 class="text-muted">管理者登入</h6>
                         </a>
                     </div>
                 @endif
+                <div class="mt-3">
+                    <p class="text-center text-muted mb-0"><small>Copyright 2020 © 中央大學大數據暨程式設計研究社</small></p>
+                </div>
             </div>
         </div>
     </div>

@@ -38,13 +38,16 @@
                 <th>手機/分機</th>
                 <th>證件</th>
                 <th>狀態</th>
+                @if (Auth::check())
+                    <th>借出/歸還</th>
+                @endif
                 <th>詳細資料</th>
             </tr>
         </thead>
         <tbody>
             @if($applications->isEmpty())
                 <tr>
-                    <td colspan="8">無登錄申請</td>
+                    <td colspan="<?php if(Auth::check()){echo 9;}else{echo 8;}?>">無登錄申請</td>
                 </tr>
             @else
                 @foreach($applications as $application)
@@ -56,6 +59,12 @@
                         <td>{{ $application->phone }}</td>
                         <td>{{ $application->certificate }}</td>
                         <td>{{ $application->all_status }}</td>
+                        @if (Auth::check())
+                            <td>
+                                <a type="button" href="{{ route('application.rent', ['application_id' => $application->id]) }}" class="btn btn-sm btn-outline-success px-3">借出</a>
+                                <a type="button" href="{{ route('application.return', ['application_id' => $application->id]) }}" class="btn btn-sm btn-outline-success px-3">歸還</a>
+                            </td>
+                        @endif
                         <td>
                             <a href="{{ route('application.information', ['application_id' => $application->id]) }}" type="button" class="btn btn-sm btn-outline-primary">詳細資料</a>
                         </td>

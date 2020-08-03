@@ -120,6 +120,7 @@
         <button type="button" class="btn btn-danger btn-sm px-3" id="dltBtn">刪除</button>
     </div>
     <div class="form-row">
+        <input type="text" name="equipment_id[]" id="equipment_id" class="d-none">
         <div class="form-group col-md-4">
             <label for="equipment_name[]">設備名稱</label>
             <select name="equipment_name[]" id="equipment_name" class="form-control"></select>

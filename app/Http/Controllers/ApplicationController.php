@@ -255,9 +255,7 @@ class ApplicationController extends Controller
         }
 
         $application = Application::find($application_id);
-        $rent_equipments = RentEquipment::all()->where('application_id', $application->id)->pluck(['id'])->toArray();
-        //dd($rent_equipments);
-        
+        $rent_equipments_id = RentEquipment::all()->where('application_id', $application->id)->pluck(['id'])->toArray();
 
         $application->name = $request->input('name');
         $application->return_time = date_create_from_format('Y-m-d H:i', implode($request->input('return_time'),""));
@@ -291,9 +289,9 @@ class ApplicationController extends Controller
             return redirect('/')->with('fail', '修改申請失敗，請再次嘗試！');
         }
 
-        if(count($rent_equipments) < count($request->input('equipment_name'))){
-            for ($i = 0; $i < count($rent_equipments); $i++) {
-                $rent_equipment = RentEquipment::find($rent_equipments[$i]);
+        for($i = 0; $i < count($request->equipment_name); $i++){
+            if($request->equipment_id[$i] != "" && array_search($request->equipment_id[$i], $rent_equipments_id) >= 0){
+                $rent_equipment = RentEquipment::find($request->equipment_id[$i]);
 
                 $rent_equipment->name = $request->equipment_name[$i];
                 $rent_equipment->index = $request->index[$i];
@@ -306,9 +304,10 @@ class ApplicationController extends Controller
                 if(!$executed){
                     return redirect('/')->with('fail', '修改申請失敗，請再次嘗試！');
                 }
-            }
 
-            for ($i = count($rent_equipments); $i < count($request->input('equipment_name')); $i++) {
+                unset($rent_equipments_id[array_search($request->equipment_id[$i], $rent_equipments_id)]);
+            }
+            else {
                 $rent_equipment = new RentEquipment([
                     'application_id' => $application->id,
                     'name' => $request->equipment_name[$i],
@@ -325,44 +324,12 @@ class ApplicationController extends Controller
                 }
             }
         }
-        else if(count($rent_equipments) > count($request->input('equipment_name'))) {
-            for ($i = 0; $i < count($request->input('equipment_name')); $i++) {
-                $rent_equipment = RentEquipment::find($rent_equipments[$i]);
 
-                $rent_equipment->name = $request->equipment_name[$i];
-                $rent_equipment->index = $request->index[$i];
-                $rent_equipment->quantity = $request->quantity[$i];
-                $rent_equipment->usage = $request->usage[$i];
-                $rent_equipment->remark = ($request->remark[$i] === "") ? '無' : $request->remark[$i];
-
-                $executed = $rent_equipment->save();
-
-                if(!$executed){
-                    return redirect('/')->with('fail', '修改申請失敗，請再次嘗試！');
-                }
-            }
-
-            for($i = count($request->input('equipment_name')); $i < count($rent_equipments); $i++) {
-                $rent_equipment = RentEquipment::find($rent_equipments[$i]);
+        if(!empty($rent_equipments_id)){
+            foreach($rent_equipments_id as $rent_equipment_id){
+                $rent_equipment = RentEquipment::find($rent_equipment_id);
 
                 $executed = $rent_equipment->delete();
-
-                if(!$executed){
-                    return redirect('/')->with('fail', '修改申請失敗，請再次嘗試！');
-                }
-            }
-        }
-        else {
-            for ($i = 0; $i < count($request->input('equipment_name')); $i++) {
-                $rent_equipment = RentEquipment::find($rent_equipments[$i]);
-
-                $rent_equipment->name = $request->equipment_name[$i];
-                $rent_equipment->index = $request->index[$i];
-                $rent_equipment->quantity = $request->quantity[$i];
-                $rent_equipment->usage = $request->usage[$i];
-                $rent_equipment->remark = ($request->remark[$i] === "") ? '無' : $request->remark[$i];
-
-                $executed = $rent_equipment->save();
 
                 if(!$executed){
                     return redirect('/')->with('fail', '修改申請失敗，請再次嘗試！');
@@ -372,6 +339,110 @@ class ApplicationController extends Controller
 
         if($executed){
             return redirect()->route('application.list')->with('success', '修改申請成功！');
+        }
+    }
+
+    public function getRent($application_id){
+        $application = Application::find($application_id);
+        $rent_equipments = RentEquipment::all()->where('application_id', $application->id)->where('status', '已建立')->toArray();
+
+        return view('application.rent', ['application' => $application, 'rent_equipments' => $rent_equipments]);
+    }
+
+    public function postRent(Request $request, $application_id) {
+        $application = Application::find($application_id);
+        $rent_equipments_id = RentEquipment::all()->where('application_id', $application->id)->pluck(['id'])->toArray();
+
+        foreach($request->input('rent') as $id){
+            if($id === 'key'){
+                $application->key_status = '借出中';
+            }
+            elseif(in_array($id, $rent_equipments_id)){
+                $rent_equipment = RentEquipment::find($id);
+
+                $rent_equipment->status = '借出中';
+
+                $executed = $rent_equipment->save();
+
+                if(!$executed) {
+                    return redirect()->route('application.list')->with('fail', '設備借出失敗，請再次嘗試！');
+                }
+            }
+        }
+
+        $application->all_status = '借出中';
+
+        $executed = $application->save();
+
+        if(!$executed) {
+            return redirect()->route('application.list')->with('fail', '設備借出失敗，請再次嘗試！');
+        }
+        else{
+            return redirect()->route('application.list')->with('success', '設備借出成功！');
+        }
+    }
+
+    public function getReturn($application_id){
+        $application = Application::find($application_id);
+        $rent_equipments = RentEquipment::all()->where('application_id', $application->id)->where('status', '借出中')->toArray();
+
+        return view('application.return', ['application' => $application, 'rent_equipments' => $rent_equipments]);
+    }
+
+    public function postReturn(Request $request, $application_id) {
+        $application = Application::find($application_id);
+        $rent_equipments_id = RentEquipment::all()->where('application_id', $application->id)->pluck(['id'])->toArray();
+
+        foreach($request->input('rent') as $id){
+            if($id === 'key'){
+                $application->key_status = '已歸還';
+            }
+            elseif(in_array($id, $rent_equipments_id)){
+                $rent_equipment = RentEquipment::find($id);
+
+                $rent_equipment->status = '已歸還';
+
+                $executed = $rent_equipment->save();
+
+                if(!$executed) {
+                    return redirect()->route('application.list')->with('fail', '設備歸還失敗，請再次嘗試！');
+                }
+            }
+        }
+
+        $rent_equipment_status = RentEquipment::all()->where('application_id', $application->id)->pluck(['status'])->toArray();
+
+        if($application->key_status === '已歸還'){
+            if(in_array('借出中', $rent_equipment_status)){
+                $application->all_status = '部分歸還';
+            }
+            else {
+                $application->all_status = '已歸還';
+            }
+        }
+        elseif($application->key_status === '借出中') {
+            if(in_array('已歸還', $rent_equipment_status)){
+                $application->all_status = '部分歸還';
+            }
+        }
+        else {
+            if(in_array('已歸還', $rent_equipment_status)){
+                if(in_array('借出中', $rent_equipment_status)){
+                    $application->all_status = '部分歸還';
+                }
+                else {
+                    $application->all_status = '已歸還';
+                }
+            }
+        }
+
+        $executed = $application->save();
+
+        if(!$executed) {
+            return redirect()->route('application.list')->with('fail', '設備歸還失敗，請再次嘗試！');
+        }
+        else{
+            return redirect()->route('application.list')->with('success', '設備歸還成功！');
         }
     }
 

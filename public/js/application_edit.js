@@ -180,6 +180,7 @@ $("document").ready(function () {
 
     function fillInRentEquipment(rent_equipment){
         $("#moreBtn").click();
+        $(".equipmentContainer").children().last().find("#equipment_id").val(rent_equipment['id']);
         $(".equipmentContainer").children().last().find("#equipment_name option:contains(" + rent_equipment['name'] + ")").prop('selected', true).change();
         $(".equipmentContainer").children().last().find("#index option:contains(" + rent_equipment['index'] + ")").prop('selected', true).change();
         $(".equipmentContainer").children().last().find("#quantity option:contains(" + rent_equipment['quantity'] + ")").prop('selected', true);

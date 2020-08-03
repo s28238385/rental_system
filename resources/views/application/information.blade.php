@@ -9,14 +9,14 @@
     <div class="card p-3">
         <div class="d-flex align-items-end">
             <h2 class="text-primary mb-0">基本資料</h2>
-            {{-- @if(Auth::check()) --}}
+            @if(Auth::check())
                 <div class="ml-auto mr-3">
-                    <a type="button" href="" class="btn btn-outline-success px-3 mx-1">借出</a>
-                    <a type="button" href="" class="btn btn-outline-success px-3 mx-1">歸還</a>
+                    <a type="button" href="{{ route('application.rent', ['application_id' => $application->id]) }}" class="btn btn-outline-success px-3 mx-1">借出</a>
+                    <a type="button" href="{{ route('application.return', ['application_id' => $application->id]) }}" class="btn btn-outline-success px-3 mx-1">歸還</a>
                     <a type="button" href="{{ route('application.edit', ['application_id' => $application->id]) }}" class="btn btn-outline-primary px-3 mx-1">編輯</a>
                     <a type="button" href="{{ route('application.delete', ['application_id' => $application->id]) }}" class="btn btn-outline-danger px-3 mx-1" onclick="return confirm('確定刪除這筆申請？')">刪除</a>
                 </div>
-            {{-- @endif --}}
+            @endif
         </div>
         <div class="card-body pb-0">
             <div class="row">
@@ -33,7 +33,8 @@
                     <p>歸還時間：{{ $application->return_time }}</p>
                 </div>
             </div>
-            <div class="row mt-2">
+            <div class="dropdown-divider"></div>
+            <div class="row">
                 <div class="col-md-6">
                     <p>姓名：{{ $application->name }}</p>
                 </div>

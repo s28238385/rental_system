@@ -100,20 +100,42 @@ Route::group(['prefix' => 'application'], function() {
         'as' => 'application.new'
     ]);
 
-    Route::get('/edit/{application_id}', [
-        'uses' => 'ApplicationController@getEdit',
-        'as' => 'application.edit'
-    ]);
+    Route::group(['middleware' => 'auth'], function () {
+        Route::get('/edit/{application_id}', [
+            'uses' => 'ApplicationController@getEdit',
+            'as' => 'application.edit'
+        ]);
 
-    Route::post('/edit/{application_id}', [
-        'uses' => 'ApplicationController@postEdit',
-        'as' => 'application.edit'
-    ]);
+        Route::post('/edit/{application_id}', [
+            'uses' => 'ApplicationController@postEdit',
+            'as' => 'application.edit'
+        ]);
 
-    Route::get('/delete/{application_id}', [
-        'uses' => 'ApplicationController@getDelete',
-        'as' => 'application.delete'
-    ]);
+        Route::get('/rent/{application_id}', [
+            'uses' => 'ApplicationController@getRent',
+            'as' => 'application.rent'
+        ]);
+
+        Route::post('/rent/{application_id}', [
+            'uses' => 'ApplicationController@postRent',
+            'as' => 'application.rent'
+        ]);
+
+        Route::get('/return/{application_id}', [
+            'uses' => 'ApplicationController@getReturn',
+            'as' => 'application.return'
+        ]);
+
+        Route::post('/return/{application_id}', [
+            'uses' => 'ApplicationController@postReturn',
+            'as' => 'application.return'
+        ]);
+
+        Route::get('/delete/{application_id}', [
+            'uses' => 'ApplicationController@getDelete',
+            'as' => 'application.delete'
+        ]);
+    });
 });
 
 Route::get('/master', function () {
