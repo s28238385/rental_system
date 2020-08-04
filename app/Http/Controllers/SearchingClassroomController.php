@@ -39,12 +39,15 @@ class SearchingClassroomController extends Controller
             $day = $request->input("day");// 長期借用資料表
 
             // classroom和reservation字串衝突處理(under line to hyphen)
+            // 0804更新 因為status修改名稱，故不需處理
+            /*
             $arr_classroom = explode("_", $classroom);
             if ($classroom == "I1_507_1") {
                 $classroom = $arr_classroom[0] . "-" . $arr_classroom[1] . "-" . $arr_classroom[2];
             }else {
                 $classroom = $arr_classroom[0] . "-" . $arr_classroom[1];
             }
+            */
 
             // currentPeriod由節次轉成時間
             switch ($currentPeriod) {

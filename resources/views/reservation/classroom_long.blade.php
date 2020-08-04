@@ -16,7 +16,7 @@
                     <option value="I1_107">I1_107</option>
                     <option value="I1_223">I1_223</option>
                     <option value="I1_404">I1_404</option>
-                    <option value="I1_507-1">I1_507-1</option>
+                    <option value="I1_507_1">I1_507_1</option>
                     <option value="I1_933">I1_933</option>
                 </select>
             </div>
