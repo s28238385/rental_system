@@ -11,19 +11,16 @@
 @endsection
 
 @section('content')
-<div class="container">
-    @foreach ($classrooms->chunk(3) as $classroomChunk)
-        <div class="card-columns">
-            @foreach ($classroomChunk as $classroom)
-                <div class="card">
-                    <div class="image-container ">
-                        <img src="{{ URL::to($classroom->imagePath) }}" class="card-img-top">
-                    </div>
-                    <div class="row justify-content-center">
-                        <h5 class="card-title">{{ $classroom->classroomName }}</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row justify-content-around">
+<div class="row">
+    @foreach ($classrooms as $classroom)
+        <div class="col-lg-4 p-1">
+            <div class="card rounded-0 mx-0 w-auto my-2">
+                <div class="image-container p-0">
+                    <img src="{{ URL::to($classroom->imagePath) }}" class="card-img-top rounded-0">
+                </div>
+                <div class="card-body d-flex inline-flex justify-contents-center px-1 mx-1">
+                    <h4 class="card-title">{{ $classroom->classroomName }}</h4>
+                        <div class="ml-auto">
                             <!-- reserve status -->
                             {{-- 用 chosen_status 傳給 status 以判斷進入點 --}}
                             <form action="{{ route('classroom.status') }}" method="POST">
@@ -41,9 +38,9 @@
                                 設備描述
                             </button>
                         </div>
-                    </div><!-- end card body -->
-                </div><!-- end card -->                
-            @endforeach
+                </div><!-- end card body -->
+                <!-- end card -->  
+            </div>
         </div>
     @endforeach
 
@@ -74,7 +71,7 @@
         </div>
     </div>
     <!-- end Modal -->
-    
+</div>
 @endsection<!-- end content -->
 
 @section('script')

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateShortTermTable extends Migration
+class CreateReservationTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,15 +12,16 @@ class CreateShortTermTable extends Migration
      */
     public function up()
     {
-        Schema::create('reserve_shortterms', function (Blueprint $table) {
+        Schema::create('reservations', function(Blueprint $table){
             $table->increments('id');
             $table->timestamps();
-            $table->string('classroom');
             $table->string('name');
-            $table->text('reason')->nullable();
+            $table->string('reason');
+            $table->string('classroom');
             $table->date('date');
-            $table->time('startTime');
-            $table->time('endTime');
+            $table->integer('begin_time');
+            $table->integer('end_time');
+            $table->integer('long_term_id')->nullable();
         });
     }
 
@@ -31,6 +32,6 @@ class CreateShortTermTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reserve_shortterms');
+        Schema::dropIfExists('reservations');
     }
 }

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg py-1 px-5">
+<nav id="header" class="navbar navbar-expand-lg py-1 px-5">
     <a class="navbar-brand header-button" href="/">資管系教室設備借用系統</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span><i class="fas fa-bars"></i></span>
@@ -23,8 +23,8 @@
                         教室預約
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/reservation/classroom_short">單次預約</a>
-                        <a class="dropdown-item" href="/reservation/classroom_long">長期預約</a>
+                        <a href="{{ route('reservation.new') }}" class="dropdown-item">新增預約</a>
+                        <a class="dropdown-item" href="{{ route('reservation.list') }}">預約清單</a>
                     </div>
                 </li>
                 @can('manager')
@@ -40,7 +40,7 @@
                 @endcan
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle header-button" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        你好， <?=Auth::user()->name?>！
+                        你好， {{ Auth::user()->name }}！
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         @can('manager')

@@ -51,7 +51,7 @@
                 </tr>
             @else
                 @foreach($applications as $application)
-                    <tr class="align-contents-center">
+                    <tr>
                         <td>{{ $application->id }}</td>
                         <td>{{ $application->created_at }}</td>
                         <td>{{ $application->name }}</td>

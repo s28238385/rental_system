@@ -186,7 +186,7 @@ Route::group(['prefix' => 'equipment', 'middleware' => ['auth', 'role']], functi
 });
 
 //searchingClassroom
-Route::group(['prefix' => 'searching'], function () {
+Route::group(['prefix' => 'classroom'], function () {
     Route::get('/', [
         'uses' => 'SearchingClassroomController@getList',
         'as' => 'classroom.getList'
@@ -209,40 +209,39 @@ Route::get('/statusCalender', [
     'uses' => 'SearchingClassroomController@ajaxGetReservation'
 ]);
 
-/*Route::get('newapply', [
-    'uses' => 'ApplyController@create',
-    'as' => 'newapply.create'
-]);
-
-// store apply
-Route::post('newapply', [
-    'uses' => 'ApplyController@store',
-    'as' => 'newapply.store'
-]);
-
-Route::resource('post', 'PostController');
-Route::auth();
-
-Route::get('/home', 'HomeController@index');*/
-
-Route::group(['prefix' => 'reservation'], function () {
-    Route::get('/classroom_short', [
-        'uses' => 'ReserveController@getShort',
-        'as' => 'reserve.short'
+Route::group(['prefix' => 'reservation', 'middleware' => 'auth'], function () {
+    Route::get('/list', [
+        'uses' => 'ReservationController@getList',
+        'as' => 'reservation.list'
     ]);
 
-    Route::post('/classroom_short', [
-        'uses' => 'ReserveController@postShort',
-        'as' => 'reserve.short'
+    Route::get('/new', [
+        'uses' => 'ReservationController@getNew',
+        'as' => 'reservation.new'
     ]);
 
-    Route::get('/classroom_long', [
-        'uses' => 'ReserveController@getLong',
-        'as' => 'reserve.long'
+    Route::post('/new', [
+        'uses' => 'ReservationController@postNew',
+        'as' => 'reservation.new'
     ]);
 
-    Route::post('/classroom_long', [
-        'uses' => 'ReserveController@postLong',
-        'as' => 'reserve.long'
+    Route::get('/longterm/{id}', [
+        'uses' => 'ReservationController@getLongterm',
+        'as' => 'reservation.longterm'
+    ]);
+
+    Route::get('/edit/{id}', [
+        'uses' => 'ReservationController@getEdit',
+        'as' => 'reservation.edit'
+    ]);
+
+    Route::post('/edit/{id}', [
+        'uses' => 'ReservationController@postEdit',
+        'as' => 'reservation.edit'
+    ]);
+
+    Route::get('/delete/{id}', [
+        'uses' => 'ReservationController@getDelete',
+        'as' => 'reservation.delete'
     ]);
 });

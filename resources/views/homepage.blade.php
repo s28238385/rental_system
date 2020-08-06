@@ -17,7 +17,7 @@
 @elseif(Session::has('fail'))
     <div class="row justify-content-end m-2 fixed-bottom">
         <div class="hint alert alert-danger alert-sm alert-dismissible col fade show text-center" role="alert">
-            <span class="text-wrap">{{ Session::get('success') }}</span>
+            <span class="text-wrap">{{ Session::get('fail') }}</span>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -49,11 +49,11 @@
                     <div>
                         <h3 type="button" id="appointment" class="px-3 yellow-index">教室預約</h3>
                         <div id="subindex" class="d-none pb-3">
-                            <a class="text-decoration-none" href="">
-                                <h5 class="px-2 yellow-subindex">單次預約</h5>
+                            <a class="text-decoration-none" href="{{ route('reservation.new') }}">
+                                <h5 class="px-2 yellow-subindex">新增預約</h5>
                             </a>
-                            <a class="text-decoration-none" href="">
-                                <h5 class="px-2 yellow-subindex">長期預約</h5>
+                            <a class="text-decoration-none" href="{{ route('reservation.list') }}">
+                                <h5 class="px-2 yellow-subindex">預約清單</h5>
                             </a>
                         </div>
                     </div>

@@ -162,10 +162,9 @@ class ApplicationController extends Controller
                 $executed = $equipment->save();
 
                 if(!$executed){
-                    $equipments = RentEquipment::where('application_id', $application->id)->toArray();
-                    foreach($equipments as $equipment){
-                        $equipment->delete();
-                    }
+                    $equipments = RentEquipment::where('application_id', $application->id);
+                    
+                    $equipments->delete();
 
                     $application->delete();
 

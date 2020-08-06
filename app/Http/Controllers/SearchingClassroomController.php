@@ -13,6 +13,7 @@ class SearchingClassroomController extends Controller
 {
     public function getList(){
         $classrooms = SearchingClassroom::all();
+        
         return view('searching.index', ['classrooms' => $classrooms]);
     }
     
