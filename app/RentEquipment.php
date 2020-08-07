@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class RentEquipment extends Model
 {
     protected $fillable = [
-        'application_id', 'name', 'index', 'quantity', 'usage', 'remark', 'status'
+        'application_id', 'genre', 'item', 'quantity', 'usage', 'remark', 'status'
     ];
 }

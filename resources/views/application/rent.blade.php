@@ -66,8 +66,8 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <td>名稱</td>
-                                <td>子分類</td>
+                                <td>種類</td>
+                                <td>項目</td>
                                 <td>數量</td>
                                 <td>借出</td>
                             </tr>
@@ -91,8 +91,8 @@
                             @endif
                             @foreach ($rent_equipments as $rent_equipment)
                                 <tr>
-                                    <td>{{ $rent_equipment['name'] }}</td>
-                                    <td>{{ $rent_equipment['index'] }}</td>
+                                    <td>{{ $rent_equipment['genre'] }}</td>
+                                    <td>{{ $rent_equipment['item'] }}</td>
                                     <td>{{ $rent_equipment['quantity'] }}</td>
                                     <td>
                                         <input type="checkbox" name="rent[]" id="rent{{ $rent_equipment['id'] }}" value="{{ $rent_equipment['id'] }}">

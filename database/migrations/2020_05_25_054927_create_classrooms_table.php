@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSearchingClassroomsTable extends Migration
+class CreateClassroomsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,12 @@ class CreateSearchingClassroomsTable extends Migration
      */
     public function up()
     {
-        Schema::create('searching_classrooms', function (Blueprint $table) {
+        Schema::create('classrooms', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
             $table->string('classroomName');
             $table->string('imagePath');
-            $table->text('equipmentDescription');
+            $table->string('equipmentDescription');
         });
     }
 
@@ -28,6 +28,6 @@ class CreateSearchingClassroomsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('searching_classrooms');
+        Schema::dropIfExists('classrooms');
     }
 }

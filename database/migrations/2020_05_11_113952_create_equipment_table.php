@@ -10,8 +10,8 @@ class CreateEquipmentTable extends Migration
         Schema::create('equipment', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('name');
-            $table->string('index')->nullable();
+            $table->string('genre');
+            $table->string('item');
             $table->integer('quantity');
         });
     }

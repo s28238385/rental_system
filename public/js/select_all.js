@@ -1,9 +1,9 @@
 $("document").ready(function () {
     $("#all").click(function () {
         if ($("#all").is(":checked")) {
-            $("input[id^='rent']").prop("checked", true);
+            $("input[type='checkbox']").prop("checked", true);
         } else {
-            $("input[id^='rent']").prop("checked", false);
+            $("input[type='checkbox']").prop("checked", false);
         }
     });
 });

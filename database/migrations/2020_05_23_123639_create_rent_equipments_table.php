@@ -25,8 +25,8 @@ class CreateRentEquipmentsTable extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
             $table->bigInteger('application_id')->unsigned();
-            $table->string('name');
-            $table->string('index')->nullable();
+            $table->string('genre');
+            $table->string('item');
             $table->integer('quantity');
             $table->string('usage');
             $table->text('remark')->nullable();

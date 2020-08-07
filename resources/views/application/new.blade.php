@@ -28,7 +28,7 @@
             </h5>
             <ol>
                 <li>鑰匙不得轉借他人使用，委託他人歸還時借用人仍須對教室之狀態負責並遵守資管系教室使用規定。</li>
-                <li>一筆申請單只借一個時段，欲連續借用者，請務必於「其他」欄位說明，否則一律視為逾期歸還。</li>
+                <li>一筆申請單只借一個時段，欲連續借用者，請務必於「備註」欄位說明，否則一律視為逾期歸還。</li>
                 <li>使用105、107、017教室上課時教室內二個門都請務必要開啟，下課時務必再次確認二個門是否都有關好。</li>
                 <li>離開前務必確認教室內之 1.冷氣 2.投影機 3.電燈 4.電腦或電子講桌 5.麥克風 6.桌上之總電源 7.門窗等，是否都已關閉？</li>
                 <li>在關門時，請再次確認門是否上鎖了(要鎖到底)。</li>
@@ -149,12 +149,12 @@
     </div>
     <div class="form-row">
         <div class="form-group col-md-4">
-            <label for="equipment_name[]">設備名稱</label>
-            <select name="equipment_name[]" id="equipment_name" class="form-control"></select>
+            <label for="genre[]">種類</label>
+            <select name="genre[]" id="genre" class="form-control"></select>
         </div>
         <div class="form-group col-md-4">
-            <label for="index[]">分類</label>
-            <select name="index[]" id="index" class="form-control"></select>
+            <label for="item[]">項目</label>
+            <select name="item[]" id="item" class="form-control"></select>
         </div>
         <div class="form-group col-md-4">
             <label for="quantity[]">數量</label>

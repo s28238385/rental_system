@@ -67,6 +67,10 @@ i {
     height: 36px;
 }
 
+.table-cell-8 {
+    width: calc(100% / 8);
+}
+
 /*
  *homepage
  */
@@ -140,4 +144,35 @@ i {
 
 #classroomTab .active {
     color: #000;
+}
+
+.bg-grey {
+    background-color: rgba(189, 195, 199, 0.4);
+}
+
+.bg-green {
+    background-color: #b5eae8;
+}
+
+.user_explain {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.loader {
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #007bff;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

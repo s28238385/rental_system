@@ -52,7 +52,7 @@
                     <tr>
                         <td>{{ $reservation->id }}</td>
                         <td>{{ $reservation->name }}</td>
-                        <td>{{ $reservation->reason }}</td>
+                        <td class="text-break">{{ $reservation->reason }}</td>
                         <td>{{ $reservation->classroom }}</td>
                         <td>{{ $reservation->date }}</td>
                         <td>{{ $reservation->begin_time }}</td>

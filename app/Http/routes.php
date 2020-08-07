@@ -187,27 +187,19 @@ Route::group(['prefix' => 'equipment', 'middleware' => ['auth', 'role']], functi
 
 //searchingClassroom
 Route::group(['prefix' => 'classroom'], function () {
-    Route::get('/', [
-        'uses' => 'SearchingClassroomController@getList',
-        'as' => 'classroom.getList'
-    ]);
-
     //經searching選擇教室後的status導向
-    Route::post('/status', [
-        'uses' => 'SearchingClassroomController@postStatus',
+    Route::get('/status', [
+        'uses' => 'ClassroomController@getStatus',
         'as' => 'classroom.status'
     ]);
-
-    //直接訪問status網址處理 
-    Route::get('/status', [
-        'uses' => 'SearchingClassroomController@getStatus',
-        'as' => 'classroom.getStatus'
+    
+    // 載入預約資料到calender上
+    Route::post('/statusCalender', [
+        'uses' => 'ClassroomController@ajaxGetReservation',
+        'as' => 'status.ajax'
     ]);
 });
-// 載入預約資料到calender上
-Route::get('/statusCalender', [
-    'uses' => 'SearchingClassroomController@ajaxGetReservation'
-]);
+
 
 Route::group(['prefix' => 'reservation', 'middleware' => 'auth'], function () {
     Route::get('/list', [

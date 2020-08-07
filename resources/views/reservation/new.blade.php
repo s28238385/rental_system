@@ -90,7 +90,7 @@
                                 </div>
                                 <div>
                                     <input type="checkbox" name="loop_day[]" id="thursday" value="thursday">
-                                <label for="thurday">星期四</label>
+                                <label for="thursday">星期四</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" name="loop_day[]" id="friday" value="friday">

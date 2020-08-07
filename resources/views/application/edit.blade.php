@@ -6,8 +6,11 @@
 
 @section('script')
 <script>
-    <?php include('js/application_edit.js'); ?>
+    let application = <?php echo json_encode($application); ?>;
+    let rent_equipments = <?php echo json_encode($rent_equipments); ?>;
+    let equipments = <?php echo json_encode($equipments); ?>;
 </script>
+<script src="{{ URL::asset('js/application_edit.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('content')
@@ -63,8 +66,8 @@
                         </div>
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="return_time[]">歸還時間</label>
-                        <input type="text" class="form-control" name="return_time[]" id="return_time[]" value="{{ $application->return_time }}">
+                        <label for="return_time">歸還時間</label>
+                        <input type="text" class="form-control" name="return_time" id="return_time" value="{{ $application->return_time }}">
                     </div>
                 </div>
             </div>
@@ -122,12 +125,12 @@
     <div class="form-row">
         <input type="text" name="equipment_id[]" id="equipment_id" class="d-none">
         <div class="form-group col-md-4">
-            <label for="equipment_name[]">設備名稱</label>
-            <select name="equipment_name[]" id="equipment_name" class="form-control"></select>
+            <label for="genre[]">設備種類</label>
+            <select name="genre[]" id="genre" class="form-control"></select>
         </div>
         <div class="form-group col-md-4">
-            <label for="index[]">分類</label>
-            <select name="index[]" id="index" class="form-control"></select>
+            <label for="item[]">項目<span class="required">*</span></label>
+            <select name="item[]" id="item" class="form-control"></select>
         </div>
         <div class="form-group col-md-4">
             <label for="quantity[]">數量</label>

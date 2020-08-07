@@ -18,16 +18,16 @@
         <form action="{{ route('equipment.edit', ['id' => $equipment->id]) }}" method="post">
             {{ csrf_field() }}
             <div class="form-group">
-                <label for="name">名稱：<span class="required">*</span></label>
-                <input type="text" id="name" name="name" class="form-control" placeholder="種類" autocomplete="off" value="<?=$equipment->name?>">
+                <label for="genre">種類<span class="required">*</span></label>
+                <input type="text" id="genre" name="genre" class="form-control" placeholder="種類" autocomplete="off" value="{{ $equipment->genre }}" required>
             </div>
             <div class="form-group">
-                <label for="index">索引：</label>
-                <input type="text" id="index" name="index" class="form-control" placeholder="項目" autocomplete="off" value="<?=$equipment->index?>">
+                <label for="item">項目<span class="required">*</span></label>
+                <input type="text" id="item" name="item" class="form-control" placeholder="項目" autocomplete="off" value="{{ $equipment->item }}" required>
             </div>
             <div class="form-group">
-                <label for="quantity">數量：<span class="required">*</span></label>
-                <input type="text" id="quantity" name="quantity" class="form-control" placeholder="數量" autocomplete="off" value="<?=$equipment->quantity?>">
+                <label for="quantity">數量<span class="required">*</span></label>
+                <input type="text" id="quantity" name="quantity" class="form-control" placeholder="數量" autocomplete="off" value="{{ $equipment->quantity }}" required>
             </div>
             <div class="d-flex justify-content-center">
                 <button type="submit" class="btn btn-outline-primary px-3">修改</button>

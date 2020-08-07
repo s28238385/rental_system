@@ -84,51 +84,51 @@ $("document").ready(function () {
     });
 
     let equipments = <?php echo json_encode($equipments); ?>;
-    let namekey, indexkey, index, quantity;
+    let genrekey, itemkey, item, quantity;
 
     function equipmentBuildUp(equipment/*jQuery Object*/) {
-        equipment.find("#equipment_name").children().remove().end();
-        Object.keys(equipments).forEach((element) => equipment.find('#equipment_name').append(new Option(element)));
-        namekey = equipment.find("#equipment_name option:selected").val();
-        equipment.find("#index").children().remove().end();
-        Object.keys(equipments[namekey]).forEach((element) =>
-            equipment.find("#index").append(new Option(element))
+        equipment.find("#genre").children().remove().end();
+        Object.keys(equipments).forEach((element) => equipment.find('#genre').append(new Option(element)));
+        genrekey = equipment.find("#genre option:selected").val();
+        equipment.find("#item").children().remove().end();
+        Object.keys(equipments[genrekey]).forEach((element) =>
+            equipment.find("#item").append(new Option(element))
         );
 
-        indexkey = equipment.find("#index option:selected").val();
+        itemkey = equipment.find("#item option:selected").val();
         equipment.find("#quantity").children().remove().end();
-        for (let i = 1; i <= equipments[namekey][indexkey]["quantity"]; i++) {
+        for (let i = 1; i <= equipments[genrekey][itemkey]["quantity"]; i++) {
             equipment.find("#quantity").append(new Option(i));
         }
     }
 
-    $("#equipment_name").change(function () {
-        namekey = $(this).find("option:selected").val();
-        index = $(this).parents("#equipment").find("#index");
-        index.children().remove().end();
-        Object.keys(equipments[namekey]).forEach((element) =>
-            index.append(new Option(element))
+    $("#genre").change(function () {
+        genrekey = $(this).find("option:selected").val();
+        item = $(this).parents("#equipment").find("#item");
+        item.children().remove().end();
+        Object.keys(equipments[genrekey]).forEach((element) =>
+            item.append(new Option(element))
         );
 
-        indexkey = index.find("option:selected").val();
+        itemkey = item.find("option:selected").val();
         quantity = $(this).parents("#equipment").find("#quantity");
         quantity.children().remove().end();
-        console.log(namekey, indexkey);
-        for (let i = 1; i <= equipments[namekey][indexkey]["quantity"]; i++) {
+        console.log(genrekey, itemkey);
+        for (let i = 1; i <= equipments[genrekey][itemkey]["quantity"]; i++) {
             quantity.append(new Option(i));
         }
     });
 
-    $("#index").change(function () {
-        namekey = $(this)
+    $("#item").change(function () {
+        genrekey = $(this)
             .parents("#equipment")
-            .find("#equipment_name option:selected")
+            .find("#genre option:selected")
             .val();
-        indexkey = $(this).find("option:selected").val();
+        itemkey = $(this).find("option:selected").val();
         quantity = $(this).parents("#equipment").find("#quantity");
         quantity.children().remove().end();
-        console.log(namekey, indexkey);
-        for (let i = 1; i <= equipments[namekey][indexkey]["quantity"]; i++) {
+        console.log(genrekey, itemkey);
+        for (let i = 1; i <= equipments[genrekey][itemkey]["quantity"]; i++) {
             quantity.append(new Option(i));
         }
     });

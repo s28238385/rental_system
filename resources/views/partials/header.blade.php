@@ -6,7 +6,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link header-button" href="{{route('classroom.getList')}}">教室預約狀況</a>
+                <a class="nav-link header-button" href="{{route('classroom.status')}}">教室預約狀況</a>
             </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle header-button" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

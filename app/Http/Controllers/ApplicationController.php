@@ -8,7 +8,7 @@ use App\Http\Requests;
 
 use App\Application;
 
-use App\SearchingClassroom;
+use App\Classroom;
 
 use App\RentEquipment;
 
@@ -34,8 +34,8 @@ class ApplicationController extends Controller
     }
 
     public function getNew(){
-        //取出所有在searching_classrooms table裡classroomName的資料
-        $classroomNames = SearchingClassroom::all(['classroomName'])->pluck('classroomName')->toarray();
+        //取出所有在classrooms table裡classroomName的資料
+        $classroomNames = Classroom::all(['classroomName'])->pluck('classroomName')->toarray();
 
         //產生歸還日期
         if(Date("N") == 5){
@@ -46,11 +46,11 @@ class ApplicationController extends Controller
         }
 
         //取出所有在equipment table裡的資料，並依name排序，再依name分類
-        $equipments = Equipment::all()->sortBy('name')->groupBy('name');
+        $equipments = Equipment::all()->sortBy('genre')->groupBy('genre');
         
-        //把$equipments中的array元素依index分類，並更改其索引值為index
+        //把$equipments中的array元素依item分類，並更改其索引值為item
         foreach($equipments as $key => $value){
-            $equipments[$key] = $value->sortBy('index')->keyBy('index');
+            $equipments[$key] = $value->sortBy('item')->keyBy('item');
         }
         //把資料型態從Collection object變成array
         $equipments = $equipments->toArray();
@@ -61,7 +61,7 @@ class ApplicationController extends Controller
 
     public function postNew(Request $request){
         //檢查有無借用教室或設備
-        if(is_null($request->input('wantRentChk')) && empty($request->equipment_name[0])){
+        if(is_null($request->input('wantRentChk')) && empty($request->genre[0])){
             return redirect()->back()->withError('沒有借用教室或設備！');
         }
 
@@ -102,10 +102,12 @@ class ApplicationController extends Controller
         }
 
         //根據是否借用設備進行驗證
-        if(!is_null($request->equipment_name[0])){
+        if(!is_null($request->genre[0])){
             $this->validate($request, [
-                'equipment_name' => 'required|array',
-                'equipment_name.*' => 'required|string',
+                'genre' => 'required|array',
+                'genre.*' => 'required|string',
+                'item' => 'required|array',
+                'item.*' => 'required|string',
                 'quantity' => 'required|array',
                 'quantity.*' => 'required|integer',
                 'usage' => 'required|array',
@@ -132,9 +134,6 @@ class ApplicationController extends Controller
             $application->identity = $request->input('identity');
             $application->phone = $request->input('phone');
         }
-        else {
-            return redirect()->back()->withError('聯絡號碼格式不符');
-        }
         
         if (!is_null($request->wantRentChk)) {
             $application->classroom = $request->input('classroom');
@@ -142,18 +141,21 @@ class ApplicationController extends Controller
             $application->teacher = ($request->teacher === "") ? '無' : $request->input('teacher');
             $application->key_status = '已建立';
         }
+        else {
+            $application->key_status = '無';
+        }
         $executed = $application->save();
 
         if(!$executed){
             return redirect('/')->with('fail', '新增申請失敗！');
         }
 
-        if(!empty($request->equipment_name[0])){
-            for ($i = 0; $i < count($request->input('equipment_name')); $i++) {
+        if(!empty($request->genre[0])){
+            for ($i = 0; $i < count($request->input('genre')); $i++) {
                 $equipment = new RentEquipment([
                     'application_id' => $application->id,
-                    'name' => $request->equipment_name[$i],
-                    'index' => $request->index[$i],
+                    'genre' => $request->genre[$i],
+                    'item' => $request->item[$i],
                     'quantity' => $request->quantity[$i],
                     'usage' => $request->usage[$i],
                     'remark' => ($request->remark[$i] === "") ? '無' : $request->remark[$i],
@@ -172,7 +174,6 @@ class ApplicationController extends Controller
                 }
             }
         }
-        
 
         if($executed){
             return redirect()->route('application.list')->with('success', '新增申請成功！');
@@ -181,27 +182,27 @@ class ApplicationController extends Controller
 
     public function getEdit($application_id) {
         $application = Application::find($application_id);
-        $classroomNames = SearchingClassroom::all(['classroomName'])->pluck('classroomName')->toarray();
+        $classroomNames = Classroom::all(['classroomName'])->pluck('classroomName')->toarray();
 
-        //取出所有在equipment table裡的資料，並依name排序，再依name分類
-        $equipments = Equipment::all()->sortBy('name')->groupBy('name');
+        //取出所有在equipment table裡的資料，並依genre排序，再依genre分類
+        $equipments = Equipment::all()->sortBy('genre')->groupBy('genre');
         
-        //把$equipments中的array元素依index分類，並更改其索引值為index
+        //把$equipments中的array元素依item分類，並更改其索引值為item
         foreach($equipments as $key => $value){
-            $equipments[$key] = $value->sortBy('index')->keyBy('index');
+            $equipments[$key] = $value->sortBy('item')->keyBy('item');
         }
         //把資料型態從Collection object變成array
         $equipments = $equipments->toArray();
 
         $rent_equipments = RentEquipment::all()->where('application_id', $application->id)->toArray();
 
-        //dd($application_id);
+        //dd($rent_equipments);
         return view('application.edit', ['application' => $application, 'classroomNames' => $classroomNames, 'equipments' => $equipments, 'rent_equipments' => $rent_equipments]);
     }
 
     public function postEdit(Request $request, $application_id) {
         //檢查有無借用教室或設備
-        if(is_null($request->input('wantRentChk')) && empty($request->equipment_name[0])){
+        if(is_null($request->input('wantRentChk')) && empty($request->genre[0])){
             return redirect()->back()->withError('沒有借用教室或設備！');
         }
 
@@ -242,10 +243,10 @@ class ApplicationController extends Controller
         }
 
         //根據是否借用設備進行驗證
-        if(!is_null($request->equipment_name[0])){
+        if(!is_null($request->genre[0])){
             $this->validate($request, [
-                'equipment_name' => 'required|array',
-                'equipment_name.*' => 'required|string',
+                'genre' => 'required|array',
+                'genre.*' => 'required|string',
                 'quantity' => 'required|array',
                 'quantity.*' => 'required|integer',
                 'usage' => 'required|array',
@@ -257,7 +258,8 @@ class ApplicationController extends Controller
         $rent_equipments_id = RentEquipment::all()->where('application_id', $application->id)->pluck(['id'])->toArray();
 
         $application->name = $request->input('name');
-        $application->return_time = date_create_from_format('Y-m-d H:i', implode($request->input('return_time'),""));
+        $application->return_time = Date('Y-m-d H:i:s', strtotime($request->input('return_time')));
+        //dd($application->return_time);
 
         if ($request->input('identity') === "學生") {
             $application->identity = $request->input('grade');
@@ -273,9 +275,6 @@ class ApplicationController extends Controller
             $application->identity = $request->input('identity');
             $application->phone = $request->input('phone');
         }
-        else {
-            return redirect()->back()->withError('聯絡號碼格式不符');
-        }
         
         if (!is_null($request->wantRentChk)) {
             $application->classroom = $request->input('classroom');
@@ -288,12 +287,12 @@ class ApplicationController extends Controller
             return redirect('/')->with('fail', '修改申請失敗，請再次嘗試！');
         }
 
-        for($i = 0; $i < count($request->equipment_name); $i++){
+        for($i = 0; $i < count($request->genre); $i++){
             if($request->equipment_id[$i] != "" && array_search($request->equipment_id[$i], $rent_equipments_id) >= 0){
                 $rent_equipment = RentEquipment::find($request->equipment_id[$i]);
 
-                $rent_equipment->name = $request->equipment_name[$i];
-                $rent_equipment->index = $request->index[$i];
+                $rent_equipment->genre = $request->genre[$i];
+                $rent_equipment->item = $request->item[$i];
                 $rent_equipment->quantity = $request->quantity[$i];
                 $rent_equipment->usage = $request->usage[$i];
                 $rent_equipment->remark = ($request->remark[$i] === "") ? '無' : $request->remark[$i];
@@ -309,8 +308,8 @@ class ApplicationController extends Controller
             else {
                 $rent_equipment = new RentEquipment([
                     'application_id' => $application->id,
-                    'name' => $request->equipment_name[$i],
-                    'index' => $request->index[$i],
+                    'genre' => $request->genre[$i],
+                    'item' => $request->item[$i],
                     'quantity' => $request->quantity[$i],
                     'usage' => $request->usage[$i],
                     'remark' => ($request->remark[$i] === "") ? '無' : $request->remark[$i],

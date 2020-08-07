@@ -34,7 +34,7 @@ class CreateApplicationTable extends Migration
             $table->string('teacher')->nullable();
             $table->datetime('return_time');
             $table->enum('all_status', ['已建立', '借出中', '部分歸還', '已歸還']);
-            $table->enum('key_status', ['已建立', '借出中', '已歸還']);
+            $table->enum('key_status', ['無', '已建立', '借出中', '已歸還']);
         });
     }
 

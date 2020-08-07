@@ -11,7 +11,7 @@ use App\Equipment;
 class EquipmentController extends Controller
 {
     public function getList(){
-        $equipments = Equipment::all()->sortBy('index')->sortBy('name');
+        $equipments = Equipment::all()->sortBy('item')->sortBy('genre');
 
         return view('equipment.list', ['equipments' => $equipments]);
     }
@@ -22,19 +22,18 @@ class EquipmentController extends Controller
 
     public function postAdd(Request $request){
         $this->validate($request, [
-            'name' => 'required',
-            'index',
-            'quantity' => 'required'
+            'genre' => 'required|string',
+            'item' => 'required|string',
+            'quantity' => 'required|integer'
         ]);
 
-        if(Equipment::where('name', $request->input('name'))->where('index', $request->input('index'))->first()){
-            
+        if(Equipment::where('genre', $request->input('genre'))->where('item', $request->input('item'))->first()){
             return redirect()->back()->withErrors('已有重複的設備與分類組合');
         }
 
         $equipment = new Equipment([
-            'name' => $request->input('name'),
-            'index' => $request->input('index'),
+            'genre' => $request->input('genre'),
+            'item' => $request->input('item'),
             'quantity' => $request->input('quantity')
         ]);
         $executed = $equipment->save();
@@ -55,20 +54,20 @@ class EquipmentController extends Controller
 
     public function postEdit(Request $request, $id){
         $this->validate($request, [
-            'name' => 'required',
-            'index',
-            'quantity' => 'required'
+            'genre' => 'required|string',
+            'item' => 'required|string',
+            'quantity' => 'required|integer'
         ]);
 
-        if(Equipment::where('id', '<>', $id)->where('name', $request->input('name'))->where('index', $request->input('index'))->first()){
+        if(Equipment::where('id', '<>', $id)->where('genre', $request->input('genre'))->where('item', $request->input('item'))->first()){
             
             return redirect()->back()->withErrors('已有重複的設備與分類組合');
         }
 
         $equipment = Equipment::find($id);
 
-        $equipment->name = $request->input('name');
-        $equipment->index = $request->input('index');
+        $equipment->genre = $request->input('genre');
+        $equipment->item = $request->input('item');
         $equipment->quantity = $request->input('quantity');
         $executed = $equipment->save();
 
