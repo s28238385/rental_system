@@ -13,25 +13,18 @@ class CreateRentEquipmentsTable extends Migration
     public function up()
     {
         Schema::create('rent_equipments', function (Blueprint $table) {
-            // id: pk
-            // timestamps: 申請時間
-            // genre: 設備種類
-            // item: 設備名稱
-            // quantity: 借用數量
-            // usage: 用途
-            // return_time: 歸還時間
-            // remark: 備註
-            // apply_id: fk屬於哪一次申請
-            $table->increments('id');
-            $table->timestamps();
-            $table->string('genre');
-            $table->string('item')->nullable();
-            $table->integer('quantity');
-            $table->string('usage');
-            $table->dateTime('return_time');
-            $table->text('remark')->nullable();
-            $table->integer('apply_id')->unsigned();
-            $table->foreign('apply_id')->references('id')->on('applies');
+            $table->bigIncrements('id');
+            $table->timestamps();   //建立、更新時間
+            $table->bigInteger('application_id')->unsigned(); //申請資料的id
+            $table->string('genre');    //種類
+            $table->string('item'); //項目
+            $table->integer('quantity');    //數量
+            $table->string('usage');    //用途
+            $table->text('remark')->nullable(); //備註
+            $table->enum('status', ['申請中', '借出中', '已歸還']); //借用狀態
+
+            //指定application_id為FK，指向applications table的id
+            $table->foreign('application_id')->references('id')->on('applications');
         });
     }
 
@@ -42,6 +35,6 @@ class CreateRentEquipmentsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('rent_equipments');
+        Schema::dropIfExists('rent_equipments');
     }
 }

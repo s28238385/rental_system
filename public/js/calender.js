@@ -1,31 +1,84 @@
-function fillInDates(sun){
+//填入該周 年/月/日 星期
+function fillInDates(sun) {
     let weekTraverse = new Date(sun);
 
-    $('#Sun').html(weekTraverse.getFullYear() + "<br>" + (weekTraverse.getMonth() + 1) + "/" + weekTraverse.getDate() + "<br>（日）");
+    $("#Sun").html(
+        weekTraverse.getFullYear() +
+            "<br>" +
+            (weekTraverse.getMonth() + 1) +
+            "/" +
+            weekTraverse.getDate() +
+            "<br>（日）"
+    );
     weekTraverse.addDay(1);
-    $('#Mon').html(weekTraverse.getFullYear() + "<br>" + (weekTraverse.getMonth() + 1) + "/" + weekTraverse.getDate() + "<br>（一）");
+    $("#Mon").html(
+        weekTraverse.getFullYear() +
+            "<br>" +
+            (weekTraverse.getMonth() + 1) +
+            "/" +
+            weekTraverse.getDate() +
+            "<br>（一）"
+    );
     weekTraverse.addDay(1);
-    $('#Tue').html(weekTraverse.getFullYear() + "<br>" + (weekTraverse.getMonth() + 1) + "/" + weekTraverse.getDate() + "<br>（二）");
+    $("#Tue").html(
+        weekTraverse.getFullYear() +
+            "<br>" +
+            (weekTraverse.getMonth() + 1) +
+            "/" +
+            weekTraverse.getDate() +
+            "<br>（二）"
+    );
     weekTraverse.addDay(1);
-    $('#Wed').html(weekTraverse.getFullYear() + "<br>" + (weekTraverse.getMonth() + 1) + "/" + weekTraverse.getDate() + "<br>（三）");
+    $("#Wed").html(
+        weekTraverse.getFullYear() +
+            "<br>" +
+            (weekTraverse.getMonth() + 1) +
+            "/" +
+            weekTraverse.getDate() +
+            "<br>（三）"
+    );
     weekTraverse.addDay(1);
-    $('#Thu').html(weekTraverse.getFullYear() + "<br>" + (weekTraverse.getMonth() + 1) + "/" + weekTraverse.getDate() + "<br>（四）");
+    $("#Thu").html(
+        weekTraverse.getFullYear() +
+            "<br>" +
+            (weekTraverse.getMonth() + 1) +
+            "/" +
+            weekTraverse.getDate() +
+            "<br>（四）"
+    );
     weekTraverse.addDay(1);
-    $('#Fri').html(weekTraverse.getFullYear() + "<br>" + (weekTraverse.getMonth() + 1) + "/" + weekTraverse.getDate() + "<br>（五）");
+    $("#Fri").html(
+        weekTraverse.getFullYear() +
+            "<br>" +
+            (weekTraverse.getMonth() + 1) +
+            "/" +
+            weekTraverse.getDate() +
+            "<br>（五）"
+    );
     weekTraverse.addDay(1);
-    $('#Sat').html(weekTraverse.getFullYear() + "<br>" + (weekTraverse.getMonth() + 1) + "/" + weekTraverse.getDate() + "<br>（六）");
+    $("#Sat").html(
+        weekTraverse.getFullYear() +
+            "<br>" +
+            (weekTraverse.getMonth() + 1) +
+            "/" +
+            weekTraverse.getDate() +
+            "<br>（六）"
+    );
 }
 
-Date.prototype.addDay = function(days) {
+//宣告新的date function
+//增減日期
+Date.prototype.addDay = function (days) {
     this.setDate(this.getDate() + days);
 
     return this;
-}
+};
 
-Date.prototype.getSunday = function() {
+//取得該周的星期日
+Date.prototype.getSunday = function () {
     let day = this.getDay();
 
-    switch(day){
+    switch (day) {
         case 0:
             break;
         case 1:
@@ -52,47 +105,48 @@ Date.prototype.getSunday = function() {
             this.addDay(-6);
             break;
     }
-}
+};
 
-Date.prototype.toPreviousWeek = function(){
-    this.addDay(-7);
+$("document").ready(function () {
+    let sundayOfShowingWeek = new Date(); //顯示周的星期日
 
-    fillInDates(this);
-}
+    //剛載入頁面時顯示當周
+    sundayOfShowingWeek.setTime(Date.now());
+    sundayOfShowingWeek.getSunday();
 
-Date.prototype.toThisWeek = function(){
-    this.setTime(Date.now());
-    this.getSunday();
-    
-    fillInDates(this);
-}
+    fillInDates(sundayOfShowingWeek);
 
-Date.prototype.toNextWeek = function(){
-    this.addDay(7);
-    
-    fillInDates(this);
-}
+    //點選上一周時
+    $("#toPreviousWeek").click(function () {
+        sundayOfShowingWeek.addDay(-7);
 
-$('document').ready(function(){
-    let sundayOfShowingWeek = new Date();
-    sundayOfShowingWeek.toThisWeek();
-
-    $('#toPreviousWeek').click(function(){
-        sundayOfShowingWeek.toPreviousWeek();
+        fillInDates(sundayOfShowingWeek);
     });
 
-    $('#toThisWeek').click(function(){
-        sundayOfShowingWeek.toThisWeek();
-    });
-
-    $('#toNextWeek').click(function(){
-        sundayOfShowingWeek.toNextWeek();
-    });
-
-    $('#toCertainWeek').click(function(){
-        sundayOfShowingWeek = new Date($('#date-select').val());
+    //點選回本周時
+    $("#toThisWeek").click(function () {
+        sundayOfShowingWeek.setTime(Date.now());
         sundayOfShowingWeek.getSunday();
 
         fillInDates(sundayOfShowingWeek);
-    })
+    });
+
+    //點選下一周時
+    $("#toNextWeek").click(function () {
+        sundayOfShowingWeek.addDay(7);
+
+        fillInDates(sundayOfShowingWeek);
+    });
+
+    //點選前往時
+    $("#toCertainWeek").click(function () {
+        if ($("#date-select").val() != "") {
+            sundayOfShowingWeek = new Date();
+            sundayOfShowingWeek.getSunday();
+
+            fillInDates(sundayOfShowingWeek);
+        } else {
+            alert("沒有填入要前往的日期");
+        }
+    });
 });

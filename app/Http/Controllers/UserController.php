@@ -2,174 +2,176 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+
+use App\Http\Requests;
+
+//Laravel登入認證與雜湊資源
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
+//資料庫model
+use App\User;
 
 class UserController extends Controller
 {
-    public function getSignup()
-    {
+    //取得註冊頁面
+    public function getSignup() {
+        //回傳user.signup
         return view('user.signup');
     }
-    public function postSignup(Request $request)
-    {
+
+    //存入註冊資料
+    public function postSignup(Request $request) {
+        //進行輸入驗證
         $this->validate($request, [
-            'name' => 'required',
+            'name' => 'required|string',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
-            'confirm' => 'required_with:password|same:password|min:6',
+            'password' => 'required|min:6|max:20',
+            'confirm' => 'required_with:password|same:password|min:6|max:20',
             'role' => "required"
         ]);
 
+        //建立model以輸入資料
         $user = new User([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => bcrypt($request->input('password')),
             'role' => $request->input('role'),
         ]);
-        $user->save();
-        return redirect()->route('user.userlist');
+        $executed = $user->save();
+
+        //重導回user.userlist，若未成功存入新使用者資料則傳回失敗訊息，若成功存入新使用者資料則傳回成功訊息
+        if(!$executed){
+            return redirect()->route('user.userlist')->with('fail', '註冊使用者失敗，請再次嘗試！');
+        }
+        else {
+            return redirect()->route('user.userlist')->with('success', '註冊使用者成功！');
+        }
     }
-    public function getSignin()
-    {
-        if (!Auth::check()) {
-            return view('user.signin');
-        } else
-            return view('homepage');
+
+    //取得登入頁面
+    public function getSignin() {
+        //回傳user.signin
+        return view('user.signin');
     }
-    public function postSignin(Request $request)
-    {
+
+    //登入檢查
+    public function postSignin(Request $request) {
+        //驗證輸入值
         $this->validate($request, [
             'email' => 'email|required',
-            'password' => 'required|min:6'
+            'password' => 'required|min:6|max:20'
         ]);
+
+        //登入嘗試
         if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
-            return view('homepage');
+            //重導至首頁並顯示成功訊息
+            return redirect('/')->with('success', '登入成功！');
         }
-        return redirect()->back()->withErrors(['fail' => 'Email or password is wrong!']);
+
+        //重導至前一頁面並顯示錯誤訊息
+        return redirect()->back()->withErrors('電子信箱或密碼有誤')->withInput();
     }
-    public function getProfile()
-    {
-        return view('user.profile');
-    }
-    public function getIndex()
-    {
-    }
-    public function getLogout()
-    {
+
+    //登出
+    public function getLogout() {
+        //Laravel登出指令
         Auth::logout();
-        return  view('homepage');
+
+        //重導至首頁並顯示成功訊息
+        return redirect('/')->with('success', '登出成功！');
     }
-    public function postChangepw(Request $request)
-    {
-        $this->validate($request, [
-            'oldpassword' => 'required|min:6',
-            'newpassword' => 'required|min:6',
-            'confirmnewpassword' => 'required_with:newpassword|same:newpassword|min:6'
-        ]);
-        $id = Auth::user()->id;
-        $oldpassword = $request->input('oldpassword');
-        $newpassword = $request->input('newpassword');
-        $res = DB::table('users')->where('id', $id)->select('password')->first();
-        if (!Hash::check($oldpassword, $res->password)) {
-            echo 2;
-            return redirect()->back()->withErrors(['fail' => 'oldpassword is wrong!']); //原密碼不對
-        }
-        $update = array(
-            'password'  => bcrypt($newpassword),
-        );
-        $result = DB::table('users')->where('id', $id)->update($update);
-        if ($result) {
-            echo 1;
-            return redirect()->route('user.profile')->with(['success'=> '修改密碼成功!!!']);
-        } else {
-            echo 3;
-            exit;
-            return redirect()->route('user.profile');
-        }
-    }
-    public function getChangepw()
-    {
+
+    //取得更改密碼頁面
+    public function getChangepw() {
+        //回傳user.changepw
         return view('user.changepw');
     }
-    public function getresetphone()
-    {
-        return view('user.resetphone');
-    }
-    public function postresetphone(Request $request)
-    {
+
+    //更新新密碼
+    public function postChangepw(Request $request) {
+        //輸入驗證
         $this->validate($request, [
-            'oldphone' => 'required|min:10',
-            'newphone' => 'required|min:10',
+            'oldpassword' => 'required|min:6|max:20',
+            'newpassword' => 'required|min:6|max:20',
+            'confirmnewpassword' => 'required_with:newpassword|same:newpassword|min:6|max:20'
         ]);
-        $id = Auth::user()->id;
-        $oldphone = $request->input('oldphone');
-        $newphone = $request->input('newphone');
-        $res = DB::table('users')->where('id', $id)->select('phone')->first();
-        if ($res->phone != $oldphone) {
-            echo 2;
-            return redirect()->back()->withErrors(['fail' => 'old password is wrong!']); //原密碼不對
+
+        //透過登入中的user id取出資料
+        $user = User::find( Auth::user()->id );
+
+        //檢查舊密碼是否相符
+        if ( !Hash::check($request->input('oldpassword'), $user->password) ) {
+            //重導至前一頁面並附帶錯誤訊息
+            return redirect()->back()->withErrors('舊密碼不相符'); //原密碼不對
         }
-        $update = array(
-            'phone'  => $newphone,
-        );
-        $result = DB::table('users')->where('id', $id)->update($update);
-        if ($result) {
-            echo 1;
-            return redirect()->route('user.profile');
+
+        //更新密碼
+        $user->password = bcrypt($request->input('newpassword'));
+        $executed = $user->save();
+
+        //重導至首頁，若更新成功則附帶成功訊息，否則附帶失敗訊息
+        if ($executed) {
+            return redirect('/')->with('success', '修改密碼成功！');
         } else {
-            echo 3;
-            return redirect()->route('user.profile');
+            return redirect('/')->with('fail', '修改密碼失敗，請再次嘗試！');
         }
     }
-    public function getUserList()
-    {
-        return view('user.userlist');
+
+    //取得使用者清單
+    public function getUserList() {
+        //取出user table所有資料，以20筆為一頁
+        $users = User::paginate(20);
+
+        //回傳user.userlist，並附帶$users
+        return view('user.userlist', ['users' => $users]);
     }
-    public function getdelAcc($id)
-    {
-        DB::table('users')->where('id', $id)->delete();
-        return redirect()->route('user.userlist');
+
+    //刪除帳號
+    public function getdelAcc($id) {
+        //根據傳入$id取出資料
+        $user = User::find($id);
+        $executed = $user->delete();
+
+        //重導至user.userlist，若刪除成功則附帶成功訊息，否則附帶失敗訊息
+        if($executed) {
+            return redirect()->route('user.userlist')->with('success', '刪除使用者成功！');
+        }
+        else {
+            return redirect()->route('user.userlist')->with('fail', '刪除使用者失敗，請再次嘗試！');
+        }
     }
-    public function getresetPassword($id)
-    {
-        $email = DB::table('users')->where('id', $id)->select('email')->first();
-        $name=DB::table('users')->where('id', $id)->select('name')->first();
-        
-        return view('user.managerresetpw', [
-            'id' => $id,'email'=>$email,'name'=>$name
-        ]);
+
+    //取得系統管理員重設使用者密碼頁面
+    public function getresetPassword($id) {
+        //根據傳入$id取出資料
+        $user = User::find($id);
+
+        //回傳user.managerresetpw，並附帶$user
+        return view('user.managerresetpw', ['user' => $user]);
     }
-    public function postresetPassword(Request $request,$id)
-    {
+
+    //更新重設後的密碼
+    public function postresetPassword(Request $request, $id) {
+        //輸入值檢查
         $this->validate($request, [
-            'oldpassword' => 'required|min:6',
-            'newpassword' => 'required|min:6',
-            'confirmnewpassword' => 'required_with:newpassword|same:newpassword|min:6'
+            'newpassword' => 'required|min:6|max:20',
+            'confirmnewpassword' => 'required_with:newpassword|same:newpassword|min:6|max:20'
         ]);
-        
-        $oldpassword = $request->input('oldpassword');
-        $newpassword = $request->input('newpassword');
-        $res = DB::table('users')->where('id', $id)->select('password')->first();
-        if (!Hash::check($oldpassword, $res->password)) {
-            echo 2;
-            
-            return redirect()->back()->withErrors(['fail' => 'old password is wrong!']); //原密碼不對
-        }
-        $update = array(
-            'password'  => bcrypt($newpassword),
-        );
-        $result = DB::table('users')->where('id', $id)->update($update);
-        if ($result) {
-            echo 1;
-            return redirect()->route('user.userlist')->with(['success'=> '修改密碼成功!!!']);
+
+        //根據傳入$id取出資料
+        $user = User::find($id);
+
+        //更新密碼
+        $user->password = bcrypt($request->input('newpassword'));
+        $executed = $user->save();
+
+        //重導至user.userlist，若變更成功則附帶成功訊息，否則附帶失敗訊息
+        if ($executed) {
+            return redirect()->route('user.userlist')->with('success', '修改密碼成功！');
         } else {
-            echo 3;
-            
-            return redirect()->route('user.userlist')->with(['success'=>'修改密碼失敗!!!']);
+            return redirect()->route('user.userlist')->with('fail', '修改密碼失敗，請再次嘗試！');
+        }
     }
-}
 }

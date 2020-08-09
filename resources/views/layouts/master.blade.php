@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>@yield('title')</title>
+    <title>@yield('title') | 資管系教室設備借用系統</title>
+
     <!--中文字型-->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap"
         rel="stylesheet">
@@ -28,16 +28,23 @@
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
     </script>
 
-
     <!--保留給任何的擴充資源連結-->
     @yield('href')
 </head>
 
-<body class="">
+<body>
     <!--引入通用的header-->
     @include('partials.header')
 
-    @yield('content')
+    <div class="container">
+        @yield('content')
+    </div>
+
+    <footer>
+        <nav class="w-100 mt-3">
+            <p class="text-center text-muted"><small>Copyright 2020 © 中央大學大數據暨程式設計研究社</small></p>
+        </nav>
+    </footer>
 
     @yield('script')
 </body>

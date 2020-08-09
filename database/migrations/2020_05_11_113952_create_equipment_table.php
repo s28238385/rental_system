@@ -9,15 +9,15 @@ class CreateEquipmentTable extends Migration
     {
         Schema::create('equipment', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
-            $table->string('genre')->unique();
-            $table->string('item')->nullable();
-            $table->integer('quantity');
+            $table->timestamps();   //建立、更新時間
+            $table->string('genre');    //種類
+            $table->string('item'); //項目
+            $table->integer('quantity');    //數量
         });
     }
 
     public function down()
     {
-        Schema::drop('equipments');
+        Schema::dropIfExists('equipment');
     }
 }

@@ -12,194 +12,288 @@ use Illuminate\Support\Facades\Route;
 | and give it the controller to call when that URI is requested.
 |
 */
-
-Route::get('/', [
-    'uses' => 'UserController@getSignin',
-    'as' => 'user.signin',
-
-]);
-
-Route::group(['prefix' => 'user'], function () {
-    Route::group(['middleware' => 'guest'], function () {
-
-        Route::get('/signin', [
-            'uses' => 'UserController@getSignin',
-            'as' => 'user.signin',
-
-        ]);
-
-        Route::post('/signin', [
-            'uses' => 'UserController@postSignin',
-            'as' => 'user.signin',
-
-        ]);
-    });
-    Route::group(['middleware' => 'auth'], function () {
-        Route::get('/profile', [
-            'uses' => 'UserController@getProfile',
-            'as' => 'user.profile',
-
-        ]);
-        Route::get('/logout', [
-            'uses' => 'UserController@getLogout',
-            'as' => 'user.logout',
-
-        ]);
-        Route::post('/changepw', [
-            'uses' => 'UserController@postChangepw',
-            'as' => 'user.changepw',
-
-        ]);
-        Route::get('/changepw', [
-            'uses' => 'UserController@getChangepw',
-            'as' => 'user.changepw',
-
-        ]);
-        Route::get('/resetphone', [
-            'uses' => 'UserController@getresetphone',
-            'as' => 'user.resetphone',
-
-        ]);
-        Route::post('/resetphone', [
-            'uses' => 'UserController@postresetphone',
-            'as' => 'user.resetphone',
-
-        ]);
-        Route::get('/userlist', [
-            'uses' => 'UserController@getUserList',
-            'as' => 'user.userlist',
-
-        ]);
-        Route::get('/deleteacc/{id}', [
-            'uses' => 'UserController@getdelAcc',
-            'as' => 'user.deleteacc',
-        ]);
-        Route::get('/resetpassword/{id}', [
-            'uses' => 'UserController@getresetPassword',
-            'as' => 'user.resetpassword',
-        ]);
-        Route::post('/resetpassword/{id}', [
-            'uses' => 'UserController@postresetPassword',
-            'as' => 'user.resetpassword',
-        ]);
-        Route::get('/signup', [
-            'uses' => 'UserController@getSignup',
-            'as' => 'user.signup',
-
-        ]);
-        Route::post('/signup', [
-            'uses' => 'UserController@postSignup',
-            'as' => 'user.signup',
-
-        ]);
-    });
-});
-Route::get('/master', function () {
-    return view('layouts.master');
-});
-
-
-/*Route::get('/', function () {
-    return view('layouts.master');
-});*/
-
+//首頁
 Route::get('/', function () {
     return view('homepage');
 });
 
-Route::get('/calender', function () {
-    return view('partials.calender');
-});
-
-Route::group(['prefix' => 'equipment'], function () {
-    Route::get('/list', [
-        'uses' => "EquipmentController@getList",
-        'as' => 'equipment.list'
-    ]);
-
-    Route::get('/add', [
-        'uses' => 'EquipmentController@getAdd',
-        'as' => 'equipment.add'
-    ]);
-
-    Route::post('/add', [
-        'uses' => 'EquipmentController@postAdd',
-        'as' => 'equipment.add'
-    ]);
-
-    Route::get('/edit/{id}', [
-        'uses' => 'EquipmentController@getEdit',
-        'as' => 'equipment.edit'
-    ]);
-
-    Route::post('/edit/{id}', [
-        'uses' => 'EquipmentController@postEdit',
-        'as' => 'equipment.edit'
-    ]);
-
-    Route::get('delete/{id}', [
-        'uses' => 'EquipmentController@getDelete',
-        'as' => 'equipment.delete'
-    ]);
-});
-
-//searchingClassroom
-Route::group(['prefix' => 'searching'], function () {
-    Route::get('/', [
-        'uses' => 'SearchingClassroomController@getList',
-        'as' => 'classroom.getList'
-    ]);
-
-    //經searching選擇教室後的status導向
-    Route::post('/status', [
-        'uses' => 'SearchingClassroomController@postStatus',
+//教室預約狀況，前綴uri為classroom
+Route::group(['prefix' => 'classroom'], function () {
+    Route::get('/status', [
+        'uses' => 'ClassroomController@getStatus',
         'as' => 'classroom.status'
     ]);
-
-    //直接訪問status網址處理 
-    Route::get('/status', [
-        'uses' => 'SearchingClassroomController@getStatus',
-        'as' => 'classroom.getStatus'
+    
+    //ajax取得預約資訊用網址
+    Route::post('/statusCalender', [
+        'uses' => 'ClassroomController@ajaxGetReservation',
+        'as' => 'status.ajax'
     ]);
 });
-Route::get('/statusCalender', [
-    'uses' => 'SearchingClassroomController@ajaxGetReservation'
-]);
 
-Route::get('newapply', [
-    'uses' => 'ApplyController@create',
-    'as' => 'newapply.create'
-]);
+//教室設備借用相關網址，前綴uri為application
+Route::group(['prefix' => 'application'], function() {
+    Route::get('/list', [
+        'uses' => 'ApplicationController@getList',
+        'as' => 'application.list'
+    ]);
 
-// store apply
-Route::post('newapply', [
-    'uses' => 'ApplyController@store',
-    'as' => 'newapply.store'
-]);
+    Route::get('/information/{application_id}', [
+        'uses' => 'ApplicationController@getInformation',
+        'as' => 'application.information'
+    ]);
 
-Route::resource('post', 'PostController');
-Route::auth();
+    Route::get('/new', [
+        'uses' => 'ApplicationController@getNew',
+        'as' => 'application.new'
+    ]);
 
-Route::get('/home', 'HomeController@index');
+    Route::post('/new', [
+        'uses' => 'ApplicationController@postNew',
+        'as' => 'application.new'
+    ]);
 
+    //中介層為auth，只有登入時才可以訪問
+    Route::group(['middleware' => 'auth'], function () {
+        Route::get('/renting_list', [
+            'uses' => 'ApplicationController@getRentingList',
+            'as' => 'application.renting_list'
+        ]);
+
+        Route::get('/returned_list', [
+            'uses' => 'ApplicationController@getReturnedList',
+            'as' => 'application.returned_list'
+        ]);
+
+        Route::get('/edit/{application_id}', [
+            'uses' => 'ApplicationController@getEdit',
+            'as' => 'application.edit'
+        ]);
+
+        Route::post('/edit/{application_id}', [
+            'uses' => 'ApplicationController@postEdit',
+            'as' => 'application.edit'
+        ]);
+
+        Route::get('/rent/{application_id}', [
+            'uses' => 'ApplicationController@getRent',
+            'as' => 'application.rent'
+        ]);
+
+        Route::post('/rent/{application_id}', [
+            'uses' => 'ApplicationController@postRent',
+            'as' => 'application.rent'
+        ]);
+
+        Route::get('/return/{application_id}', [
+            'uses' => 'ApplicationController@getReturn',
+            'as' => 'application.return'
+        ]);
+
+        Route::post('/return/{application_id}', [
+            'uses' => 'ApplicationController@postReturn',
+            'as' => 'application.return'
+        ]);
+
+        Route::get('/delete/{application_id}', [
+            'uses' => 'ApplicationController@getDelete',
+            'as' => 'application.delete'
+        ]);
+    });
+
+    //無效網址重導回首頁
+    Route::get('/information', function () {
+        return view('homepage');
+    });
+
+    Route::get('/edit', function () {
+        return view('homepage');
+    });
+
+    Route::get('/rent', function () {
+        return view('homepage');
+    });
+
+    Route::get('/return', function () {
+        return view('homepage');
+    });
+
+    Route::get('/delete', function () {
+        return view('homepage');
+    });
+});
+
+//教室預約相關連結，前綴uri為reservation
 Route::group(['prefix' => 'reservation'], function () {
-    Route::get('/classroom_short', [
-        'uses' => 'ReserveController@getShort',
-        'as' => 'reserve.short'
-    ]);
+    //中介層為auth，只有登入時才可以訪問
+    Route::group(['middleware' => 'auth'], function () {
+        Route::get('/list', [
+            'uses' => 'ReservationController@getList',
+            'as' => 'reservation.list'
+        ]);
+    
+        Route::get('/new', [
+            'uses' => 'ReservationController@getNew',
+            'as' => 'reservation.new'
+        ]);
+    
+        Route::post('/new', [
+            'uses' => 'ReservationController@postNew',
+            'as' => 'reservation.new'
+        ]);
+    
+        Route::get('/longterm/{id}', [
+            'uses' => 'ReservationController@getLongterm',
+            'as' => 'reservation.longterm'
+        ]);
+    
+        Route::get('/edit/{id}', [
+            'uses' => 'ReservationController@getEdit',
+            'as' => 'reservation.edit'
+        ]);
+    
+        Route::post('/edit/{id}', [
+            'uses' => 'ReservationController@postEdit',
+            'as' => 'reservation.edit'
+        ]);
+    
+        Route::get('/delete/{id}', [
+            'uses' => 'ReservationController@getDelete',
+            'as' => 'reservation.delete'
+        ]);
+    });
+    
+    //無效網址重導至首頁
+    Route::get('/longterm', function () {
+        return view('homepage');
+    });
 
-    Route::post('/classroom_short', [
-        'uses' => 'ReserveController@postShort',
-        'as' => 'reserve.short'
-    ]);
+    Route::get('/edit', function () {
+        return view('homepage');
+    });
 
-    Route::get('/classroom_long', [
-        'uses' => 'ReserveController@getLong',
-        'as' => 'reserve.long'
-    ]);
+    Route::get('/delete', function () {
+        return view('homepage');
+    });
+});
 
-    Route::post('/classroom_long', [
-        'uses' => 'ReserveController@postLong',
-        'as' => 'reserve.long'
-    ]);
+//設備相關連結，前綴uri為equipment
+Route::group(['prefix' => 'equipment'], function () {
+    //中介層為auth及role，只有登入時且身分為系統管理員才可以訪問
+    Route::group(['middleware' => ['auth', 'role']], function () {
+        Route::get('/list', [
+            'uses' => "EquipmentController@getList",
+            'as' => 'equipment.list'
+        ]);
+    
+        Route::get('/add', [
+            'uses' => 'EquipmentController@getAdd',
+            'as' => 'equipment.add'
+        ]);
+    
+        Route::post('/add', [
+            'uses' => 'EquipmentController@postAdd',
+            'as' => 'equipment.add'
+        ]);
+    
+        Route::get('/edit/{id}', [
+            'uses' => 'EquipmentController@getEdit',
+            'as' => 'equipment.edit'
+        ]);
+    
+        Route::post('/edit/{id}', [
+            'uses' => 'EquipmentController@postEdit',
+            'as' => 'equipment.edit'
+        ]);
+    
+        Route::get('delete/{id}', [
+            'uses' => 'EquipmentController@getDelete',
+            'as' => 'equipment.delete'
+        ]);
+    });
+
+    //無效網址重導回首頁
+    Route::get('/edit', function () {
+        return view('homepage');
+    });
+
+    Route::get('/delete', function () {
+        return view('homepage');
+    });
+});
+
+//使用者相關，前綴uri為user
+Route::group(['prefix' => 'user'], function () {
+    //中介層為guest，只有未登入狀況才可以訪問
+    Route::group(['middleware' => 'guest'], function () {
+        Route::get('/signin', [
+            'uses' => 'UserController@getSignin',
+            'as' => 'user.signin'
+        ]);
+
+        Route::post('/signin', [
+            'uses' => 'UserController@postSignin',
+            'as' => 'user.signin'
+        ]);
+    });
+
+    //中介層為auth，只有登入時才可以訪問
+    Route::group(['middleware' => 'auth'], function () {
+        Route::get('/changepw', [
+            'uses' => 'UserController@getChangepw',
+            'as' => 'user.changepw'
+        ]);
+
+        Route::post('/changepw', [
+            'uses' => 'UserController@postChangepw',
+            'as' => 'user.changepw'
+        ]);
+
+        Route::get('/logout', [
+            'uses' => 'UserController@getLogout',
+            'as' => 'user.logout'
+        ]);
+
+        //中介層為role，只有登入時且身分為系統管理員才可以訪問
+        Route::group(['middleware' => 'role'], function(){
+            Route::get('/userlist', [
+                'uses' => 'UserController@getUserList',
+                'as' => 'user.userlist'
+            ]);
+
+            Route::get('/signup', [
+                'uses' => 'UserController@getSignup',
+                'as' => 'user.signup'
+            ]);
+
+            Route::post('/signup', [
+                'uses' => 'UserController@postSignup',
+                'as' => 'user.signup'
+            ]);
+
+            Route::get('/resetpassword/{id}', [
+                'uses' => 'UserController@getresetPassword',
+                'as' => 'user.resetpassword'
+            ]);
+
+            Route::post('/resetpassword/{id}', [
+                'uses' => 'UserController@postresetPassword',
+                'as' => 'user.resetpassword'
+            ]);
+
+            Route::get('/deleteacc/{id}', [
+                'uses' => 'UserController@getdelAcc',
+                'as' => 'user.deleteacc'
+            ]);
+        });
+    });
+
+    //無效網址重導回首頁
+    Route::get('/resetpassword', function () {
+        return view('homepage');
+    });
+
+    Route::get('/deleteacc', function () {
+        return view('homepage');
+    });
 });
