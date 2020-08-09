@@ -14,10 +14,10 @@ class CreateClassroomsTable extends Migration
     {
         Schema::create('classrooms', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
-            $table->string('classroomName');
-            $table->string('imagePath');
-            $table->string('equipmentDescription');
+            $table->timestamps();   //建立、更新時間
+            $table->string('classroomName');    //教室名稱
+            $table->string('imagePath');    //圖片連結
+            $table->string('equipmentDescription'); //設備描述
         });
     }
 

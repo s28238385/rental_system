@@ -15,11 +15,13 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ route('application.new') }}">新增申請</a>
                         <a class="dropdown-item" href="{{ route('application.list') }}">申請清單</a>
+                        <a class="dropdown-item" href="{{ route('application.renting_list') }}">借出中清單</a>
+                        <a class="dropdown-item" href="{{ route('application.returned_list') }}">已歸還清單</a>
                     </div>
                 </li>
             @if(Auth::check())
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle header-button" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle header-button" href="{{ route('classroom.status') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         教室預約
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">

@@ -156,8 +156,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        // for larvaelcollective 2020/5/10
-        Collective\Html\HtmlServiceProvider::class,
+        //分頁使用
+        App\Providers\PaginationServiceProvider::class,
 
 
     ],

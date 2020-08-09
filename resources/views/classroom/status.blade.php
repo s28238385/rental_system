@@ -10,13 +10,11 @@
         let token = '{{ Session::token() }}';
         let url = '{{ route('status.ajax') }}'
     </script>
-
-    {{-- 載入預約資料到calender上 --}}
-    <script src="{{ URL::asset('js/reservation_for_calender.js') }}" type="text/javascript"></script>
+    <script src="{{ URL::asset('js/classroom_status.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('content')
-{{-- enter point --}}
+{{-- 選擇中的頁籤超連結 --}}
 <input type="hidden" id="chosen_status" value="#All">
 
 <div class="container">
@@ -33,24 +31,32 @@
         </ul>
         <div id="All"></div>
         @foreach ($classrooms as $classroom)
-            <div id="{{ $classroom->classroomName }}" class="row">
-                <div class="col-lg-7 px-1 mt-1">
-                    <img src="{{ URL::to($classroom->imagePath) }}" class="img-fluid img-thumbnail p-0 border-0">
-                </div>
-                <div class="col-lg-5 px-1 mt-1">
-                    <div class="border-secondary rounded bg-grey h-100 d-flex align-items-center py-2 px-3">
-                        <p class="mb-0">{!! nl2br(e($classroom->equipmentDescription), false) !!}</p>
+            <div id="{{ $classroom->classroomName }}">
+                <div class="row">
+                    <div class="col-lg-8 px-1 mt-1">
+                        <img src="{{ URL::to($classroom->imagePath) }}" class="img-fluid img-thumbnail p-0 border-0">
+                    </div>
+                    <div class="col-lg-4 px-1 mt-1">
+                        <div class="border-secondary rounded bg-grey d-flex flex-column h-100 p-3">
+                            <div class="row m-0 my-auto">
+                                <p class="mb-0">{!! nl2br(e($classroom->equipmentDescription), false) !!}</p>
+                            </div>
+                            @if (Auth::check())
+                                <div class="row m-0 mt-auto d-flex justify-content-end">
+                                    <a href="{{ route('reservation.new') }}" type="button" class="btn btn-outline-success">新增預約</a>
+                                </div>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
         @endforeach 
     </div>
 
-    <!-- include calender -->
+    {{-- includecalender --}}
     @include('partials/calender')
-</div><!-- end cotainer -->
 
-<!-- Modal -->
+{{-- 載入圖樣 --}}
 <div class="modal fade" id="loaderModal" tabindex="-1" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
         <div class="modal-content">
@@ -65,6 +71,4 @@
         </div>
     </div>
 </div>
-<!--  end Modal -->
-
-@endsection<!-- end content -->
+@endsection

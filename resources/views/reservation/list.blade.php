@@ -24,9 +24,12 @@
             </div>
         </div>
     @endif
-    <div class="d-flex inline-flex align-items-baseline mt-5 mb-3">
+    <div class="d-flex inline-flex align-items-center mt-5 mb-3">
         <h1 class="font-weight-normal text-info">預約清單</h1>
-        <a type="button" class="btn btn-outline-success ml-auto px-3" href="{{ route('reservation.new') }}">新增預約</a>
+        <a type="button" class="btn btn-outline-success ml-3 px-3" href="{{ route('reservation.new') }}">新增預約</a>
+        <div class="ml-auto">
+            {{ $reservations->links() }}
+        </div>
     </div>
     <table class="table table-hover">
         <thead>
@@ -45,7 +48,7 @@
         <tbody>
             @if($reservations->isEmpty())
                 <tr>
-                    <td colspan="8">無登錄預約</td>
+                    <td colspan="<?php if(Auth::check()){echo 9;}else{echo 8;}?>">無登錄預約</td>
                 </tr>
             @else
                 @foreach($reservations as $reservation)

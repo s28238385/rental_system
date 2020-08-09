@@ -13,10 +13,10 @@ class User extends Authenticatable
      * 
      * @var array
      */
-    const ROLE_USER='user';
-    const ROLE_MANAGER='manager';
+    const ROLE_USER='管理員';
+    const ROLE_MANAGER='系統管理員';
     protected $fillable = [
-        'name','email', 'password','role',
+        'name', 'email', 'password', 'role'
     ];
 
     /**
@@ -24,4 +24,5 @@ class User extends Authenticatable
      *
      * @var array
      */
+    protected $hidden = ['password'];
 }

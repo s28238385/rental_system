@@ -1,18 +1,24 @@
 $("document").ready(function () {
-    let rentEquipmentNum = 0; //總借用設備數（包含鑰匙）
-    let equipmentNum = 0; //借用設備的編號
+    let rentEquipmentNum = 0; //總設備借用數（包含鑰匙）
+    let equipmentNum = 0; //設備借用編號
     let genrekey, itemkey;
+
+    //閱讀規則後彈出借用表單
+    $("#agreeBtn").click(function () {
+        $("#ruleSection").remove();
+        $("#formSection").toggleClass("d-none");
+    });
 
     //身分改變時
     $("#identity").change(() => {
         //選擇身份顯示or隱藏學部、班年級
-        $("#gradePart, #cardPart").toggleClass("d-none");
+        $("#degreePart, #gradePart, #cardPart").toggleClass("d-none");
 
         //分機或手機、隱藏系級/抵押證件與否
         if ($("#identity option:selected").text() === "學生") {
             $("#grade").prop("required", false);
             $('label[for="phone"]').children(".text").text("手機號碼");
-            $("#degreePart, #gradePart, #cardPart").removeClass("d-none");
+            $("#gradePart, #cardPart").removeClass("d-none");
             //手機號碼格式檢查
             if (
                 $("#phone").val() != "" &&
@@ -198,7 +204,7 @@ $("document").ready(function () {
     //借用更多設備時，設備資訊的建構
     function equipmentBuildUp(equipment /*jQuery Object*/) {
         //改變#genre內的選項
-        //清空#genre選項
+        //填入#genre的選項
         Object.keys(equipments).forEach((element) =>
             equipment.find("#genre").append(new Option(element))
         );
@@ -251,100 +257,4 @@ $("document").ready(function () {
         //取消送出按鈕無效化
         $("button[type='submit']").removeClass("disabled");
     });
-
-    //將欲編輯申請的資料填入
-    //身分填入
-    $("#identity option:contains(" + application["identity"] + ")")
-        .prop("selected", true)
-        .change();
-
-    //抵押證件填入
-    if (application["certificate"] != null) {
-        if (
-            (application["certificate"] === "學生證") |
-            (application["certificate"] === "身分證") |
-            (application["certificate"] === "健保卡") |
-            (application["certificate"] === "駕照")
-        ) {
-            $(
-                "#certificate option:contains(" +
-                    application["certificate"] +
-                    ")"
-            )
-                .prop("selected", true)
-                .change();
-        } else {
-            $("#certificate option:contains(其他)")
-                .prop("selected", true)
-                .change();
-            $("#certificateOther").val(application["certificate"]);
-        }
-    }
-
-    //借用教室選項勾選、選擇教室及鑰匙種類填入
-    if (application["classroom"] != null) {
-        $("#wantRentChk").prop("checked", true).change();
-        $("#classroom option:contains(" + application["classroom"] + ")").prop(
-            "selected",
-            true
-        );
-        $("#key_type option:contains(" + application["key_type"] + ")").prop(
-            "selected",
-            true
-        );
-    }
-
-    //將設備資料填入設備表格
-    function fillInRentEquipment(rent_equipment) {
-        //新增設備表格
-        $("#moreBtn").click();
-
-        //改變#genre選項
-        $(".equipmentContainer")
-            .children()
-            .last()
-            .find("#genre option:contains(" + rent_equipment["genre"] + ")")
-            .prop("selected", true)
-            .change();
-        //改變#item選項
-        $(".equipmentContainer")
-            .children()
-            .last()
-            .find("#item option:contains(" + rent_equipment["item"] + ")")
-            .prop("selected", true)
-            .change();
-        //改變#quantity選項
-        $(".equipmentContainer")
-            .children()
-            .last()
-            .find(
-                "#quantity option:contains(" + rent_equipment["quantity"] + ")"
-            )
-            .prop("selected", true);
-        //填入用途
-        $(".equipmentContainer")
-            .children()
-            .last()
-            .find("#usage")
-            .val(rent_equipment["usage"]);
-        //填入備註
-        $(".equipmentContainer")
-            .children()
-            .last()
-            .find("#remark")
-            .val(rent_equipment["remark"]);
-        //填入狀態
-        $(".equipmentContainer")
-            .children()
-            .last()
-            .find("#status option:contains(" + rent_equipment["status"] + ")")
-            .prop("selected", true);
-    }
-
-    //若有借用設備則建立設備表格
-    if (rent_equipments != "") {
-        Object.keys(rent_equipments).forEach((element) =>
-            fillInRentEquipment(rent_equipments[element])
-        );
-    }
 });

@@ -24,10 +24,10 @@
                         <p>申請編號：{{ $application->id }}</p>
                     </div>
                     <div class="col-md-6">
-                        <p>申請時間：{{ $application->created_at }}</p>
+                        <p>申請狀態：{{ $application->all_status }}</p>
                     </div>
                     <div class="col-md-6">
-                        <p>申請狀態：{{ $application->all_status }}</p>
+                        <p>申請時間：{{ $application->created_at }}</p>
                     </div>
                     <div class="col-md-6">
                         <p>歸還時間：{{ $application->return_time }}</p>
@@ -84,8 +84,8 @@
                                     <td>{{ $application->key_type }}</td>
                                     <td>1</td>
                                     <td>
-                                        <input type="checkbox" name="rent[]" id="rent" value="key">
-                                        <label for="rent">歸還</label>
+                                        <input type="checkbox" name="return[]" id="return" value="key">
+                                        <label for="return">歸還</label>
                                     </td>
                                 </tr>
                             @endif
@@ -95,8 +95,8 @@
                                     <td>{{ $rent_equipment['item'] }}</td>
                                     <td>{{ $rent_equipment['quantity'] }}</td>
                                     <td>
-                                        <input type="checkbox" name="rent[]" id="rent{{ $rent_equipment['id'] }}" value="{{ $rent_equipment['id'] }}">
-                                        <label for="rent{{ $rent_equipment['id'] }}">歸還</label>
+                                        <input type="checkbox" name="return[]" id="return{{ $rent_equipment['id'] }}" value="{{ $rent_equipment['id'] }}">
+                                        <label for="return{{ $rent_equipment['id'] }}">歸還</label>
                                     </td>
                                 </tr>
                             @endforeach

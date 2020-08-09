@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-資管系教室設備借用系統
+    首頁
 @endsection
 
 @section('content')
@@ -42,6 +42,12 @@
                         </a>
                         <a class="text-decoration-none" href="{{ route('application.list') }}">
                             <h5 class="px-2 yellow-subindex">申請清單</h5>
+                        </a>
+                        <a class="text-decoration-none" href="{{ route('application.renting_list') }}">
+                            <h5 class="px-2 yellow-subindex">借出中清單</h5>
+                        </a>
+                        <a class="text-decoration-none" href="{{ route('application.returned_list') }}">
+                            <h5 class="px-2 yellow-subindex">已歸還清單</h5>
                         </a>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    設備清單 | 資管系設備借用系統
+    設備清單
 @endsection
 
 @section('content')
@@ -24,9 +24,12 @@
         </div>
     </div>
 @endif
-<div class="d-flex inline-flex align-items-baseline mt-5 mb-3">
-    <h1 class="font-weight-normal color-2F91CD">設備清單</h1>
-    <a type="button" class="btn btn-outline-success ml-auto px-3" href="{{ route('equipment.add') }}">新增設備</a>
+<div class="d-flex inline-flex align-items-center mt-5 mb-3">
+    <h1 class="font-weight-normal text-info">設備清單</h1>
+    <a type="button" class="btn btn-outline-success ml-3 px-3" href="{{ route('equipment.add') }}">新增設備</a>
+    <div class="ml-auto">
+        {{ $equipments->links() }}
+    </div>
 </div>
 <table class="table table-hover">
     <thead>
@@ -51,7 +54,7 @@
                     <td class="teble-cell">
                         <div id="management-button">
                             <a href="{{ route('equipment.edit', ['id' => $equipment->id]) }}" type="button" class="btn btn-outline-primary btn-sm px-3 mx-1">編輯</a>
-                            <a href="{{ route('equipment.delete', ['id' => $equipment->id]) }}" type="button" class="btn btn-outline-primary btn-sm px-3 mx-1" onclick="return confirm('確定刪除設備?')">刪除</a>
+                            <a href="{{ route('equipment.delete', ['id' => $equipment->id]) }}" type="button" class="btn btn-outline-danger btn-sm px-3 mx-1" onclick="return confirm('確定刪除設備?')">刪除</a>
                         </div>
                     </td>
                 </tr>

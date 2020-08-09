@@ -16,7 +16,6 @@
                     @foreach($errors->all() as $error)
                         <p class="text-center">{{ $error }}</p>
                     @endforeach
-                    <p class="text-center">{{ Session::get('error') }}</p>
                 </div>
             @endif
             <div class="card p-4">
@@ -38,7 +37,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="name">申請人<span class="required">*</span></label>
-                            <input type="text" id="name" class="form-control" name="name" placeholder="必填" value="{{ old('name') }}" required>
+                            <input type="text" id="name" class="form-control" name="name" placeholder="必填" value="{{ old('name') }}" autocomplete="off" required>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="reason">申請原因<sapn class="required">*</sapn></label>
@@ -104,7 +103,6 @@
                                     <input type="checkbox" name="loop_day[]" id="sunday" value="sunday">
                                 <label for="sunday">星期日</label>
                                 </div>
-                                
                             </div>
                         </div>
                     </div>
@@ -153,11 +151,10 @@
                         </div>
                     </div>
                     <div class="form-row mt-2">
-                        <button type="submit" class="btn btn-success px-3 col-12">確定預約</button>
+                        <button type="submit" class="btn btn-success px-3 col-md-12">確定預約</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-        
 @endsection

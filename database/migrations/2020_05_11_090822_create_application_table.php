@@ -13,28 +13,18 @@ class CreateApplicationTable extends Migration
     public function up()
     {
         Schema::create('applications', function (Blueprint $table) {
-            // id: pk
-            // timestamps: 申請時間
-            // name: 申請人姓名
-            // identity: 申請人身分
-            // grade: 申請人班年級
-            // card: 抵押證件
-            // phone: 手機或分機
-            // classroom: 借用教室
-            // key_type: 鑰匙種類
-            // teacher: 授課教師
             $table->bigIncrements('id');
-            $table->timestamps();
-            $table->string('name');
-            $table->string('identity');
-            $table->string('certificate')->nullable();
-            $table->string('phone');
-            $table->string('classroom')->nullable();
-            $table->string('key_type')->nullable();
-            $table->string('teacher')->nullable();
-            $table->datetime('return_time');
-            $table->enum('all_status', ['已建立', '借出中', '部分歸還', '已歸還']);
-            $table->enum('key_status', ['無', '已建立', '借出中', '已歸還']);
+            $table->timestamps();   //建立、更新時間
+            $table->string('name'); //申請人姓名
+            $table->string('identity'); //申請人身分或系級
+            $table->string('certificate')->nullable();  //抵押證件
+            $table->string('phone');    //手機或分機
+            $table->string('classroom')->nullable();    //借用教室
+            $table->enum('key_type', ['服務學習鑰匙', '備用鑰匙'])->nullable(); //鑰匙種類
+            $table->string('teacher')->nullable();  //授課教師
+            $table->datetime('return_time');    //歸還時間
+            $table->enum('all_status', ['申請中', '借出中', '已歸還']); //整筆申請的借用狀態
+            $table->enum('key_status', ['申請中', '借出中', '已歸還']);   //鑰匙的借用狀態
         });
     }
 

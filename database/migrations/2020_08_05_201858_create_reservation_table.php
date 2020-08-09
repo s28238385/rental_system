@@ -14,14 +14,14 @@ class CreateReservationTable extends Migration
     {
         Schema::create('reservations', function(Blueprint $table){
             $table->increments('id');
-            $table->timestamps();
-            $table->string('name');
-            $table->string('reason');
-            $table->string('classroom');
-            $table->date('date');
-            $table->integer('begin_time');
-            $table->integer('end_time');
-            $table->integer('long_term_id')->nullable();
+            $table->timestamps();   //建立、更新時間
+            $table->string('name'); //申請人姓名
+            $table->string('reason');   //理由
+            $table->string('classroom');    //借用教室
+            $table->date('date');   //預約日期
+            $table->integer('begin_time');  //開始節次的index值
+            $table->integer('end_time');    //結束節次的index值
+            $table->integer('long_term_id')->nullable();    //長期借用的識別碼
         });
     }
 

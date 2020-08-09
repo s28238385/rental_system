@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    借用清單
+    借出中清單
 @endsection 
 
 @section('content')
@@ -25,12 +25,9 @@
         </div>
     @endif
     <div class="d-flex inline-flex align-items-center mt-5 mb-3">
-        <h1 class="font-weight-normal text-info">申請清單</h1>
-        <a type="button" class="btn btn-outline-success ml-3 px-3" href="{{ route('application.new') }}">新增申請</a>
-        @if (Auth::check())
-            <a href="{{ route('application.renting_list') }}" type="button" class="btn btn-sm btn-outline-primary ml-4 mr-1">借出中申請</a>
-            <a href="{{ route('application.returned_list') }}" type="button" class="btn btn-sm btn-outline-primary mx-1">已歸還申請</a>
-        @endif
+        <h1 class="font-weight-normal text-info">借出中清單</h1>
+        <a href="{{ route('application.list') }}" type="button" class="btn btn-sm btn-outline-primary ml-3 mr-1">申請清單</a>
+        <a href="{{ route('application.returned_list') }}" type="button" class="btn btn-sm btn-outline-primary mx-1">已歸還申請</a>
         <div class="ml-auto">
             {{ $applications->links() }}
         </div>
@@ -54,7 +51,7 @@
         <tbody>
             @if($applications->isEmpty())
                 <tr>
-                    <td colspan="<?php if(Auth::check()){echo 9;}else{echo 8;}?>">無登錄申請</td>
+                    <td colspan="<?php if(Auth::check()){echo 9;}else{echo 8;}?>">無借出中申請</td>
                 </tr>
             @else
                 @foreach($applications as $application)

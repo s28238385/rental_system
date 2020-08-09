@@ -6,21 +6,22 @@
 
 @section('script')
 <script>
-    <?php include('js/newapply.js'); ?>
+    //傳遞php變數至js
+    let equipments = <?php echo json_encode($equipments); ?>;
 </script>
+<script src="{{ URL::asset('js/application_new.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('content')
 <div class="pt-3">
-    @if(count($errors) > 0 | Session::has('error'))
+    @if(count($errors) > 0)
         <div class="alert alert-danger">
             @foreach($errors->all() as $error)
                 <p class="text-center">{{ $error }}</p>
             @endforeach
-            <p class="text-center">{{ Session::get('error') }}</p>
         </div>
     @endif
-    <div class="card p-3 mb-3" id="ruleSection">
+    <div class="card p-4 mb-3" id="ruleSection">
         <h1 class="text-center text-info">資管系教室/器材使用規定</h1>
         <p>
             <h5>
@@ -51,12 +52,12 @@
     <form action="{{ route('application.new') }}" method="post">
         {{ csrf_field() }}
         <div class="d-none" id="formSection">
-            <div class="card p-3">
+            <div class="card p-4">
                 <h2 class="text-primary">基本資料</h2>
                 <div class="form-row pt-3 d-flex align-items-end">
                     <div class="form-group col-md-4">
                         <label for="name">姓名<span class="required">*</span></label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="姓名" required autocomplete="off">
+                        <input type="text" class="form-control" name="name" id="name" placeholder="姓名" autocomplete="off" required>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="identity">身分</label>
@@ -71,11 +72,11 @@
                     </div>
                     <div class="form-group col-md-4">
                         <label for="phone"><span class="text">手機</span><span class="required">*</span></label>
-                        <input type="text" class="form-control" name="phone" id="phone" placeholder="必填" required autocomplete="off">
+                        <input type="text" class="form-control" name="phone" id="phone" placeholder="必填" autocomplete="off" required>
                     </div>
                     <div class="form-group col-md-4" id="cardPart">
-                        <div class="row">
-                            <div class="col-12">
+                        <div class="row m-0">
+                            <div class="col-md-12 px-0">
                                 <label for="certificate">抵押證件</label>
                                 <select class="form-control" name="certificate" id="certificate">
                                     <option selected="selected">學生證</option>
@@ -85,18 +86,18 @@
                                     <option>其他</option>
                                 </select>
                             </div>
-                            <div class="col-7 d-none pl-0">
+                            <div class="col-md-7 d-none px-0">
                                 <input type="text" class="form-control" name="certificateOther" id="certificateOther" placeholder="請填入要抵押的證件">
                             </div>
                         </div>
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="return_time[]">歸還時間</label>
-                        <input type="text" class="form-control" name="return_time[]" id="return_time[]" value="{{ $return_time }}" readonly>
+                        <label for="return_time">歸還時間</label>
+                        <input type="text" class="form-control" name="return_time" id="return_time" value="{{ $return_time }}" readonly>
                     </div>
                 </div>
             </div>
-            <div class="card p-3 mt-3">
+            <div class="card p-4 mt-3">
                 <div class="d-flex inline-flex align-items-center">
                     <h2 class="text-primary mb-0">借用教室</h2>
                     <div class="form-check pt-1 mx-3">
@@ -105,7 +106,7 @@
                     </div>
                 </div>
                 <div id="classroomSection" class="form-row d-none pt-3">
-                    <div class="form-group col-md-4 mb-0" id="classroomPart">
+                    <div class="form-group col-md-4" id="classroomPart">
                         <label for="classroom">選擇教室</label>
                         <select name="classroom" id="classroom" class="form-control">
                             @foreach($classroomNames as $classroomName)
@@ -113,7 +114,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group col-md-4 mb-0">
+                    <div class="form-group col-md-4">
                         <label for="key_type">鑰匙種類</label>
                         <select class="form-control" name="key_type" id="key_type">
                             <option selected="selected">服務學習鑰匙</option>
@@ -126,7 +127,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card p-3 mt-3">
+            <div class="card p-4 mt-3">
                 <h2 class="text-primary mb-0">借用設備</h2>
                 <div class="equipmentContainer">
                     {{-- use js to insert equipment template --}}

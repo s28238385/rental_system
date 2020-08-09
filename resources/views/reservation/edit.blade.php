@@ -7,12 +7,11 @@
 @section('content')
     <div class="d-flex justify-content-center">
         <div class="col-md-8 mt-3">
-            @if(count($errors) > 0 | Session::has('error'))
+            @if(count($errors) > 0)
                 <div class="alert alert-danger">
                     @foreach($errors->all() as $error)
                         <p class="text-center">{{ $error }}</p>
                     @endforeach
-                    <p class="text-center">{{ Session::get('error') }}</p>
                 </div>
             @endif
             <div class="card p-4">
@@ -97,11 +96,10 @@
                         </div>
                     </div>
                     <div class="form-row mt-2">
-                        <button type="submit" class="btn btn-success px-3 col-12">修改預約</button>
+                        <button type="submit" class="btn btn-success px-3 col-md-12">修改預約</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-        
 @endsection

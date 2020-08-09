@@ -24,10 +24,10 @@
                         <p>申請編號：{{ $application->id }}</p>
                     </div>
                     <div class="col-md-6">
-                        <p>申請時間：{{ $application->created_at }}</p>
+                        <p>申請狀態：{{ $application->all_status }}</p>
                     </div>
                     <div class="col-md-6">
-                        <p>申請狀態：{{ $application->all_status }}</p>
+                        <p>申請時間：{{ $application->created_at }}</p>
                     </div>
                     <div class="col-md-6">
                         <p>歸還時間：{{ $application->return_time }}</p>

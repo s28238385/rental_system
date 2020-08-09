@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="my-3">
-    <div class="card p-3">
+    <div class="card p-4">
         <div class="d-flex align-items-end">
             <h2 class="text-primary mb-0">基本資料</h2>
             @if(Auth::check())
@@ -24,10 +24,10 @@
                     <p>申請編號：{{ $application->id }}</p>
                 </div>
                 <div class="col-md-6">
-                    <p>申請時間：{{ $application->created_at }}</p>
+                    <p>申請狀態：{{ $application->all_status }}</p>
                 </div>
                 <div class="col-md-6">
-                    <p>申請狀態：{{ $application->all_status }}</p>
+                    <p>申請時間：{{ $application->created_at }}</p>
                 </div>
                 <div class="col-md-6">
                     <p>歸還時間：{{ $application->return_time }}</p>
@@ -53,7 +53,7 @@
         </div>
     </div>
     @if (!is_null($application->classroom))
-        <div class="card p-3 mt-3">
+        <div class="card p-4 mt-3">
             <h2 class="text-primary">借用教室</h2>
             <div class="card-body pb-0">
                 <div class="row">
@@ -74,7 +74,7 @@
         </div>
     @endif
     @if (!empty($rent_equipments))
-        <div class="card p-3 mt-3">
+        <div class="card p-4 mt-3">
             <h2 class="text-primary">借用設備</h2>
             <div class="card-body pb-0">
                 <table class="table table-hover">
@@ -94,8 +94,8 @@
                                 <td>{{ $rent_equipment['genre'] }}</td>
                                 <td>{{ $rent_equipment['item'] }}</td>
                                 <td>{{ $rent_equipment['quantity'] }}</td>
-                                <td>{{ $rent_equipment['usage'] }}</td>
-                                <td>{{ $rent_equipment['remark'] }}</td>
+                                <td class="text-break">{{ $rent_equipment['usage'] }}</td>
+                                <td class="text-break">{{ $rent_equipment['remark'] }}</td>
                                 <td>{{ $rent_equipment['status'] }}</td>
                             </tr>
                         @endforeach
@@ -105,6 +105,4 @@
         </div>
     @endif
 </div>
-    
-    
 @endsection
