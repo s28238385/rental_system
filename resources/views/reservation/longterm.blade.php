@@ -7,7 +7,7 @@
 @section('content')
     <div class="d-flex inline-flex align-items-baseline mt-5 mb-3">
         <h1 class="font-weight-normal text-info">長期預約清單</h1>
-        <p class="ml-auto">長期預約編號：{{ $reservations[$reservations['id']-1]['long_term_id'] }}</p>
+        <p class="ml-auto">長期預約編號：{{ $reservations[0]['long_term_id'] }}</p>
     </div>
     <table class="table table-hover">
         <thead>

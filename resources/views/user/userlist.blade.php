@@ -17,7 +17,7 @@
 @elseif(Session::has('fail'))
     <div class="row justify-content-end m-2 fixed-bottom">
         <div class="hint alert alert-danger alert-sm alert-dismissible col fade show text-center" role="alert">
-            <span class="text-wrap">{{ Session::get('success') }}</span>
+            <span class="text-wrap">{{ Session::get('fail') }}</span>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -43,7 +43,7 @@
     <tbody>
         @foreach($users as $user)
             <tr class="<?php if($user->role === '系統管理員'){echo "table-info";}?>">
-                <td class="pl-4"><?=$user->name;?></td>
+                <td class="pl-4">{{ $user->name }}</td>
                 <td>{{ $user->role }}</td>
                 <td>{{ $user->email }}</td>
                 <td>

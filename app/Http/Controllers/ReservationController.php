@@ -224,10 +224,17 @@ class ReservationController extends Controller
     //取得同筆長期預約的清單
     public function getLongterm($id){
         //以傳入$id取得資料
-        $reservation = Reservation::find($id);
+        $reservation = Reservation::where('id', $id)->first();
+        //確認屬於長期訂單，否則重導至reservation.list，並附帶失敗訊息
+        if(is_null($reservation->long_term_id)){
+            return redirect()->route('reservation.list')->with('fail', '查無此長期預約');
+        }
+        
         //透過long_term_id取得同期預約資料
         $reservations = Reservation::all()->where('long_term_id', $reservation->long_term_id)->toArray();
-        dd($reservations);
+        //重設array index
+        $reservations = array_values($reservations);
+        
         //把資料庫存的key值轉換成時間
         foreach($reservations as $reservation){
             $reservation['begin_time'] = $this->begin_time[$reservation['begin_time']];
