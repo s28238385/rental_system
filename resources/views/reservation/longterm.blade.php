@@ -7,7 +7,7 @@
 @section('content')
     <div class="d-flex inline-flex align-items-baseline mt-5 mb-3">
         <h1 class="font-weight-normal text-info">長期預約清單</h1>
-        <p class="ml-auto">長期預約編號：{{ $reservations[1]->long_term_id }}</p>
+        <p class="ml-auto">長期預約編號：{{ $reservations[$reservations['id']-1]['long_term_id'] }}</p>
     </div>
     <table class="table table-hover">
         <thead>
@@ -25,16 +25,16 @@
         <tbody>
             @foreach($reservations as $reservation)
                 <tr>
-                    <td>{{ $reservation->id }}</td>
-                    <td>{{ $reservation->name }}</td>
-                    <td class="text-break">{{ $reservation->reason }}</td>
-                    <td>{{ $reservation->classroom }}</td>
-                    <td>{{ $reservation->date }}</td>
-                    <td>{{ $reservation->begin_time }}</td>
-                    <td>{{ $reservation->end_time }}</td>
+                    <td>{{ $reservation['id'] }}</td>
+                    <td>{{ $reservation['name'] }}</td>
+                    <td class="text-break">{{ $reservation['reason'] }}</td>
+                    <td>{{ $reservation['classroom'] }}</td>
+                    <td>{{ $reservation['date'] }}</td>
+                    <td>{{ $reservation['begin_time'] }}</td>
+                    <td>{{ $reservation['end_time'] }}</td>
                     <td>
-                        <a href="{{ route('reservation.edit', ['id' => $reservation->id]) }}" type="button" class="btn btn-outline-primary btn-sm px-3 mx-1">編輯</a>
-                        <a href="{{ route('reservation.delete', ['id' => $reservation->id]) }}" type="button" class="btn btn-outline-danger btn-sm px-3 mx-1" onclick="return confirm('確定刪除設備?')">刪除</a>
+                        <a href="{{ route('reservation.edit', ['id' => $reservation['id']]) }}" type="button" class="btn btn-outline-primary btn-sm px-3 mx-1">編輯</a>
+                        <a href="{{ route('reservation.delete', ['id' => $reservation['id']]) }}" type="button" class="btn btn-outline-danger btn-sm px-3 mx-1" onclick="return confirm('確定刪除設備?')">刪除</a>
                     </td>
                 </tr>
             @endforeach

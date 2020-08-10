@@ -132,7 +132,7 @@ class ApplicationController extends Controller
         }
 
         //根據是否借用設備進行驗證
-        if(!is_null($request->input('genre')[0])){
+        if(!empty($request->input('genre'))){
             $this->validate($request, [
                 'genre' => 'required|array',
                 'genre.*' => 'required|string',
@@ -281,7 +281,7 @@ class ApplicationController extends Controller
                 'phone' => array('required', 'regex: /^\d{5}$/')
             ]);
         }
-        //dd($request->input('key_status'));
+        
         //根據是否借用教室進行驗證
         if(!is_null($request->input('wantRentChk'))){
             $this->validate($request, [
@@ -295,7 +295,7 @@ class ApplicationController extends Controller
         }
 
         //根據是否借用設備進行驗證
-        if(!is_null($request->input('genre')[0])){
+        if(!empty($request->input('genre'))){
             $this->validate($request, [
                 'genre' => 'required|array',
                 'genre.*' => 'required|string',

@@ -226,12 +226,12 @@ class ReservationController extends Controller
         //以傳入$id取得資料
         $reservation = Reservation::find($id);
         //透過long_term_id取得同期預約資料
-        $reservations = Reservation::all()->where('long_term_id', $reservation->long_term_id);
-
+        $reservations = Reservation::all()->where('long_term_id', $reservation->long_term_id)->toArray();
+        dd($reservations);
         //把資料庫存的key值轉換成時間
         foreach($reservations as $reservation){
-            $reservation->begin_time = $this->begin_time[$reservation->begin_time];
-            $reservation->end_time = $this->end_time[$reservation->end_time];
+            $reservation['begin_time'] = $this->begin_time[$reservation['begin_time']];
+            $reservation['end_time'] = $this->end_time[$reservation['end_time']];
         }
 
         //回傳reservation.longterm，並附帶$reservations
@@ -262,7 +262,9 @@ class ReservationController extends Controller
             'begin_time' => 'required|string',
             'end_time' => 'required|string'
         ]);
-
+        if(array_search($request->input('begin_time'), $this->course) > array_search($request->input('end_time'), $this->course)){
+            return redirect()->back()->withErrors('開始時間必須比結束時間早')->withInput();
+        }
         //檢查是否重疊到其他預約時間
         $duplicate = Reservation::all()
                                     ->where('date', $request->input('begin_date'))
