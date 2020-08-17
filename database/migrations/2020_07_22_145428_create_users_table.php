@@ -18,8 +18,8 @@ class CreateUsersTable extends Migration
             $table->string('name'); //姓名
             $table->string('email')->unique();  //電子信箱
             $table->string('password'); //密碼
-            $table->enum('role', ['管理員', '系統管理員']); //使用者身分
-            $table->string('remember_token');   //user table必備值，供登入用
+            $table->enum('role', ['管理員', '工讀生']); //使用者身分
+            $table->rememberToken();   //user table必備值，供登入用
         });
     }
 

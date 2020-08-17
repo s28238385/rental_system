@@ -42,7 +42,7 @@
     </thead>
     <tbody>
         @foreach($users as $user)
-            <tr class="<?php if($user->role === '系統管理員'){echo "table-info";}?>">
+            <tr class="<?php if($user->role === '管理員'){echo "table-info";}?>">
                 <td class="pl-4">{{ $user->name }}</td>
                 <td>{{ $user->role }}</td>
                 <td>{{ $user->email }}</td>

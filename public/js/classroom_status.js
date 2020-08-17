@@ -15,9 +15,22 @@ let course = [
     "C",
     "D",
 ]; //節次
+let week = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-//取得查詢資料
-function get_reservation(classroom, date, day) {
+//取得ajax
+function getAjax() {
+    //classroom name 字串處理
+    let classroom = $(".active")
+        .attr("id") // classroom-tab
+        .slice(0, -4); //移除-tab
+
+    $("td[id*='-']").html(""); //清空calender
+
+    let date = $("#Sun")
+        .html() //年<br>月/日<br>星期
+        .replace("<br>", "/") //年/月/日<br>星期
+        .slice(0, -7);
+
     //送出ajax查詢
     $.ajax({
         url: url,
@@ -37,88 +50,58 @@ function get_reservation(classroom, date, day) {
                 //判斷在總覽頁籤或是教室頁籤
                 if (classroom === "#All") {
                     //依序填入所有預約
-                    for (let key in reservations) {
+                    reservations.forEach((element) => {
+                        let day = new Date(element["date"]);
+                        console.log(day.getDay());
                         for (
-                            let i = reservations[key]["begin_time"];
-                            i <= reservations[key]["end_time"];
+                            let i = element["begin_time"];
+                            i <= element["end_time"];
                             i++
                         ) {
-                            $("#" + day + "-" + course[i]).html(
-                                $("#" + day + "-" + course[i]).html() +
+                            $("#" + week[day.getDay()] + "-" + course[i]).html(
+                                $(
+                                    "#" + week[day.getDay()] + "-" + course[i]
+                                ).html() +
                                     "<p class='text-break m-1 px-2 py-1 bg-green rounded-sm'>" +
-                                    reservations[key]["classroom"] +
+                                    element["classroom"] +
                                     "<br>" +
-                                    reservations[key]["name"] +
+                                    element["reason"] +
                                     "</p>"
                             );
                         }
-                    }
+                    });
                 } else {
                     //依序填入所有預約
-                    for (let key in reservations) {
+                    reservations.forEach((element) => {
+                        let day = new Date(element["date"]);
                         for (
-                            let i = reservations[key]["begin_time"];
-                            i <= reservations[key]["end_time"];
+                            let i = element["begin_time"];
+                            i <= element["end_time"];
                             i++
                         ) {
-                            $("#" + day + "-" + course[i]).html(
-                                "<p class='text-break m-1 px-2 py-1 bg-green rounded-sm'>" +
-                                    reservations[key]["name"] +
+                            $("#" + week[day.getDay()] + "-" + course[i]).html(
+                                $(
+                                    "#" + week[day.getDay()] + "-" + course[i]
+                                ).html() +
+                                    "<p class='text-break m-1 px-2 py-1 bg-green rounded-sm'>" +
+                                    element["reason"] +
                                     "<br>" +
-                                    reservations[key]["reason"] +
+                                    element["name"] +
                                     "</p>"
                             );
                         }
-                    }
+                    });
                 }
-            }
-
-            //若是填入至星期六則表示已經完成填入，隱藏loading圖樣
-            if (day === "Sat") {
-                $("#loaderModal").modal("hide");
             }
         },
         //查詢失敗時
         error: function () {
             //查詢失敗的該日每格皆填入擷取失敗
-            $("td[id^='" + day + "-']").html("擷取失敗");
-
-            //若是填入至星期六則表示已經完成填入，隱藏loading圖樣
-            if (day === "Sat") {
-                $("#loaderModal").modal("hide");
-            }
+            $("td").each(function () {
+                $(this).html("擷取失敗");
+            });
         },
     });
-}
-
-//取得ajax
-function getAjax() {
-    //顯示載入圖樣
-    $("#loaderModal").modal("show");
-
-    //classroom name 字串處理
-    let classroom = $(".active")
-        .attr("id") // classroom-tab
-        .slice(0, -4); //移除-tab
-
-    $("td[id*='-']").html(""); //清空calender
-
-    $(".calender-data")
-        .children()
-        .each(function () {
-            //date字串處理
-            let date = $(this)
-                .html() //年<br>月/日<br>星期
-                .replace("<br>", "/") //年/月/日<br>星期
-                .slice(0, -7);
-
-            let day = $(this).attr("id");
-
-            //time 是放時間的行
-            if (day != "time") {
-                get_reservation(classroom, date, day);
-            }
-        });
 }
 
 $("document").ready(function () {

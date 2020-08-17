@@ -15,7 +15,7 @@ class SuperUserSeeder extends Seeder
             'name' => 'admin',
             'email' => 'admin@gmail.com',
             'password' => '$2y$10$MOq8l6mT8oTkMBq36vsvredfzqCzQJw3KUuYazky7NhMlDPp9ezum',
-            'role' => '系統管理員'
+            'role' => '管理員'
         ]);
         $user->save();
     }

@@ -19,7 +19,7 @@
 
 <div class="container">
     <div id="classroom-tabs" class="mt-3">
-        <ul class="nav nav-tabs nav-justified" id="classroomTab" role="tablist">
+        <ul class="nav nav-tabs nav-justified bg-spary" id="classroomTab" role="tablist">
             <li class="nav-item">
                 <a href="#All" id="#All-tab" class="nav-link">總覽</a>
             </li>
@@ -53,22 +53,6 @@
         @endforeach 
     </div>
 
-    {{-- includecalender --}}
+    {{-- include calender --}}
     @include('partials/calender')
-
-{{-- 載入圖樣 --}}
-<div class="modal fade" id="loaderModal" tabindex="-1" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-body container-fluid">
-                <div class="row justify-content-center p-2">
-                    <div class="loader"></div>
-                </div>
-                <div class="row justify-content-center mt-2">
-                    <p class="m-0">資料載入中，請稍候</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 @endsection

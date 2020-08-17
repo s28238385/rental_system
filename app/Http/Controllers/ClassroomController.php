@@ -28,16 +28,16 @@ class ClassroomController extends Controller
             //如果classroom是#All代表位於總覽頁面，回傳所有教室資料，其餘則只回傳該教室資料
             if($request->input('classroom') === '#All'){
                 //取得所有教室該日的借用情況
-                $reservations = Reservation::all()
-                                            ->where('date', Date("Y-m-d", strtotime($request->input("date"))))
-                                            ->toArray();
+                $reservations = Reservation::where('date', '>=', Date("Y-m-d", strtotime($request->input("date"))))
+                                            ->where('date', '<=', Date("Y-m-d", strtotime($request->input("date") . ' +6 days')))
+                                            ->get();
             }
             else {
                 //取得特定教室該日的借用情況
-                $reservations = Reservation::all()
-                                            ->where('date', Date("Y-m-d", strtotime($request->input("date"))))
-                                            ->where('classroom', $request->input('classroom'))
-                                            ->toArray();
+                $reservations = Reservation::where('classroom', $request->input('classroom'))
+                                            ->where('date', '>=', Date("Y-m-d", strtotime($request->input("date"))))
+                                            ->where('date', '<=', Date("Y-m-d", strtotime($request->input("date") . ' +6 days')))
+                                            ->get();
             }
 
             //轉成json格式後回傳

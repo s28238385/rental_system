@@ -57,43 +57,40 @@
                 <div class="form-row pt-3 d-flex align-items-end">
                     <div class="form-group col-md-4">
                         <label for="name">姓名<span class="required">*</span></label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="姓名" autocomplete="off" required>
+                        <input type="text" class="form-control" name="name" id="name" value="{{ old('name') }}" placeholder="姓名" autocomplete="off" required>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="identity">身分</label>
                         <select class="form-control" name="identity" id="identity">
-                            <option selected>學生</option>
+                            <option>學生</option>
                             <option>教職員</option>
                         </select>
                     </div>
                     <div class="form-group col-md-4" id="gradePart">
-                        <label for="grade">系級<span class="required">*</span></label>
-                        <input name='grade' id="grade" class="form-control" placeholder="必填" required>
+                        <div class="d-flex inline-flex align-items-end">
+                            <label for="grade">系級<span class="required">*</span></label>
+                            <small class="text-muted mb-2 ml-1">(系所+年級 e.g.資管一A、資管碩一)</small>
+                        </div>
+                        <input name='grade' id="grade" class="form-control" value="{{ old('grade') }}" placeholder="必填" required>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="phone"><span class="text">手機</span><span class="required">*</span></label>
-                        <input type="text" class="form-control" name="phone" id="phone" placeholder="必填" autocomplete="off" required>
+                        <input type="text" class="form-control" name="phone" id="phone" value="{{ old('phone') }}" placeholder="必填" autocomplete="off" required>
                     </div>
-                    <div class="form-group col-md-4" id="cardPart">
-                        <div class="row m-0">
-                            <div class="col-md-12 px-0">
+                    <div id="cardPart" class="form-group col-md-4">
+                        <div class="row m-0 d-flex align-items-end">
+                            <div class="col-md-12 p-0">
                                 <label for="certificate">抵押證件</label>
                                 <select class="form-control" name="certificate" id="certificate">
-                                    <option selected="selected">學生證</option>
+                                    <option>學生證</option>
                                     <option>身分證</option>
                                     <option>健保卡</option>
                                     <option>駕照</option>
                                     <option>其他</option>
                                 </select>
                             </div>
-                            <div class="col-md-7 d-none px-0">
-                                <input type="text" class="form-control" name="certificateOther" id="certificateOther" placeholder="請填入要抵押的證件">
-                            </div>
+                            <input type="text" class="form-control col-md-8 d-none" name="certificateOther" id="certificateOther" value="{{ old('certificateOther') }}" placeholder="請填入要抵押的證件">
                         </div>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label for="return_time">歸還時間</label>
-                        <input type="text" class="form-control" name="return_time" id="return_time" value="{{ $return_time }}" readonly>
                     </div>
                 </div>
             </div>
@@ -117,13 +114,47 @@
                     <div class="form-group col-md-4">
                         <label for="key_type">鑰匙種類</label>
                         <select class="form-control" name="key_type" id="key_type">
-                            <option selected="selected">服務學習鑰匙</option>
-                            <option>備份鑰匙</option>
+                            <option>請選擇鑰匙種類</option>
+                            <option>主要鑰匙</option>
+                            <option>服務學習鑰匙</option>
+                            <option>備用鑰匙</option>
+                            <option>備備用鑰匙</option>
                         </select>
                     </div>
-                    <div class="form-group col-md-4 mb-0">
+                    <div class="form-group col-md-4">
+                        <div class="row m-0 d-flex align-items-end">
+                            <div class="col-md-8 p-0">
+                                <label for="key_return_time">鑰匙歸還時間</label>
+                                <input type="date" class="form-control" name="key_return_time" id="key_return_time" value="{{ $return_time }}" min="{{ $return_time }}">
+                            </div>
+                            <div class="col-md-4 p-0 d-flex align-items-end">
+                                <input type="text" name="hour" id="hour" class="form-control" value="09:00" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
                         <label for="teacher">授課教師</label>
-                        <input type="text" class="form-control" name="teacher" id="teacher">
+                        <input type="text" class="form-control" name="teacher" id="teacher" value="{{ old('teacher') }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="row m-0 d-flex align-items-end">
+                            <div class="col-md-12 p-0">
+                                <label for="key_usage">用途</label>
+                                <select name="key_usage" id="key_usage" class="form-control">
+                                    <option>請選擇用途</option>
+                                    <option>上課</option>
+                                    <option>Meeting</option>
+                                    <option>系學會</option>
+                                    <option>其他</option>
+                                </select>
+                            </div>
+                            <input type="text" name="key_sub_usage" id="key_sub_usage" class="form-control col-md-7 d-none">
+                        </div>
+                        
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="key_remark">備註</label>
+                        <input type="text" class="form-control" name="key_remark" id="key_remark">
                     </div>
                 </div>
             </div>
@@ -137,7 +168,7 @@
                 </div>
             </div>
             <div class="card border-0 my-3">
-                <button type="submit" class="btn btn-warning disabled">送出</button>
+                <button type="submit" class="btn btn-warning">送出</button>
             </div>
         </div>
     </form>
@@ -161,11 +192,32 @@
             <label for="quantity[]">數量</label>
             <select name="quantity[]" id="quantity" class="form-control"></select>
         </div>
-    </div>
-    <div class="form-row">
         <div class="form-group col-md-4">
-            <label for="usage[]">用途<span class="required">*</span></label>
-            <input type="text" class="form-control" name="usage[]" id="usage" placeholder="必填" required>
+            <div class="row m-0 d-flex align-items-end">
+                <div class="col-md-7 p-0">
+                    <label for="return_time">歸還時間</label>
+                    <input type="date" class="form-control" name="return_time[]" id="return_time" value="{{ $return_time }}" min="{{ $return_time }}">
+                </div>
+                <div class="col-md-5 p-0 d-flex align-items-end">
+                    <input type="text" name="hour" id="hour" class="form-control" value="09:00" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+            <div class="row m-0 d-flex align-items-end">
+                <div class="col-md-12 p-0">
+                    <label for="usage">用途</label>
+                    <select name="usage[]" id="usage" class="form-control">
+                        <option>請選擇用途</option>
+                        <option>上課</option>
+                        <option>Meeting</option>
+                        <option>系學會</option>
+                        <option>其他</option>
+                    </select>
+                </div>
+                <input type="text" name="sub_usage[]" id="sub_usage" class="form-control col-md-7 d-none">
+            </div>
+            
         </div>
         <div class="form-group col-md-4">
             <label for="remark[]">備註</label>

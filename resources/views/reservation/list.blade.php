@@ -4,6 +4,10 @@
     預約清單
 @endsection
 
+@section('script')
+    <script src="{{ URL::asset('js/reservation_search.js') }}" type="text/javascript"></script>
+@endsection
+
 @section('content')
     @if ( Session::has('success') )
         <div class="row justify-content-end m-2 fixed-bottom">
@@ -26,10 +30,41 @@
     @endif
     <div class="d-flex inline-flex align-items-center mt-5 mb-3">
         <h1 class="font-weight-normal text-info">預約清單</h1>
-        <a type="button" class="btn btn-outline-success ml-3 px-3" href="{{ route('reservation.new') }}">新增預約</a>
-        <div class="ml-auto">
-            {{ $reservations->links() }}
+        <a type="button" class="btn btn-outline-success ml-auto px-3" href="{{ route('reservation.new') }}">新增預約</a>
+    </div>
+    <form action="{{ route('reservation.list') }}" method="get" class="form-inline justify-content-end my-2">
+        <div class="form-group">
+            <label for="name" class="mb-0">申請人：</label>
+            <input type="text" name="name" id="name" class="form-control-sm" value="{{ old('name') }}">
         </div>
+        <div class="form-group ml-2">
+            <label for="classroom" class="m-0">教室：</label>
+            <select name="classroom" id="classroom" class="form-control-sm">
+                <option>請選擇教室</option>
+                <option {{ (old('classroom') === 'I_314')? "selected" : "" }}>I_314</option>
+                <option {{ (old('classroom') === 'I_315')? "selected" : "" }}>I_315</option>
+                <option {{ (old('classroom') === 'I1_002')? "selected" : "" }}>I1_002</option>
+                <option {{ (old('classroom') === 'I1_017')? "selected" : "" }}>I1_017</option>
+                <option {{ (old('classroom') === 'I1_105')? "selected" : "" }}>I1_105</option>
+                <option {{ (old('classroom') === 'I1_107')? "selected" : "" }}>I1_107</option>
+                <option {{ (old('classroom') === 'I1_223')? "selected" : "" }}>I1_223</option>
+                <option {{ (old('classroom') === 'I1_404')? "selected" : "" }}>I1_404</option>
+                <option {{ (old('classroom') === 'I1_507_1')? "selected" : "" }}>I1_507_1</option>
+                <option {{ (old('classroom') === 'I1_933')? "selected" : "" }}>I1_933</option>
+            </select>
+        </div>
+        <div class="form-group ml-2">
+            <label for="date" class="m-0">日期：</label>
+            <input type="date" name="begin_date" id="date" class="form-control-sm" value="{{ old('begin_date') }}">
+            <p class="mb-0 mx-1">~</p>
+            <input type="date" name="end_date" id="date" class="form-control-sm" value="{{ old('end_date') }}">
+        </div>
+        <div class="form-group ml-2">
+            <button type="submit" class="btn btn-sm btn-outline-primary">查詢</button>
+        </div>
+    </form>
+    <div class="d-flex justify-content-center my-2">
+        {{ $reservations->links() }}
     </div>
     <table class="table table-hover">
         <thead>
@@ -74,4 +109,7 @@
             @endif
         </tbody>
     </table>
+    <div class="d-flex justify-content-center my-2">
+        {{ $reservations->links() }}
+    </div>
 @endsection

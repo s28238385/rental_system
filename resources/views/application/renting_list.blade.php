@@ -5,29 +5,10 @@
 @endsection 
 
 @section('content')
-    @if ( Session::has('success') )
-        <div class="row justify-content-end m-2 fixed-bottom">
-            <div class="hint alert alert-success alert-sm alert-dismissible col fade show text-center" role="alert">
-                <p class="m-0 text-wrap">{{ Session::get('success') }}</p>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        </div>
-    @elseif( Session::has('fail') )
-        <div class="row justify-content-end m-2 fixed-bottom">
-            <div class="hint alert alert-danger alert-sm alert-dismissible col fade show text-center" role="alert">
-                <span class="text-wrap">{{ Session::get('success') }}</span>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        </div>
-    @endif
     <div class="d-flex inline-flex align-items-center mt-5 mb-3">
         <h1 class="font-weight-normal text-info">借出中清單</h1>
         <a href="{{ route('application.list') }}" type="button" class="btn btn-sm btn-outline-primary ml-3 mr-1">申請清單</a>
-        <a href="{{ route('application.returned_list') }}" type="button" class="btn btn-sm btn-outline-primary mx-1">已歸還申請</a>
+        <a href="{{ route('application.returned_list') }}" type="button" class="btn btn-sm btn-outline-primary mx-1">已歸還清單</a>
         <div class="ml-auto">
             {{ $applications->links() }}
         </div>
@@ -62,7 +43,7 @@
                         <td>{{ $application->identity }}</td>
                         <td>{{ $application->phone }}</td>
                         <td>{{ $application->certificate }}</td>
-                        <td>{{ $application->all_status }}</td>
+                        <td>{{ $application->status }}</td>
                         @if (Auth::check())
                             <td>
                                 <a type="button" href="{{ route('application.rent', ['application_id' => $application->id]) }}" class="btn btn-sm btn-outline-success px-3">借出</a>

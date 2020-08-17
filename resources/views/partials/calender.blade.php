@@ -49,8 +49,8 @@
             <td id="Tue-3" class="p-0"></td>
             <td id="Wed-3" class="p-0"></td>
             <td id="Thu-3" class="p-0"></td>
-            <td id="Fri-3"></td>
-            <td id="Sat-3"></td>
+            <td id="Fri-3" class="p-0"></td>
+            <td id="Sat-3" class="p-0"></td>
         </tr>
         <tr>
             <th id="4" class="text-center">11:00<br>~<br>12:00</th>

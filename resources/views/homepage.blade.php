@@ -43,39 +43,46 @@
                         <a class="text-decoration-none" href="{{ route('application.list') }}">
                             <h5 class="px-2 yellow-subindex">申請清單</h5>
                         </a>
-                        <a class="text-decoration-none" href="{{ route('application.renting_list') }}">
-                            <h5 class="px-2 yellow-subindex">借出中清單</h5>
-                        </a>
-                        <a class="text-decoration-none" href="{{ route('application.returned_list') }}">
-                            <h5 class="px-2 yellow-subindex">已歸還清單</h5>
-                        </a>
+                        @if (Auth::check())
+                            <a class="text-decoration-none" href="{{ route('application.renting_list') }}">
+                                <h5 class="px-2 yellow-subindex">借出中清單</h5>
+                            </a>
+                            <a class="text-decoration-none" href="{{ route('application.returned_list') }}">
+                                <h5 class="px-2 yellow-subindex">已歸還清單</h5>
+                            </a>
+                        @endif
                     </div>
                 </div>
                 @if(Auth::check())
-                    <div>
-                        <h3 type="button" id="appointment" class="px-3 yellow-index">教室預約</h3>
-                        <div id="subindex" class="d-none pb-3">
-                            <a class="text-decoration-none" href="{{ route('reservation.new') }}">
-                                <h5 class="px-2 yellow-subindex">新增預約</h5>
-                            </a>
-                            <a class="text-decoration-none" href="{{ route('reservation.list') }}">
-                                <h5 class="px-2 yellow-subindex">預約清單</h5>
-                            </a>
-                        </div>
-                    </div>
                     @can('manager')
                         <div>
-                            <h3 type="button" id="equipment" class="px-3 yellow-index">設備管理</h3>
+                            <h3 type="button" id="appointment" class="px-3 yellow-index">教室預約</h3>
                             <div id="subindex" class="d-none pb-3">
-                                <a class="text-decoration-none" href="{{route('equipment.add')}}">
-                                    <h5 class="px-2 yellow-subindex">新增設備</h5>
+                                <a class="text-decoration-none" href="{{ route('reservation.new') }}">
+                                    <h5 class="px-2 yellow-subindex">新增預約</h5>
                                 </a>
-                                <a class="text-decoration-none" href="{{ route('equipment.list') }}">
-                                    <h5 class="px-2 yellow-subindex">設備清單</h5>
+                                <a class="text-decoration-none" href="{{ route('reservation.list') }}">
+                                    <h5 class="px-2 yellow-subindex">預約清單</h5>
                                 </a>
                             </div>
                         </div>
                     @endcan
+                    <div>
+                        <h3 type="button" id="equipment" class="px-3 yellow-index">設備管理</h3>
+                        <div id="subindex" class="d-none pb-3">
+                            <a class="text-decoration-none" href="{{route('equipment.add')}}">
+                                <h5 class="px-2 yellow-subindex">新增設備</h5>
+                            </a>
+                            <a class="text-decoration-none" href="{{ route('equipment.list') }}">
+                                <h5 class="px-2 yellow-subindex">設備清單</h5>
+                            </a>
+                            @can('manager')
+                                <a class="text-decoration-none" href="{{ route('equipment.record') }}">
+                                    <h5 class="px-2 yellow-subindex">設備借用紀錄</h5>
+                                </a>
+                            @endcan
+                        </div>
+                    </div>
                     <div class="mt-3">
                         <h6 type="button" id="user" class="text-muted">你好， <?=Auth::user()->name?>！<i class="text-muted fas fa-caret-down"></i></h6>
                         <div id="subindex" class="d-none">

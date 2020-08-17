@@ -44,8 +44,8 @@
             <div class="form-group">
                 <label for="role">身分</label>
                 <select id="role" name="role" class="form-control">
-                    <option selected>管理員</option>
-                    <option>系統管理員</option>
+                    <option selected>工讀生</option>
+                    <option>管理員</option>
                 </select>
             </div>
             <div class="d-flex align-items-center justify-content-center">

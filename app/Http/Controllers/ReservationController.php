@@ -19,13 +19,190 @@ class ReservationController extends Controller
     private $end_time = ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'];
 
     //取得預約清單
-    public function getList(){
-        //取出所有該日後的預約資料，並以日期、開始時間、結束時間依序排列，最後以20筆分一列
-        $reservations = Reservation::where('date', '>=', Date("Y-m-d", strtotime('now')))
-                                    ->orderBy('date', 'ASC')
-                                    ->orderBy('begin_time', 'ASC')
-                                    ->orderBy('end_time', 'ASC')
-                                    ->paginate(20);
+    public function getList(Request $request){
+        if($request->input('name') != ""){
+            if($request->input('classroom') != '' & $request->input('classroom') != '請選擇教室'){
+                if($request->input('begin_date') != ""){
+                    if($request->input('end_date') != ""){
+                        $reservations = Reservation::where('name', $request->input('name'))
+                                                    ->where('classroom', $request->input('classroom'))
+                                                    ->where('date', '>=', $request->input('begin_date'))
+                                                    ->where('date', '<=', $request->input('end_date'))
+                                                    ->orderBy('date', 'ASC')
+                                                    ->orderBy('begin_time', 'ASC')
+                                                    ->orderBy('end_time', 'ASC')
+                                                    ->paginate(20)
+                                                    ->setPath('');
+                    }
+                    else {
+                        $reservations = Reservation::where('name', $request->input('name'))
+                                                    ->where('classroom', $request->input('classroom'))
+                                                    ->where('date', '>=', $request->input('begin_date'))
+                                                    ->orderBy('date', 'ASC')
+                                                    ->orderBy('begin_time', 'ASC')
+                                                    ->orderBy('end_time', 'ASC')
+                                                    ->paginate(20)
+                                                    ->setPath('');
+                    }
+                }
+                else {
+                    if($request->input('end_date') != ""){
+                        $reservations = Reservation::where('name', $request->input('name'))
+                                                    ->where('classroom', $request->input('classroom'))
+                                                    ->where('date', '<=', $request->input('end_date'))
+                                                    ->orderBy('date', 'ASC')
+                                                    ->orderBy('begin_time', 'ASC')
+                                                    ->orderBy('end_time', 'ASC')
+                                                    ->paginate(20)
+                                                    ->setPath('');
+                    }
+                    else {
+                        $reservations = Reservation::where('name', $request->input('name'))
+                                                    ->where('classroom', $request->input('classroom'))
+                                                    ->orderBy('date', 'ASC')
+                                                    ->orderBy('begin_time', 'ASC')
+                                                    ->orderBy('end_time', 'ASC')
+                                                    ->paginate(20)
+                                                    ->setPath('');
+                    }
+                }
+            }
+            else {
+                if($request->input('begin_date') != ""){
+                    if($request->input('end_date') != ""){
+                        $reservations = Reservation::where('name', $request->input('name'))
+                                                    ->where('date', '>=', $request->input('begin_date'))
+                                                    ->where('date', '<=', $request->input('end_date'))
+                                                    ->orderBy('date', 'ASC')
+                                                    ->orderBy('begin_time', 'ASC')
+                                                    ->orderBy('end_time', 'ASC')
+                                                    ->paginate(20)
+                                                    ->setPath('');
+                    }
+                    else {
+                        $reservations = Reservation::where('name', $request->input('name'))
+                                                    ->where('date', '>=', $request->input('begin_date'))
+                                                    ->orderBy('date', 'ASC')
+                                                    ->orderBy('begin_time', 'ASC')
+                                                    ->orderBy('end_time', 'ASC')
+                                                    ->paginate(20)
+                                                    ->setPath('');
+                    }
+                }
+                else {
+                    if($request->input('end_date') != ""){
+                        $reservations = Reservation::where('name', $request->input('name'))
+                                                    ->where('date', '<=', $request->input('end_date'))
+                                                    ->orderBy('date', 'ASC')
+                                                    ->orderBy('begin_time', 'ASC')
+                                                    ->orderBy('end_time', 'ASC')
+                                                    ->paginate(20)
+                                                    ->setPath('');
+                    }
+                    else {
+                        $reservations = Reservation::where('name', $request->input('name'))
+                                                    ->orderBy('date', 'ASC')
+                                                    ->orderBy('begin_time', 'ASC')
+                                                    ->orderBy('end_time', 'ASC')
+                                                    ->paginate(20)
+                                                    ->setPath('');
+                    }
+                }
+            }
+        }
+        else{
+            if($request->input('classroom') != '' & $request->input('classroom') != "請選擇教室"){
+                if($request->input('begin_date') != ""){
+                    if($request->input('end_date') != ""){
+                        $reservations = Reservation::where('classroom', $request->input('classroom'))
+                                                    ->where('date', '>=', $request->input('begin_date'))
+                                                    ->where('date', '<=', $request->input('end_date'))
+                                                    ->orderBy('date', 'ASC')
+                                                    ->orderBy('begin_time', 'ASC')
+                                                    ->orderBy('end_time', 'ASC')
+                                                    ->paginate(20)
+                                                    ->setPath('');
+                    }
+                    else {
+                        $reservations = Reservation::where('classroom', $request->input('classroom'))
+                                                    ->where('date', '>=', $request->input('begin_date'))
+                                                    ->orderBy('date', 'ASC')
+                                                    ->orderBy('begin_time', 'ASC')
+                                                    ->orderBy('end_time', 'ASC')
+                                                    ->paginate(20)
+                                                    ->setPath('');
+                    }
+                }
+                else {
+                    if($request->input('end_date') != ""){
+                        $reservations = Reservation::where('classroom', $request->input('classroom'))
+                                                    ->where('date', '<=', $request->input('end_date'))
+                                                    ->orderBy('date', 'ASC')
+                                                    ->orderBy('begin_time', 'ASC')
+                                                    ->orderBy('end_time', 'ASC')
+                                                    ->paginate(20)
+                                                    ->setPath('');
+                    }
+                    else {
+                        $reservations = Reservation::where('classroom', $request->input('classroom'))
+                                                    ->orderBy('date', 'ASC')
+                                                    ->orderBy('begin_time', 'ASC')
+                                                    ->orderBy('end_time', 'ASC')
+                                                    ->paginate(20)
+                                                    ->setPath('');
+                    }
+                }
+            }
+            else {
+                if($request->input('begin_date') != ""){
+                    if($request->input('end_date') != ""){
+                        $reservations = Reservation::where('date', '>=', $request->input('begin_date'))
+                                                    ->where('date', '<=', $request->input('end_date'))
+                                                    ->orderBy('date', 'ASC')
+                                                    ->orderBy('begin_time', 'ASC')
+                                                    ->orderBy('end_time', 'ASC')
+                                                    ->paginate(20)
+                                                    ->setPath('');
+                    }
+                    else {
+                        $reservations = Reservation::where('date', '>=', $request->input('begin_date'))
+                                                    ->orderBy('date', 'ASC')
+                                                    ->orderBy('begin_time', 'ASC')
+                                                    ->orderBy('end_time', 'ASC')
+                                                    ->paginate(20)
+                                                    ->setPath('');
+                    }
+                }
+                else {
+                    if($request->input('end_date') != ""){
+                        $reservations = Reservation::where('date', '<=', Date("Y-m-d", strtotime($request->input('end_date'))))
+                                                    ->orderBy('date', 'ASC')
+                                                    ->orderBy('begin_time', 'ASC')
+                                                    ->orderBy('end_time', 'ASC')
+                                                    ->paginate(20)
+                                                    ->setPath('');
+                    }
+                    else {
+                        //取出所有該日後的預約資料，並以日期、開始時間、結束時間依序排列，最後以20筆分一列
+                        $reservations = Reservation::where('date', '>=', Date("Y-m-d", strtotime('now')))
+                                                    ->orderBy('date', 'ASC')
+                                                    ->orderBy('begin_time', 'ASC')
+                                                    ->orderBy('end_time', 'ASC')
+                                                    ->paginate(20)
+                                                    ->setPath('');
+                    }
+                }
+            }
+        }
+
+        $pagination = $reservations->appends([
+            'name' => $request->input('name'),
+            'classroom' => $request->input('classroom'),
+            'begin_date' => $request->input('begin_date'),
+            'end_date' => $request->input('end_date')
+        ]);
+
+        session()->flashInput($request->input());
 
         //把資料庫存的key值轉換成時間
         foreach($reservations as $reservation){
@@ -229,16 +406,14 @@ class ReservationController extends Controller
         if(is_null($reservation->long_term_id)){
             return redirect()->route('reservation.list')->with('fail', '查無此長期預約');
         }
-        
+
         //透過long_term_id取得同期預約資料
-        $reservations = Reservation::all()->where('long_term_id', $reservation->long_term_id)->toArray();
-        //重設array index
-        $reservations = array_values($reservations);
-        
+        $reservations = Reservation::where('long_term_id', $reservation->long_term_id)->get();
+
         //把資料庫存的key值轉換成時間
         foreach($reservations as $reservation){
-            $reservation['begin_time'] = $this->begin_time[$reservation['begin_time']];
-            $reservation['end_time'] = $this->end_time[$reservation['end_time']];
+            $reservation->begin_time = $this->begin_time[$reservation->begin_time];
+            $reservation->end_time = $this->end_time[$reservation->end_time];
         }
 
         //回傳reservation.longterm，並附帶$reservations

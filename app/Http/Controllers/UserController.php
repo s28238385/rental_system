@@ -143,7 +143,7 @@ class UserController extends Controller
         }
     }
 
-    //取得系統管理員重設使用者密碼頁面
+    //取得管理員重設使用者密碼頁面
     public function getresetPassword($id) {
         //根據傳入$id取出資料
         $user = User::find($id);

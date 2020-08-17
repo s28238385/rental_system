@@ -11,7 +11,7 @@ class CreateEquipmentTable extends Migration
             $table->increments('id');
             $table->timestamps();   //建立、更新時間
             $table->string('genre');    //種類
-            $table->string('item'); //項目
+            $table->string('item')->unique();   //項目
             $table->integer('quantity');    //數量
         });
     }

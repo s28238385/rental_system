@@ -8,18 +8,45 @@ use App\Http\Requests;
 
 //資料庫model
 use App\Equipment;
+use App\RentKey;
+use App\RentEquipment;
 
 class EquipmentController extends Controller
 {
+    private $keys = [
+        "I_314鑰匙" => ['主要鑰匙', '服務學習鑰匙', '備用鑰匙', '備備用鑰匙'],
+        "I_315鑰匙" => ['主要鑰匙', '服務學習鑰匙', '備用鑰匙', '備備用鑰匙'],
+        "I1_002鑰匙" => ['主要鑰匙', '服務學習鑰匙', '備用鑰匙', '備備用鑰匙'],
+        "I1_017鑰匙" => ['主要鑰匙', '服務學習鑰匙', '備用鑰匙', '備備用鑰匙'],
+        "I1_105鑰匙" => ['主要鑰匙', '服務學習鑰匙', '備用鑰匙', '備備用鑰匙'],
+        "I1_107鑰匙" => ['主要鑰匙', '服務學習鑰匙', '備用鑰匙', '備備用鑰匙'],
+        "I1_223鑰匙" => ['主要鑰匙', '服務學習鑰匙', '備用鑰匙', '備備用鑰匙'],
+        "I1_404鑰匙" => ['主要鑰匙', '服務學習鑰匙', '備用鑰匙', '備備用鑰匙'],
+        "I1_507_1鑰匙" => ['主要鑰匙', '服務學習鑰匙', '備用鑰匙', '備備用鑰匙'],
+        "I1_933鑰匙" => ['主要鑰匙', '服務學習鑰匙', '備用鑰匙', '備備用鑰匙']
+    ];
+
     //顯示設備清單
     public function getList(){
         //取得所有設備，並依種類、項目排列
-        $equipments = Equipment::orderBy('genre', 'ASC')
+        $equipments = Equipment::orderBy('genre', 'DESC')
                                 ->orderBy('item', 'ASC')
                                 ->paginate(20);
 
+        //取出所有在equipment table裡的資料，並依name排序，再依name分類
+        $records = Equipment::all()
+                            ->groupBy('genre');
+
+        //把$equipments中的array元素依item分類，並更改其索引值為item
+        foreach($records as $key => $value){
+            $records[$key] = $value->keyBy('item')->keys();
+        }
+        //把資料型態從Collection object變成array
+        $records = $records->toArray();
+        $records = array_merge($this->keys, $records);
+
         //回傳equipment.list，並附帶$equipments
-        return view('equipment.list', ['equipments' => $equipments]);
+        return view('equipment.list', ['equipments' => $equipments, 'records' => $records]);
     }
 
     //顯示新增設備頁面
@@ -33,18 +60,9 @@ class EquipmentController extends Controller
         //輸入值驗證
         $this->validate($request, [
             'genre' => 'required|string',
-            'item' => 'required|string',
+            'item' => 'required|string|unique:equipment,item',
             'quantity' => 'required|integer'
         ]);
-
-        //確保設備種類與項目不重複，若重複則導回前頁面並回傳錯誤訊息
-        if(
-            Equipment::where('genre', $request->input('genre'))
-                        ->where('item', $request->input('item'))
-                        ->first()
-        ){
-            return redirect()->back()->withErrors('已有相同的設備種類與項目組合')->withInput();
-        }
 
         //建立model以儲存資料
         $equipment = new Equipment([
@@ -77,19 +95,9 @@ class EquipmentController extends Controller
         //輸入值驗證
         $this->validate($request, [
             'genre' => 'required|string',
-            'item' => 'required|string',
+            'item' => 'required|string|unique:equipment,item',
             'quantity' => 'required|integer'
         ]);
-
-        //確保設備種類與項目不重複，若重複則導回前頁面並回傳錯誤訊息
-        if(
-            Equipment::where('id', '<>', $id)
-                        ->where('genre', $request->input('genre'))
-                        ->where('item', $request->input('item'))
-                        ->first()
-        ){
-            return redirect()->back()->withErrors('已有重複的設備與分類組合');
-        }
 
         //依傳入$id取得資料
         $equipment = Equipment::find($id);
@@ -107,6 +115,44 @@ class EquipmentController extends Controller
         else{
             return redirect()->route('equipment.list')->with('fail', '修改設備失敗，請再次嘗試！');
         }
+    }
+
+    public function getRecord(Request $request){
+        //取出所有在equipment table裡的資料，並依name排序，再依name分類
+        $equipments = Equipment::all()
+                                ->groupBy('genre');
+        
+        //把$equipments中的array元素依item分類，並更改其索引值為item
+        foreach($equipments as $key => $value){
+            $equipments[$key] = $value->sortBy('item')
+                                        ->keyBy('item')
+                                        ->keys();
+        }
+        //把資料型態從Collection object變成array
+        $equipments = $equipments->toArray();
+        $equipments = array_merge($this->keys, $equipments);
+
+        if(preg_match("/鑰匙$/", $request->input('genre'))) {
+            $records = RentKey::where('classroom', str_replace('鑰匙', "", $request->input('genre')))
+                                ->where('key_type', $request->input('item'))
+                                ->orderBy('updated_at', 'DESC')
+                                ->paginate(20)->setPath('');
+        }
+        else {
+            $records = RentEquipment::where('genre', $request->input('genre'))
+                                    ->where('item', $request->input('item'))
+                                    ->orderBy('updated_at', 'DESC')
+                                    ->paginate(20)->setPath('');
+        }
+
+        $pagination = $records->appends([
+            'genre' => $request->input('genre'),
+            'item' => $request->input('item')
+        ]);
+
+        session()->flashInput($request->input());
+
+        return view('equipment.record', ['equipments' => $equipments, 'records' => $records]);
     }
 
     //刪除設備

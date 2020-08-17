@@ -24,13 +24,10 @@
                         <p>申請編號：{{ $application->id }}</p>
                     </div>
                     <div class="col-md-6">
-                        <p>申請狀態：{{ $application->all_status }}</p>
+                        <p>申請狀態：{{ $application->status }}</p>
                     </div>
                     <div class="col-md-6">
                         <p>申請時間：{{ $application->created_at }}</p>
-                    </div>
-                    <div class="col-md-6">
-                        <p>歸還時間：{{ $application->return_time }}</p>
                     </div>
                 </div>
                 <div class="dropdown-divider"></div>
@@ -73,37 +70,39 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if ($application->key_status != '已建立' && empty($rent_equipments))
+                            @if (empty($rent_key) && $rent_equipments->isEmpty())
                                 <tr>
                                     <td colspan="5">所有申請設備皆已借出或歸還</td>
                                 </tr>
                             @endif
-                            @if ($application->key_status === '已建立')
+                            @if (!empty($rent_key))
                                 <tr>
-                                    <td>{{ $application->classroom }}鑰匙</td>
-                                    <td>{{ $application->key_type }}</td>
+                                    <td>{{ $rent_key->classroom }}鑰匙</td>
+                                    <td>{{ $rent_key->key_type }}</td>
                                     <td>1</td>
                                     <td>
-                                        <input type="checkbox" name="rent[]" id="rent" value="key">
-                                        <label for="rent">借出</label>
+                                        <input type="checkbox" name="key_rent" id="rentkey" value="{{ $rent_key->id }}">
+                                        <label for="rentkey">借出</label>
                                     </td>
                                 </tr>
                             @endif
-                            @foreach ($rent_equipments as $rent_equipment)
-                                <tr>
-                                    <td>{{ $rent_equipment['genre'] }}</td>
-                                    <td>{{ $rent_equipment['item'] }}</td>
-                                    <td>{{ $rent_equipment['quantity'] }}</td>
-                                    <td>
-                                        <input type="checkbox" name="rent[]" id="rent{{ $rent_equipment['id'] }}" value="{{ $rent_equipment['id'] }}">
-                                        <label for="rent{{ $rent_equipment['id'] }}">借出</label>
-                                    </td>
-                                </tr>
-                            @endforeach
+                            @if (!$rent_equipments->isEmpty())
+                                @foreach ($rent_equipments as $rent_equipment)
+                                    <tr>
+                                        <td>{{ $rent_equipment->genre }}</td>
+                                        <td>{{ $rent_equipment->item }}</td>
+                                        <td>{{ $rent_equipment->quantity }}</td>
+                                        <td>
+                                            <input type="checkbox" name="rent[]" id="rent{{ $rent_equipment->id }}" value="{{ $rent_equipment->id }}">
+                                            <label for="rent{{ $rent_equipment->id }}">借出</label>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
                         </tbody>
                     </table>
                     <div class="float-right">
-                        <button type="submit" class="btn btn-success px-4">確認借出</button>
+                        <button type="submit" class="btn btn-success px-4" {{ (empty($rent_key) && $rent_equipments->isEmpty())? 'disabled' : '' }}>確認借出</button>
                     </div>
                 </div>
             </div>

@@ -141,7 +141,7 @@ $("document").ready(function () {
     //點選前往時
     $("#toCertainWeek").click(function () {
         if ($("#date-select").val() != "") {
-            sundayOfShowingWeek = new Date();
+            sundayOfShowingWeek = new Date($("#date-select").val());
             sundayOfShowingWeek.getSunday();
 
             fillInDates(sundayOfShowingWeek);

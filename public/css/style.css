@@ -11,7 +11,7 @@ body {
 }
 
 .hint {
-    max-width: 250px;
+    max-width: 350px;
 }
 
 .color-2F91CD {
@@ -148,6 +148,10 @@ i {
 
 #classroomTab .active {
     color: #000;
+}
+
+.bg-spary {
+    background-color: rgba(129, 207, 224, 0.3);
 }
 
 .bg-grey {

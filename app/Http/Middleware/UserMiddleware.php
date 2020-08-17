@@ -17,7 +17,7 @@ class UserMiddleware
     public function handle($request, Closure $next)
     {
         //若身分不是系統管理員則重導至首頁
-        if(Auth::user()->role != '系統管理員') {
+        if(Auth::user()->role != '管理員') {
             return redirect('/');
         }
 

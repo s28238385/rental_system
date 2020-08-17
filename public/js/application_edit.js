@@ -1,18 +1,15 @@
 $("document").ready(function () {
-    let rentEquipmentNum = 0; //總借用設備數（包含鑰匙）
+    let status = ["借出中", "已歸還"];
     let equipmentNum = 0; //借用設備的編號
     let genrekey, itemkey;
 
     //身分改變時
     $("#identity").change(() => {
-        //選擇身份顯示or隱藏學部、班年級
-        $("#gradePart, #cardPart").toggleClass("d-none");
-
-        //分機或手機、隱藏系級/抵押證件與否
+        //分機/手機、隱藏系級、抵押證件與否
         if ($("#identity option:selected").text() === "學生") {
-            $("#grade").prop("required", false);
+            $("#gradePart, #cardPart").removeClass("d-none");
+            $("#grade").prop("required", true);
             $('label[for="phone"]').children(".text").text("手機號碼");
-            $("#degreePart, #gradePart, #cardPart").removeClass("d-none");
             //手機號碼格式檢查
             if (
                 $("#phone").val() != "" &&
@@ -24,11 +21,11 @@ $("document").ready(function () {
             } else {
                 $("#phone").removeClass("is-invalid");
             }
+            $("#certificate").change();
         } else {
+            $("#gradePart, #cardPart, #cardOtherPart").addClass("d-none");
             $("#grade").prop("required", false);
             $('label[for="phone"]').children(".text").text("分機");
-            $("#gradePart, #cardPart").addClass("d-none");
-            $("#certificateOther").parent().addClass("d-none");
             //分機格式檢查
             if (
                 $("#phone").val() != "" &&
@@ -43,20 +40,22 @@ $("document").ready(function () {
         }
     });
 
-    //是否借用教室的核取方塊改變時
-    $("#wantRentChk").change(function () {
-        $("#classroomSection").toggleClass("d-none");
-        //檢查有無借用設備以決定是否將送出鈕無效化
-        if ($("#wantRentChk").is(":checked")) {
-            rentEquipmentNum++;
-            if (rentEquipmentNum > 0) {
-                $("button[type='submit']").removeClass("disabled");
-            }
+    //抵押證件選項改變時決定是否顯示額外的輸入欄
+    $("#certificate").change(function () {
+        if ($("#certificate option:selected").text() === "其他") {
+            //更改版面配置與填入required
+            $("#certificate")
+                .parent()
+                .removeClass("col-md-12")
+                .addClass("col-md-4");
+            $("#certificateOther").prop("required", true).removeClass("d-none");
         } else {
-            rentEquipmentNum--;
-            if (rentEquipmentNum === 0) {
-                $("button[type='submit']").addClass("disabled");
-            }
+            //取消required與更改版面配置
+            $("#certificateOther").prop("required", false).addClass("d-none");
+            $("#certificate")
+                .parent()
+                .removeClass("col-md-4")
+                .addClass("col-md-12");
         }
     });
 
@@ -85,33 +84,59 @@ $("document").ready(function () {
         }
     });
 
-    //抵押證件選項改變時決定是否顯示額外的輸入欄
-    $("#certificate").change(function () {
-        if ($("#certificate option:selected").text() === "其他") {
-            //更改版面配置與填入required
-            $("#certificate")
-                .parent()
-                .removeClass("col-md-12")
-                .addClass("col-md-5");
-            $("#certificateOther")
-                .removeClass("is-invalid")
-                .attr("required", true);
-            $("#certificateOther")
-                .parent()
-                .removeClass("d-none")
-                .addClass("d-flex align-items-end");
+    //是否借用教室的核取方塊改變時
+    $("#wantRentChk").change(function () {
+        if ($("#wantRentChk").prop("checked") === true) {
+            $("#classroomSection").removeClass("d-none");
+
+            $("#key_usage").change();
         } else {
-            //取消required與更改版面配置
-            $("#certificateOther")
-                .prop("required", false)
-                .parent()
-                .removeClass("d-flex align-items-end")
-                .addClass("d-none");
-            $("#certificate")
-                .parent()
-                .removeClass("col-md-5")
-                .addClass("col-md-12");
+            $("#classroomSection").addClass("d-none");
+
+            $("#key_sub_usage").prop("required", false);
         }
+    });
+
+    //鑰匙用途改變時
+    $("#key_usage").change(function () {
+        if ($(this).find("option:selected").text() === "系學會") {
+            $(this).parent().removeClass("col-md-12").addClass("col-md-5");
+            $(this)
+                .parents("#classroomSection")
+                .find("#key_sub_usage")
+                .removeClass("d-none")
+                .prop("placeholder", "請填入部名")
+                .prop("required", true);
+        } else if ($(this).find("option:selected").text() === "其他") {
+            $(this).parent().removeClass("col-md-12").addClass("col-md-5");
+            $(this)
+                .parents("#classroomSection")
+                .find("#key_sub_usage")
+                .removeClass("d-none")
+                .prop("placeholder", "請填入用途")
+                .prop("required", true);
+        } else {
+            $(this).parent().removeClass("col-md-5").addClass("col-md-12");
+            $(this)
+                .parents("#classroomSection")
+                .find("#key_sub_usage")
+                .addClass("d-none")
+                .prop("required", false);
+        }
+    });
+
+    //點選刪除時
+    $("#dltBtn").click(function () {
+        //移除最後一個設備表格
+        $(".equipmentContainer").children().last().remove();
+        //顯示更新後最後一個的刪除鍵
+        $(".equipmentContainer")
+            .children()
+            .last()
+            .find("#dltBtn")
+            .removeClass("d-none");
+        //減少設備借用數
+        equipmentNum--;
     });
 
     //設備種類選項改變時
@@ -177,28 +202,38 @@ $("document").ready(function () {
         }
     });
 
-    //點選刪除時
-    $("#dltBtn").click(function () {
-        //移除最後一個設備表格
-        $(".equipmentContainer").children().last().remove();
-        //顯示更新後最後一個的刪除鍵
-        $(".equipmentContainer")
-            .children()
-            .last()
-            .find("#dltBtn")
-            .removeClass("d-none");
-        //減少設備借用數
-        equipmentNum--;
-        //如果總設備借用數為0則使送出鈕無效化
-        if (--rentEquipmentNum === 0) {
-            $("button[type='submit']").addClass("disabled");
+    //用途改變時
+    $("#usage").change(function () {
+        if ($(this).find("option:selected").text() === "系學會") {
+            $(this).parent().removeClass("col-md-12").addClass("col-md-5");
+            $(this)
+                .parents(".form-row")
+                .find("#sub_usage")
+                .removeClass("d-none")
+                .prop("placeholder", "請填入部名")
+                .prop("required", true);
+        } else if ($(this).find("option:selected").text() === "其他") {
+            $(this).parent().removeClass("col-md-12").addClass("col-md-5");
+            $(this)
+                .parents(".form-row")
+                .find("#sub_usage")
+                .removeClass("d-none")
+                .prop("placeholder", "請填入用途")
+                .prop("required", true);
+        } else {
+            $(this).parent().removeClass("col-md-5").addClass("col-md-12");
+            $(this)
+                .parents(".form-row")
+                .find("#sub_usage")
+                .addClass("d-none")
+                .prop("required", false);
         }
     });
 
     //借用更多設備時，設備資訊的建構
     function equipmentBuildUp(equipment /*jQuery Object*/) {
         //改變#genre內的選項
-        //清空#genre選項
+        //填入#genre的選項
         Object.keys(equipments).forEach((element) =>
             equipment.find("#genre").append(new Option(element))
         );
@@ -245,11 +280,6 @@ $("document").ready(function () {
         equipment.find("#dltBtn").removeClass("d-none");
         //建立設備表格#genre, #item, #quantity的選項
         equipmentBuildUp(equipment);
-
-        rentEquipmentNum++;
-
-        //取消送出按鈕無效化
-        $("button[type='submit']").removeClass("disabled");
     });
 
     //將欲編輯申請的資料填入
@@ -258,8 +288,11 @@ $("document").ready(function () {
         .prop("selected", true)
         .change();
 
-    //抵押證件填入
-    if (application["certificate"] != null) {
+    if (application["identity"] != "教職員") {
+        //系級填入
+        $("#grade").val(application["identity"]);
+
+        //抵押證件填入
         if (
             (application["certificate"] === "學生證") |
             (application["certificate"] === "身分證") |
@@ -282,13 +315,44 @@ $("document").ready(function () {
     }
 
     //借用教室選項勾選、選擇教室及鑰匙種類填入
-    if (application["classroom"] != null) {
+    if (rent_key != null) {
         $("#wantRentChk").prop("checked", true).change();
-        $("#classroom option:contains(" + application["classroom"] + ")").prop(
+
+        $("#classroom option:contains(" + rent_key["classroom"] + ")").prop(
             "selected",
             true
         );
-        $("#key_type option:contains(" + application["key_type"] + ")").prop(
+
+        $("#key_type option:contains(" + rent_key["key_type"] + ")").prop(
+            "selected",
+            true
+        );
+
+        if (
+            (rent_key["usage"] === "上課") |
+            (rent_key["usage"] === "Meeting")
+        ) {
+            $("#key_usage option:contains(" + rent_key["usage"] + ")")
+                .prop("selected", true)
+                .change();
+        } else {
+            let usage_set = rent_key["usage"].split("/");
+
+            $("#key_usage option:contains(" + usage_set[0] + ")")
+                .prop("selected", true)
+                .change();
+            $("#key_sub_usage").val(usage_set[1]);
+        }
+
+        for (
+            let i = 0;
+            i <= status.findIndex((element) => element == rent_key["status"]);
+            i++
+        ) {
+            $("#key_status").append(new Option(status[i]));
+        }
+
+        $("#key_status option:contains(" + rent_key["status"] + ")").prop(
             "selected",
             true
         );
@@ -299,6 +363,12 @@ $("document").ready(function () {
         //新增設備表格
         $("#moreBtn").click();
 
+        //填入id
+        $(".equipmentContainer")
+            .children()
+            .last()
+            .find("#equipment_id")
+            .val(rent_equipment["id"]);
         //改變#genre選項
         $(".equipmentContainer")
             .children()
@@ -321,12 +391,37 @@ $("document").ready(function () {
                 "#quantity option:contains(" + rent_equipment["quantity"] + ")"
             )
             .prop("selected", true);
-        //填入用途
         $(".equipmentContainer")
             .children()
             .last()
-            .find("#usage")
-            .val(rent_equipment["usage"]);
+            .find("#return_time")
+            .val(rent_equipment["return_time"].replace(" ", "T"));
+        //填入用途
+        if (
+            (rent_equipment["usage"] === "上課") |
+            (rent_equipment["usage"] === "Meeting")
+        ) {
+            $(".equipmentContainer")
+                .children()
+                .last()
+                .find("#usage option:contains(" + rent_equipment["usage"] + ")")
+                .prop("selected", true)
+                .change();
+        } else {
+            let usage_set = rent_equipment["usage"].split("/");
+
+            $(".equipmentContainer")
+                .children()
+                .last()
+                .find("#usage option:contains(" + usage_set[0] + ")")
+                .prop("selected", true)
+                .change();
+            $(".equipmentContainer")
+                .children()
+                .last()
+                .find("#sub_usage")
+                .val(usage_set[1]);
+        }
         //填入備註
         $(".equipmentContainer")
             .children()
@@ -334,6 +429,18 @@ $("document").ready(function () {
             .find("#remark")
             .val(rent_equipment["remark"]);
         //填入狀態
+        for (
+            let i = 0;
+            i <=
+            status.findIndex((element) => element == rent_equipment["status"]);
+            i++
+        ) {
+            $(".equipmentContainer")
+                .children()
+                .last()
+                .find("#status")
+                .append(new Option(status[i]));
+        }
         $(".equipmentContainer")
             .children()
             .last()
@@ -347,4 +454,144 @@ $("document").ready(function () {
             fillInRentEquipment(rent_equipments[element])
         );
     }
+
+    //表單送出檢查
+    $("form").submit(function () {
+        //姓名檢查
+        if ($.trim($("#name").val()) === "") {
+            alert("姓名不可為空白");
+
+            return false;
+        }
+
+        //依身分別檢查
+        if ($("#identity option:selected").text() === "學生") {
+            //系級檢檢查
+            if ($.trim($("#grade").val()) === "") {
+                alert("系級不可為空白");
+
+                return false;
+            }
+
+            //手機格式檢查
+            if (
+                !$("#phone")
+                    .val()
+                    .match(/^09\d{8}$/)
+            ) {
+                alert("手機號碼格式不符");
+
+                return false;
+            }
+
+            //證件選擇其他時，檢查替代的證件
+            if (
+                $("#certificate option:selected").text() === "其他" &&
+                $.trim($("#certificateOther").val()) === ""
+            ) {
+                alert("抵押證件不可為空白");
+
+                return false;
+            }
+        } else if ($("#identity option:selected").text() === "教職員") {
+            //分機格式檢查
+            if (
+                !$("#phone")
+                    .val()
+                    .match(/^\d{5}$/)
+            ) {
+                alert("分機號碼格式不符");
+
+                return false;
+            }
+        }
+
+        //設備借用數量檢查
+        if ($("#wantRentChk").prop("checked") === false && equipmentNum === 0) {
+            alert("沒有借用的教室或設備");
+
+            return false;
+        }
+
+        //鑰匙種類檢查
+        if (
+            $("#wantRentChk").prop("checked") === true &&
+            $("#key_type option:selected").text() === "請選擇鑰匙種類"
+        ) {
+            alert("請選擇鑰匙種類");
+
+            return false;
+        }
+
+        //鑰匙種類檢查
+        if (
+            $("#wantRentChk").prop("checked") === true &&
+            $("#key_usage option:selected").text() === "請選擇用途"
+        ) {
+            alert("請選擇鑰匙用途");
+
+            return false;
+        }
+
+        //設備用途檢查
+        let equipmentFlag = true;
+        let equipmentItems = [];
+
+        $(".equipmentContainer")
+            .find("select[id='item']")
+            .each(function () {
+                if (
+                    equipmentItems.find(
+                        (element) =>
+                            element === $(this).find("option:selected").text()
+                    )
+                ) {
+                    alert("有重複借用的設備");
+
+                    equipmentFlag = false;
+                } else {
+                    equipmentItems.push($(this).find("option:selected").text());
+                }
+            });
+
+        $(".equipmentContainer")
+            .find("select[id='usage']")
+            .each(function () {
+                if ($(this).find("option:selected").text() === "請選擇用途") {
+                    alert("請選擇設備用途");
+
+                    equipmentFlag = false;
+                } else if (
+                    $(this).find("option:selected").text() === "系學會"
+                ) {
+                    if (
+                        $.trim(
+                            $(this)
+                                .parents(".form-row")
+                                .find("#sub_usage")
+                                .val()
+                        ) === ""
+                    ) {
+                        alert("部名不可為空白");
+
+                        equipmentFlag = false;
+                    }
+                } else if ($(this).find("option:selected").text() === "其他") {
+                    if (
+                        $.trim(
+                            $(this)
+                                .parents(".form-row")
+                                .find("#sub_usage")
+                                .val()
+                        ) === ""
+                    ) {
+                        alert("用途不可為空白");
+
+                        equipmentFlag = false;
+                    }
+                }
+            });
+
+        return equipmentFlag;
+    });
 });

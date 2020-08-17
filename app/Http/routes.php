@@ -95,9 +95,21 @@ Route::group(['prefix' => 'application'], function() {
             'as' => 'application.return'
         ]);
 
+        //只有管理員能使用
         Route::get('/delete/{application_id}', [
+            'middleware' => 'role',
             'uses' => 'ApplicationController@getDelete',
             'as' => 'application.delete'
+        ]);
+
+        Route::get('rent_key/delete/{application_id}', [
+            'uses' => 'ApplicationController@getRentKeyDelete',
+            'as' => 'rentkey.delete'
+        ]);
+
+        Route::get('rent_equipment/delete/{rent_equipment_id}', [
+            'uses' => 'ApplicationController@getRentEquipmentDelete',
+            'as' => 'rentequipment.delete'
         ]);
     });
 
@@ -121,12 +133,20 @@ Route::group(['prefix' => 'application'], function() {
     Route::get('/delete', function () {
         return view('homepage');
     });
+
+    Route::get('rent_key/delete', function () {
+        return view('homepage');
+    });
+
+    Route::get('rent_equipment/delete', function () {
+        return view('homepage');
+    });
 });
 
 //教室預約相關連結，前綴uri為reservation
 Route::group(['prefix' => 'reservation'], function () {
     //中介層為auth，只有登入時才可以訪問
-    Route::group(['middleware' => 'auth'], function () {
+    Route::group(['middleware' => ['auth', 'role']], function () {
         Route::get('/list', [
             'uses' => 'ReservationController@getList',
             'as' => 'reservation.list'
@@ -180,7 +200,7 @@ Route::group(['prefix' => 'reservation'], function () {
 //設備相關連結，前綴uri為equipment
 Route::group(['prefix' => 'equipment'], function () {
     //中介層為auth及role，只有登入時且身分為系統管理員才可以訪問
-    Route::group(['middleware' => ['auth', 'role']], function () {
+    Route::group(['middleware' => 'auth'], function () {
         Route::get('/list', [
             'uses' => "EquipmentController@getList",
             'as' => 'equipment.list'
@@ -205,11 +225,18 @@ Route::group(['prefix' => 'equipment'], function () {
             'uses' => 'EquipmentController@postEdit',
             'as' => 'equipment.edit'
         ]);
-    
-        Route::get('delete/{id}', [
-            'uses' => 'EquipmentController@getDelete',
-            'as' => 'equipment.delete'
-        ]);
+
+        Route::group(['middleware' => 'role'], function () {
+            Route::get('/record', [
+                'uses' => 'EquipmentController@getRecord',
+                'as' => 'equipment.record'
+            ]);
+        
+            Route::get('delete/{id}', [
+                'uses' => 'EquipmentController@getDelete',
+                'as' => 'equipment.delete'
+            ]);
+        });
     });
 
     //無效網址重導回首頁

@@ -15,31 +15,36 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ route('application.new') }}">新增申請</a>
                         <a class="dropdown-item" href="{{ route('application.list') }}">申請清單</a>
-                        <a class="dropdown-item" href="{{ route('application.renting_list') }}">借出中清單</a>
-                        <a class="dropdown-item" href="{{ route('application.returned_list') }}">已歸還清單</a>
+                        @if (Auth::check())
+                            <a class="dropdown-item" href="{{ route('application.renting_list') }}">借出中清單</a>
+                            <a class="dropdown-item" href="{{ route('application.returned_list') }}">已歸還清單</a>
+                        @endif
                     </div>
                 </li>
             @if(Auth::check())
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle header-button" href="{{ route('classroom.status') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        教室預約
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a href="{{ route('reservation.new') }}" class="dropdown-item">新增預約</a>
-                        <a class="dropdown-item" href="{{ route('reservation.list') }}">預約清單</a>
-                    </div>
-                </li>
                 @can('manager')
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle header-button" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            設備管理
+                        <a class="nav-link dropdown-toggle header-button" href="{{ route('classroom.status') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            教室預約
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('equipment.add') }}">新增設備</a>
-                            <a class="dropdown-item" href="{{ route('equipment.list') }}">設備清單</a>
+                            <a href="{{ route('reservation.new') }}" class="dropdown-item">新增預約</a>
+                            <a class="dropdown-item" href="{{ route('reservation.list') }}">預約清單</a>
                         </div>
                     </li>
                 @endcan
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle header-button" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        設備管理
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('equipment.add') }}">新增設備</a>
+                        <a class="dropdown-item" href="{{ route('equipment.list') }}">設備清單</a>
+                        @can('manager')
+                            <a class="dropdown-item" href="{{ route('equipment.record') }}">設備借用紀錄</a>
+                        @endcan
+                    </div>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle header-button" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         你好， {{ Auth::user()->name }}！

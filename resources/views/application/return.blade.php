@@ -24,13 +24,10 @@
                         <p>申請編號：{{ $application->id }}</p>
                     </div>
                     <div class="col-md-6">
-                        <p>申請狀態：{{ $application->all_status }}</p>
+                        <p>申請狀態：{{ $application->status }}</p>
                     </div>
                     <div class="col-md-6">
                         <p>申請時間：{{ $application->created_at }}</p>
-                    </div>
-                    <div class="col-md-6">
-                        <p>歸還時間：{{ $application->return_time }}</p>
                     </div>
                 </div>
                 <div class="dropdown-divider"></div>
@@ -73,37 +70,37 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if ($application->key_status != '借出中' && empty($rent_equipments))
+                            @if (empty($rent_key) && $rent_equipments->isEmpty())
                                 <tr>
                                     <td colspan="5">沒有借出的設備可歸還</td>
                                 </tr>
                             @endif
-                            @if ($application->key_status === '借出中')
+                            @if (!empty($rent_key))
                                 <tr>
-                                    <td>{{ $application->classroom }}鑰匙</td>
-                                    <td>{{ $application->key_type }}</td>
+                                    <td>{{ $rent_key->classroom }}鑰匙</td>
+                                    <td>{{ $rent_key->key_type }}</td>
                                     <td>1</td>
                                     <td>
-                                        <input type="checkbox" name="return[]" id="return" value="key">
-                                        <label for="return">歸還</label>
+                                        <input type="checkbox" name="return_key" id="return_key" value="{{ $rent_key->id }}">
+                                        <label for="return_key">歸還</label>
                                     </td>
                                 </tr>
                             @endif
                             @foreach ($rent_equipments as $rent_equipment)
                                 <tr>
-                                    <td>{{ $rent_equipment['genre'] }}</td>
-                                    <td>{{ $rent_equipment['item'] }}</td>
-                                    <td>{{ $rent_equipment['quantity'] }}</td>
+                                    <td>{{ $rent_equipment->genre }}</td>
+                                    <td>{{ $rent_equipment->item }}</td>
+                                    <td>{{ $rent_equipment->quantity }}</td>
                                     <td>
-                                        <input type="checkbox" name="return[]" id="return{{ $rent_equipment['id'] }}" value="{{ $rent_equipment['id'] }}">
-                                        <label for="return{{ $rent_equipment['id'] }}">歸還</label>
+                                        <input type="checkbox" name="return[]" id="return{{ $rent_equipment->id }}" value="{{ $rent_equipment->id }}">
+                                        <label for="return{{ $rent_equipment->id }}">歸還</label>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                     <div class="float-right">
-                        <button type="submit" class="btn btn-success px-4">確認歸還</button>
+                        <button type="submit" class="btn btn-success px-4" {{ (empty($rent_key) && $rent_equipments->isEmpty())? 'disabled' : '' }}>確認歸還</button>
                     </div>
                 </div>
             </div>

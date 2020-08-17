@@ -8,6 +8,7 @@
 <script>
     //把php變數傳入js
     let application = <?php echo json_encode($application); ?>;
+    let rent_key = <?php echo json_encode($rent_key); ?>;
     let rent_equipments = <?php echo json_encode($rent_equipments); ?>;
     let equipments = <?php echo json_encode($equipments); ?>;
 </script>
@@ -24,7 +25,7 @@
             @endforeach
         </div>
     @endif
-    <form action="{{ route('application.edit', ['application_id'=> $application->id]) }}" method="post">
+    <form action="{{ route('application.edit', ['application_id' => $application->id]) }}" method="post">
         {{ csrf_field() }}
         <div id="formSection">
             <div class="card p-4">
@@ -32,43 +33,40 @@
                 <div class="form-row pt-3 d-flex align-items-end">
                     <div class="form-group col-md-4">
                         <label for="name">姓名<span class="required">*</span></label>
-                        <input type="text" class="form-control" name="name" id="name" value="{{ $application->name }}" placeholder="姓名" autocomplete="off" required>
+                        <input type="text" class="form-control" name="name" id="name" value="{{ (old('name'))? old('name') : $application->name }}" placeholder="姓名" autocomplete="off" required>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="identity">身分</label>
                         <select class="form-control" name="identity" id="identity">
-                            <option selected>學生</option>
+                            <option>學生</option>
                             <option>教職員</option>
                         </select>
                     </div>
                     <div class="form-group col-md-4" id="gradePart">
-                        <label for="grade">系級<span class="required">*</span></label>
-                        <input name='grade' id="grade" class="form-control" value="{{ $application->identity }}" placeholder="必填" required>
+                        <div class="d-flex inline-flex align-items-end">
+                            <label for="grade">系級<span class="required">*</span></label>
+                            <small class="text-muted mb-2 ml-1">(系所+年級 e.g.資管一A、資管碩一)</small>
+                        </div>
+                        <input name='grade' id="grade" class="form-control" value="{{ old('grade') }}" placeholder="必填" required>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="phone"><span class="text">手機</span><span class="required">*</span></label>
-                        <input type="text" class="form-control" name="phone" id="phone" value="{{ $application->phone }}" placeholder="必填" autocomplete="off" required>
+                        <input type="text" class="form-control" name="phone" id="phone" value="{{ (old('phone'))? old('phone') : $application->phone }}" placeholder="必填" autocomplete="off" required>
                     </div>
-                    <div class="form-group col-md-4" id="cardPart">
-                        <div class="row m-0">
-                            <div class="col-md-12 px-1">
+                    <div id="cardPart" class="form-group col-md-4">
+                        <div class="row m-0 d-flex align-items-end">
+                            <div class="col-md-12 p-0">
                                 <label for="certificate">抵押證件</label>
                                 <select class="form-control" name="certificate" id="certificate">
-                                    <option selected>學生證</option>
+                                    <option>學生證</option>
                                     <option>身分證</option>
                                     <option>健保卡</option>
                                     <option>駕照</option>
                                     <option>其他</option>
                                 </select>
                             </div>
-                            <div class="col-md-7 px-1 d-none">
-                                <input type="text" class="form-control" name="certificateOther" id="certificateOther" placeholder="請填入要抵押的證件">
-                            </div>
+                            <input type="text" class="form-control col-md-8 d-none" name="certificateOther" id="certificateOther" value="{{ old('certificateOther') }}" placeholder="請填入要抵押的證件">
                         </div>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label for="return_time">歸還時間</label>
-                        <input type="text" class="form-control" name="return_time" id="return_time" value="{{ $application->return_time }}">
                     </div>
                 </div>
             </div>
@@ -81,7 +79,7 @@
                     </div>
                 </div>
                 <div id="classroomSection" class="form-row d-none pt-3">
-                    <div class="form-group col-md-3" id="classroomPart">
+                    <div class="form-group col-md-4" id="classroomPart">
                         <label for="classroom">選擇教室</label>
                         <select name="classroom" id="classroom" class="form-control">
                             @foreach($classroomNames as $classroomName)
@@ -89,23 +87,47 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-4">
                         <label for="key_type">鑰匙種類</label>
                         <select class="form-control" name="key_type" id="key_type">
-                            <option selected>服務學習鑰匙</option>
-                            <option>備份鑰匙</option>
+                            <option>請選擇鑰匙種類</option>
+                            <option>主要鑰匙</option>
+                            <option>服務學習鑰匙</option>
+                            <option>備用鑰匙</option>
+                            <option>備備用鑰匙</option>
                         </select>
                     </div>
-                    <div class="form-group col-md-3">
-                        <label for="teacher">授課教師</label>
-                        <input type="text" class="form-control" name="teacher" id="teacher" value="{{ $application->teacher }}">
+                    <div class="form-group col-md-4">
+                        <label for="key_return_time">鑰匙歸還時間</label>
+                        <input type="datetime-local" class="form-control" name="key_return_time" id="key_return_time" value="{{ (empty($rent_key))? str_replace([" ", "00:00:00"], ["T", "09:00:00"], $return_time) : str_replace(" ", "T", $rent_key->return_time) }}" min="{{ str_replace(" ", "T", $return_time) }}">
                     </div>
-                    <div class="form-group col-md-3">
-                        <label for="key-status">鑰匙狀態</label>
-                        <select type="text" class="form-control" name="key_status" id="key-status">
-                            <option {{ ($application->key_status === '申請中')? "selected" : "" }}>申請中</option>
-                            <option {{ ($application->key_status === '借出中')? "selected" : "" }}>借出中</option>
-                            <option {{ ($application->key_status === '已歸還')? "selected" : "" }}>已歸還</option>
+                    <div class="form-group col-md-4">
+                        <label for="teacher">授課教師</label>
+                        <input type="text" class="form-control" name="teacher" id="teacher" value="{{ (old('teacher'))? old('teacher') : $rent_key->teacher }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="row m-0 d-flex align-items-end">
+                            <div class="col-md-12 p-0">
+                                <label for="key_usage">用途</label>
+                                <select name="key_usage" id="key_usage" class="form-control">
+                                    <option>請選擇用途</option>
+                                    <option>上課</option>
+                                    <option>Meeting</option>
+                                    <option>系學會</option>
+                                    <option>其他</option>
+                                </select>
+                            </div>
+                            <input type="text" name="key_sub_usage" id="key_sub_usage" class="form-control col-md-7 d-none">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="key_remark">備註</label>
+                        <input type="text" class="form-control" name="key_remark" id="key_remark" value="{{ (old('key_remark'))? old('key_remark') : (empty($rent_key)? '' : $rent_key->remark) }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="key_status">狀態</label>
+                        <select name="key_status" id="key_status" class="form-control">
+                            <option>申請中</option>
                         </select>
                     </div>
                 </div>
@@ -120,7 +142,7 @@
                 </div>
             </div>
             <div class="card border-0 my-3">
-                <button type="submit" class="btn btn-warning disabled">送出</button>
+                <button type="submit" class="btn btn-warning">送出</button>
             </div>
         </div>
     </form>
@@ -131,35 +153,48 @@
         <h4 id="equipmentNum" class="text-info mr-3">No.1</h4>
         <button type="button" class="btn btn-danger btn-sm px-3" id="dltBtn">刪除</button>
     </div>
+    <input type="number" class="d-none" id="equipment_id" name="equipment_id[]">
     <div class="form-row">
         <div class="form-group col-md-4">
-            <label for="genre">設備種類</label>
+            <label for="genre[]">種類</label>
             <select name="genre[]" id="genre" class="form-control"></select>
         </div>
         <div class="form-group col-md-4">
-            <label for="item">項目<span class="required">*</span></label>
+            <label for="item[]">項目</label>
             <select name="item[]" id="item" class="form-control"></select>
         </div>
         <div class="form-group col-md-4">
-            <label for="quantity">數量</label>
+            <label for="quantity[]">數量</label>
             <select name="quantity[]" id="quantity" class="form-control"></select>
         </div>
-    </div>
-    <div class="form-row">
         <div class="form-group col-md-4">
-            <label for="usage">用途<span class="required">*</span></label>
-            <input type="text" class="form-control" name="usage[]" id="usage" placeholder="必填" required>
+            <label for="return_time">歸還時間</label>
+            <input type="datetime-local" class="form-control" name="return_time[]" id="return_time" value="{{ str_replace([" ", "00:00:00"], ["T", "09:00:00"], $return_time) }}" min="{{ str_replace(" ", "T", $return_time) }}">
         </div>
         <div class="form-group col-md-4">
-            <label for="remark">備註</label>
+            <div class="row m-0 d-flex align-items-end">
+                <div class="col-md-12 p-0">
+                    <label for="usage">用途</label>
+                    <select name="usage[]" id="usage" class="form-control">
+                        <option>請選擇用途</option>
+                        <option>上課</option>
+                        <option>Meeting</option>
+                        <option>系學會</option>
+                        <option>其他</option>
+                    </select>
+                </div>
+                <input type="text" name="sub_usage[]" id="sub_usage" class="form-control col-md-7 d-none">
+            </div>
+            
+        </div>
+        <div class="form-group col-md-4">
+            <label for="remark[]">備註</label>
             <input type="text" class="form-control" name="remark[]" id="remark">
         </div>
         <div class="form-group col-md-4">
             <label for="status">狀態</label>
             <select name="status[]" id="status" class="form-control">
                 <option>申請中</option>
-                <option>借出中</option>
-                <option>已歸還</option>
             </select>
         </div>
     </div>
