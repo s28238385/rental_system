@@ -135,13 +135,15 @@ class EquipmentController extends Controller
         if(preg_match("/鑰匙$/", $request->input('genre'))) {
             $records = RentKey::where('classroom', str_replace('鑰匙', "", $request->input('genre')))
                                 ->where('key_type', $request->input('item'))
-                                ->orderBy('updated_at', 'DESC')
+                                ->join('applications', 'application_id', '=', 'applications.id')
+                                ->orderBy('rent_keys.updated_at', 'DESC')
                                 ->paginate(20)->setPath('');
         }
         else {
             $records = RentEquipment::where('genre', $request->input('genre'))
                                     ->where('item', $request->input('item'))
-                                    ->orderBy('updated_at', 'DESC')
+                                    ->join('applications', 'application_id', '=', 'applications.id')
+                                    ->orderBy('rent_equipments.updated_at', 'DESC')
                                     ->paginate(20)->setPath('');
         }
 

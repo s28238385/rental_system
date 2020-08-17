@@ -42,9 +42,11 @@
                                 <p class="mb-0">{!! nl2br(e($classroom->equipmentDescription), false) !!}</p>
                             </div>
                             @if (Auth::check())
-                                <div class="row m-0 mt-auto d-flex justify-content-end">
-                                    <a href="{{ route('reservation.new') }}" type="button" class="btn btn-outline-success">新增預約</a>
-                                </div>
+                                @can('manager')
+                                    <div class="row m-0 mt-auto d-flex justify-content-end">
+                                        <a href="{{ route('reservation.new') }}" type="button" class="btn btn-outline-success">新增預約</a>
+                                    </div>
+                                @endcan
                             @endif
                         </div>
                     </div>
