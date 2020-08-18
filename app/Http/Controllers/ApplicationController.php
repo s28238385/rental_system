@@ -461,7 +461,7 @@ class ApplicationController extends Controller
         //更新借用設備資料
         if(!empty($request->input('genre'))){
             for($i = 0; $i < count($request->input('genre')); $i++){
-                //如果還有舊資料列可供更新則優先使用，如果借用設備比原本多則建立新的model存入資料庫
+                //如果是原有設備則修改其資料，如是新增借用設備則建立model以存入資料庫
                 if(in_array($request->input('equipment_id')[$i], $rent_equipments_id)){
                     //取出借用設備資料
                     $rent_equipment = RentEquipment::find($request->input('equipment_id')[$i]);
@@ -517,7 +517,7 @@ class ApplicationController extends Controller
             }
         }
 
-        //如果仍有未更新資料列的id存在則將其全數移除
+        //如果仍有未更新資料列的id存在表示該借用以刪除，則將其自資料庫移除
         if(!empty($rent_equipments_id)){
             foreach($rent_equipments_id as $rent_equipment_id){
                 $rent_equipment = RentEquipment::find($rent_equipment_id);
@@ -532,7 +532,8 @@ class ApplicationController extends Controller
         }
 
         $rent_key_status = Rentkey::where('application_id', $application->id)
-                                    ->pluck('status')->first();
+                                    ->pluck('status')
+                                    ->first();
         //用FK application_id取出所有借用設備的狀態，並轉成陣列型態
         $rent_equipments_status = RentEquipment::where('application_id', $application->id)
                                             ->pluck('status')
@@ -604,8 +605,8 @@ class ApplicationController extends Controller
                                             ->pluck('id')
                                             ->toArray();
 
-        //若有借出鑰匙
-        if(!is_null($request->input('key_rent'))){
+        //若有借出鑰匙，且符合資料庫內資料
+        if(!is_null($request->input('key_rent')) & $request->input('key_rent') == $rent_key->id){
             $rent_key->status = '借出中';
             $rent_key->rent_by = Auth::user()->name;
 
@@ -768,7 +769,8 @@ class ApplicationController extends Controller
         $rent_key = RentKey::where('application_id', $application->id)
                             ->first();
         //用FK application_id取出所有借用設備資料
-        $rent_equipments = RentEquipment::where('application_id', $application->id)->get();
+        $rent_equipments = RentEquipment::where('application_id', $application->id)
+                                        ->get();
 
         if(!empty($rent_key)){
             $executed = $rent_key->delete();
@@ -815,7 +817,8 @@ class ApplicationController extends Controller
         if($rent_equipments->isEmpty()){
             return redirect()->route('application.information', ['application_id' => $application->id])->with('fail', '刪除教室借用失敗，刪除後將不存在借用設備！');
         }
-        else if($rent_key->status != '申請中') {
+        //檢查設備狀態
+        if($rent_key->status != '申請中') {
             return redirect()->route('application.information', ['application_id' => $application->id])->with('fail', '刪除教室借用失敗，不可刪除的狀態！');
         }
 
@@ -869,7 +872,8 @@ class ApplicationController extends Controller
         $rent_equipment = RentEquipment::where('id', $rent_equipment_id)
                                         ->first();
         $application = Application::find($rent_equipment->application_id);
-        $rent_key = RentKey::where('application_id', $application->id)->first();
+        $rent_key = RentKey::where('application_id', $application->id)
+                            ->first();
         $rent_equipments = RentEquipment::where('application_id', $application->id)
                                         ->where('id', '<>', $rent_equipment_id)
                                         ->get();
@@ -878,7 +882,9 @@ class ApplicationController extends Controller
         if(is_null($rent_key) && $rent_equipments->isEmpty()){
             return redirect()->route('application.information', ['application_id' => $application->id])->with('fail', '刪除設備借用失敗，刪除後將不存在借用設備！');
         }
-        else if($rent_equipment->status != '申請中'){
+
+        //檢查設備狀態
+        if($rent_equipment->status != '申請中'){
             return redirect()->route('application.information', ['application_id' => $application->id])->with('fail', '刪除設備借用失敗，不可刪除的狀態！');
         }
 

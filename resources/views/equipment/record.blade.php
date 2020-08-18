@@ -6,6 +6,7 @@
 
 @section('script')
     <script>
+        //將php變數傳至js
         let equipments = <?php echo json_encode($equipments); ?>;
         let oldItem = <?php echo json_encode(old('item')); ?>;
     </script>
@@ -77,7 +78,7 @@
             @endforeach
         </tbody>
     </table>
-    <div class="d-flex justify-content-center mb-2">
+    <div class="d-flex justify-content-center mt-2">
         {{ $records->links() }}
     </div>
 @endsection

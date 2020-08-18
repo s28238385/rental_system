@@ -9,9 +9,9 @@
         <h1 class="font-weight-normal text-info">已歸還清單</h1>
         <a href="{{ route('application.list') }}" type="button" class="btn btn-sm btn-outline-primary ml-3 mr-1">申請清單</a>
         <a href="{{ route('application.renting_list') }}" type="button" class="btn btn-sm btn-outline-primary mx-1">借出中清單</a>
-        <div class="ml-auto">
-            {{ $applications->links() }}
-        </div>
+    </div>
+    <div class="d-flex justify-content-center my-2">
+        {{ $applications->links() }}
     </div>
     <table class="table table-hover">
         <thead>
@@ -58,4 +58,7 @@
             @endif
         </tbody>
     </table>
+    <div class="d-flex justify-content-center my-2">
+        {{ $applications->links() }}
+    </div>
 @endsection

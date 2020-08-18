@@ -8,7 +8,7 @@
             </div>
             <div class="d-flex justify-content-end align-items-center">
                 <label for="date-select" class="mr-1 my-2 text-black">前往指定日期：</label>
-                <input id="date-select" class="mr-sm-2" name="date-select" type="date">
+                <input id="date-select" class="mr-sm-2 form-control-sm" name="date-select" type="date">
                 <button class="btn btn-outline-primary my-2" type="button" id="toCertainWeek">前往</button>
             </div>
         </caption>

@@ -11,7 +11,7 @@
         @if(count($errors) > 0)
             <div class="alert alert-danger">
                 @foreach($errors->all() as $error)
-                <p class="text-center">{{ $error }}</p>
+                    <p class="text-center">{{ $error }}</p>
                 @endforeach
             </div>
         @endif

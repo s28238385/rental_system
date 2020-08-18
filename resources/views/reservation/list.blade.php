@@ -9,6 +9,7 @@
 @endsection
 
 @section('content')
+    {{-- 系統訊息顯示 --}}
     @if ( Session::has('success') )
         <div class="row justify-content-end m-2 fixed-bottom">
             <div class="hint alert alert-success alert-sm alert-dismissible col fade show text-center" role="alert">

@@ -14,10 +14,9 @@
 @endsection
 
 @section('content')
-{{-- 選擇中的頁籤超連結 --}}
-<input type="hidden" id="chosen_status" value="#All">
+    {{-- 選擇中的頁籤超連結 --}}
+    <input type="hidden" id="chosen_status" value="#All">
 
-<div class="container">
     <div id="classroom-tabs" class="mt-3">
         <ul class="nav nav-tabs nav-justified bg-spary" id="classroomTab" role="tablist">
             <li class="nav-item">

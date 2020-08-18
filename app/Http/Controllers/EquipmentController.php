@@ -13,6 +13,7 @@ use App\RentEquipment;
 
 class EquipmentController extends Controller
 {
+    //鑰匙種類及項目
     private $keys = [
         "I_314鑰匙" => ['主要鑰匙', '服務學習鑰匙', '備用鑰匙', '備備用鑰匙'],
         "I_315鑰匙" => ['主要鑰匙', '服務學習鑰匙', '備用鑰匙', '備備用鑰匙'],
@@ -28,21 +29,22 @@ class EquipmentController extends Controller
 
     //顯示設備清單
     public function getList(){
-        //取得所有設備，並依種類、項目排列
+        //取得所有設備，並依種類、項目排列，再進行分頁
         $equipments = Equipment::orderBy('genre', 'DESC')
                                 ->orderBy('item', 'ASC')
                                 ->paginate(20);
 
-        //取出所有在equipment table裡的資料，並依name排序，再依name分類
+        //取出所有在equipment table裡的資料，再依genre分類
         $records = Equipment::all()
                             ->groupBy('genre');
 
-        //把$equipments中的array元素依item分類，並更改其索引值為item
+        //把$equipments中的array元素依item分類，並更改其索引值為item，並只取出索引值
         foreach($records as $key => $value){
             $records[$key] = $value->keyBy('item')->keys();
         }
         //把資料型態從Collection object變成array
         $records = $records->toArray();
+        //把鑰匙清單跟設備清單合併
         $records = array_merge($this->keys, $records);
 
         //回傳equipment.list，並附帶$equipments
@@ -117,12 +119,13 @@ class EquipmentController extends Controller
         }
     }
 
+    //設備借用紀錄查詢
     public function getRecord(Request $request){
-        //取出所有在equipment table裡的資料，並依name排序，再依name分類
+        //取出所有在equipment table裡的資料，依genre分類
         $equipments = Equipment::all()
                                 ->groupBy('genre');
         
-        //把$equipments中的array元素依item分類，並更改其索引值為item
+        //把$equipments中的array元素依item分類，並更改其索引值為item，並只取出索引值
         foreach($equipments as $key => $value){
             $equipments[$key] = $value->sortBy('item')
                                         ->keyBy('item')
@@ -130,6 +133,7 @@ class EquipmentController extends Controller
         }
         //把資料型態從Collection object變成array
         $equipments = $equipments->toArray();
+        //合併鑰匙清單及設備清單
         $equipments = array_merge($this->keys, $equipments);
 
         if(preg_match("/鑰匙$/", $request->input('genre'))) {
@@ -137,23 +141,28 @@ class EquipmentController extends Controller
                                 ->where('key_type', $request->input('item'))
                                 ->join('applications', 'application_id', '=', 'applications.id')
                                 ->orderBy('rent_keys.updated_at', 'DESC')
-                                ->paginate(20)->setPath('');
+                                ->paginate(20)
+                                ->setPath('');
         }
         else {
             $records = RentEquipment::where('genre', $request->input('genre'))
                                     ->where('item', $request->input('item'))
                                     ->join('applications', 'application_id', '=', 'applications.id')
                                     ->orderBy('rent_equipments.updated_at', 'DESC')
-                                    ->paginate(20)->setPath('');
+                                    ->paginate(20)
+                                    ->setPath('');
         }
 
+        //將查詢資料接至網址列
         $pagination = $records->appends([
             'genre' => $request->input('genre'),
             'item' => $request->input('item')
         ]);
 
+        //將查詢內容存至session
         session()->flashInput($request->input());
 
+        //回傳equipment.record，並附帶$equipments, $records
         return view('equipment.record', ['equipments' => $equipments, 'records' => $records]);
     }
 

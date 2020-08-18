@@ -1,5 +1,5 @@
 $("document").ready(function () {
-    let status = ["借出中", "已歸還"];
+    let status = ["借出中", "已歸還"]; //設備狀態
     let equipmentNum = 0; //借用設備的編號
     let genrekey, itemkey;
 

@@ -20,6 +20,7 @@ class ReservationController extends Controller
 
     //取得預約清單
     public function getList(Request $request){
+        //依查詢內容進行query並分頁
         if($request->input('name') != ""){
             if($request->input('classroom') != '' & $request->input('classroom') != '請選擇教室'){
                 if($request->input('begin_date') != ""){
@@ -195,6 +196,7 @@ class ReservationController extends Controller
             }
         }
 
+        //增加搜尋變數至網址列
         $pagination = $reservations->appends([
             'name' => $request->input('name'),
             'classroom' => $request->input('classroom'),
@@ -202,6 +204,7 @@ class ReservationController extends Controller
             'end_date' => $request->input('end_date')
         ]);
 
+        //將搜尋值存入session
         session()->flashInput($request->input());
 
         //把資料庫存的key值轉換成時間
@@ -408,7 +411,9 @@ class ReservationController extends Controller
         }
 
         //透過long_term_id取得同期預約資料
-        $reservations = Reservation::where('long_term_id', $reservation->long_term_id)->get();
+        $reservations = Reservation::where('long_term_id', $reservation->long_term_id)
+                                    ->orderBy('date')
+                                    ->get();
 
         //把資料庫存的key值轉換成時間
         foreach($reservations as $reservation){
@@ -490,7 +495,7 @@ class ReservationController extends Controller
         $executed = $reservation->delete();
 
         //重導至reservation.list，若未成功更新則回傳失敗訊息，若成功更新則回傳成功訊息
-        if(!executed){
+        if(!$executed){
             return redirect()->route('reservation.list')->with('fail', '刪除預約失敗，請再次嘗試！');
         }
         else {
