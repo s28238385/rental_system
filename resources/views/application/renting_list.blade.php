@@ -20,7 +20,9 @@
                 <th>申請時間</th>
                 <th>申請人</th>
                 <th>身分</th>
-                <th>手機/分機</th>
+                @can('manager')
+                    <th>手機/分機</th>
+                @endcan
                 <th>證件</th>
                 <th>狀態</th>
                 @if (Auth::check())
@@ -41,7 +43,9 @@
                         <td>{{ $application->created_at }}</td>
                         <td>{{ $application->name }}</td>
                         <td>{{ $application->identity }}</td>
-                        <td>{{ $application->phone }}</td>
+                        @can('manager')
+                            <td>{{ $application->phone }}</td>
+                        @endcan
                         <td>{{ $application->certificate }}</td>
                         <td>{{ $application->status }}</td>
                         @if (Auth::check())
