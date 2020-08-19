@@ -328,6 +328,8 @@ $("document").ready(function () {
             true
         );
 
+        $("#teacher").val(rent_key["teacher"]);
+
         if (
             (rent_key["usage"] === "上課") |
             (rent_key["usage"] === "Meeting")

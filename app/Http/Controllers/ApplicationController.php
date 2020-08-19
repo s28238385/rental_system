@@ -69,7 +69,7 @@ class ApplicationController extends Controller
         $classroomNames = Classroom::pluck('classroomName')->toArray();
 
         //產生歸還日期
-        if(Date("N") === 5 | Date("N") === 6){
+        if(Date("N") === 5 || Date("N") === 6){
             $return_time = Date("Y-m-d", strtotime('next monday'));
         }
         else {
@@ -138,7 +138,7 @@ class ApplicationController extends Controller
             ]);
 
             //根據用途進行額外輸入驗證
-            if($request->input('key_usage') === '系學會' | $request->input('key_usage') === '其他'){
+            if($request->input('key_usage') === '系學會' || $request->input('key_usage') === '其他'){
                 $this->validate($request, [
                     'key_sub_usage' => 'required|string'
                 ]);
@@ -206,7 +206,7 @@ class ApplicationController extends Controller
                 'status' => '申請中'
             ]);
 
-            if($request->input('key_usage') === '系學會' | $request->input('key_usage') === '其他'){
+            if($request->input('key_usage') === '系學會' || $request->input('key_usage') === '其他'){
                 $rent_key->usage = $request->input('key_usage') . "/" . $request->input('key_sub_usage');
             }
             else {
@@ -237,7 +237,7 @@ class ApplicationController extends Controller
                     'status' => '申請中'
                 ]);
 
-                if($request->input('usage')[$i] === '系學會' | $request->input('usage')[$i] === '其他'){
+                if($request->input('usage')[$i] === '系學會' || $request->input('usage')[$i] === '其他'){
                     $rent_equipment->usage = $request->input('usage')[$i] . "/" . $request->input('sub_usage')[$i];
                 }
                 else {
@@ -342,7 +342,7 @@ class ApplicationController extends Controller
                 'key_usage' => 'required|string',
                 'key_status' => 'required|string'
             ]);
-            if($request->input('key_usage') === '系學會' | $request->input('key_usage') === '其他'){
+            if($request->input('key_usage') === '系學會' || $request->input('key_usage') === '其他'){
                 $this->validate($request, [
                     'key_sub_usage' => 'required|string'
                 ]);
@@ -434,7 +434,7 @@ class ApplicationController extends Controller
                 $rent_key->status = $request->input('key_status');
             }
 
-            if($request->input('key_usage') === '系學會' | $request->input('key_usage') === '其他'){
+            if($request->input('key_usage') === '系學會' || $request->input('key_usage') === '其他'){
                 $rent_key->usage = $request->input('key_usage') . "/" . $requeset->input('key_sub_usage');
             }
             else {
@@ -470,7 +470,7 @@ class ApplicationController extends Controller
                     $rent_equipment->genre = $request->input('genre')[$i];
                     $rent_equipment->item = $request->input('item')[$i];
                     $rent_equipment->quantity = $request->input('quantity')[$i];
-                    if($request->input('usage')[$i] === '系學會' | $request->input('usage')[$i] === '其他'){
+                    if($request->input('usage')[$i] === '系學會' || $request->input('usage')[$i] === '其他'){
                         $rent_equipment->usage = $request->input('usage')[$i] . "/" . $request->input('sub_usage')[$i];
                     }
                     else {
@@ -501,7 +501,7 @@ class ApplicationController extends Controller
                         'return_time' => Date("Y-m-d H:i:s", strtotime(str_replace("T", " ", $request->input('return_time')[$i]))),
                         'status' => $request->input('status')[$i]
                     ]);
-                    if($request->input('usage')[$i] === '系學會' | $request->input('usage')[$i] === '其他'){
+                    if($request->input('usage')[$i] === '系學會' || $request->input('usage')[$i] === '其他'){
                         $rent_equipment->usage = $request->input('usage')[$i] . "/" . $request->input('sub_usage')[$i];
                     }
                     else {
@@ -548,11 +548,11 @@ class ApplicationController extends Controller
          *            ->部分 >> 部分歸還
          *            ->無 >> 已歸還
          */
-        if($rent_key_status === '借出中' | in_array('借出中', $rent_equipments_status)){
+        if($rent_key_status === '借出中' || in_array('借出中', $rent_equipments_status)){
             $application->status = '借出中';
         }
-        else if($rent_key_status === '申請中' | in_array('申請中', $rent_equipments_status)){
-            if($rent_key_status != '已歸還' & !in_array('已歸還', $rent_equipments_status)){
+        else if($rent_key_status === '申請中' || in_array('申請中', $rent_equipments_status)){
+            if($rent_key_status != '已歸還' && !in_array('已歸還', $rent_equipments_status)){
                 $application->status = '申請中';
             }
             else {
@@ -606,7 +606,8 @@ class ApplicationController extends Controller
                                             ->toArray();
 
         //若有借出鑰匙，且符合資料庫內資料
-        if(!is_null($request->input('key_rent')) & $request->input('key_rent') == $rent_key->id){
+        if(!empty($rent_key)){
+            if($request->input('key_rent') == $rent_key->id)
             $rent_key->status = '借出中';
             $rent_key->rent_by = Auth::user()->name;
 
@@ -684,7 +685,7 @@ class ApplicationController extends Controller
                                             ->toArray();
 
         //確認有歸還鑰匙及是借用該把鑰匙
-        if(!is_null($request->input('return_key')) & $request->input('return_key') == $rent_key->id) {
+        if(!is_null($request->input('return_key')) && $request->input('return_key') == $rent_key->id) {
             $rent_key->status = '已歸還';
             $rent_key->return_by = Auth::user()->name;
 
@@ -733,11 +734,11 @@ class ApplicationController extends Controller
          *            ->部分 >> 部分歸還
          *            ->無 >> 已歸還
          */
-        if($rent_key_status === '借出中' | in_array('借出中', $rent_equipments_status)){
+        if($rent_key_status === '借出中' || in_array('借出中', $rent_equipments_status)){
             return redirect()->route('application.list')->with('success', '設備歸還成功！');
         }
-        else if($rent_key_status === '申請中' | in_array('申請中', $rent_equipments_status)){
-            if($rent_key_status != '已歸還' & !in_array('已歸還', $rent_equipments_status)){
+        else if($rent_key_status === '申請中' || in_array('申請中', $rent_equipments_status)){
+            if($rent_key_status != '已歸還' && !in_array('已歸還', $rent_equipments_status)){
                 $application->status = '申請中';
             }
             else {
@@ -911,11 +912,11 @@ class ApplicationController extends Controller
          *            ->部分 >> 部分歸還
          *            ->無 >> 已歸還
          */
-        if($rent_key_status === '借出中' | in_array('借出中', $rent_equipments_status)){
+        if($rent_key_status === '借出中' || in_array('借出中', $rent_equipments_status)){
             return redirect()->route('application.list')->with('success', '設備歸還成功！');
         }
-        else if($rent_key_status === '申請中' | in_array('申請中', $rent_equipments_status)){
-            if($rent_key_status != '已歸還' & !in_array('已歸還', $rent_equipments_status)){
+        else if($rent_key_status === '申請中' || in_array('申請中', $rent_equipments_status)){
+            if($rent_key_status != '已歸還' && !in_array('已歸還', $rent_equipments_status)){
                 $application->status = '申請中';
             }
             else {

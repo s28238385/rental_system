@@ -22,6 +22,7 @@
                 <h1 class="text-primary mb-4">新增教室預約</h1>
                 <form action="{{ route('reservation.new') }}" method="post">
                     {{ csrf_field() }}
+                    <input type="hidden" name="long_term_id" value="{{ (isset($long_term_id))? $long_term_id : '' }}">
                     <div class="form-row">
                         <div class="form-group d-flex inline-flex">
                             <div>
@@ -76,32 +77,32 @@
                             <label for="loop-day">重複時間</label>
                             <div id="loop-day" class="d-flex justify-content-between">
                                 <div>
+                                    <input type="checkbox" name="loop_day[]" id="sunday" value="sunday">
+                                    <label for="sunday">星期日</label>
+                                </div>
+                                <div>
                                     <input type="checkbox" name="loop_day[]" id="monday" value="monday">
                                     <label for="monday">星期一</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" name="loop_day[]" id="tuesday" value="tuesday">
-                                <label for="tuesday">星期二</label>
+                                    <label for="tuesday">星期二</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" name="loop_day[]" id="wednesday" value="wednesday">
-                                <label for="wednesday">星期三</label>
+                                    <label for="wednesday">星期三</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" name="loop_day[]" id="thursday" value="thursday">
-                                <label for="thursday">星期四</label>
+                                    <label for="thursday">星期四</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" name="loop_day[]" id="friday" value="friday">
-                                <label for="friday">星期五</label>
+                                    <label for="friday">星期五</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" name="loop_day[]" id="saturday" value="saturday">
-                                <label for="saturday">星期六</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" name="loop_day[]" id="sunday" value="sunday">
-                                <label for="sunday">星期日</label>
+                                    <label for="saturday">星期六</label>
                                 </div>
                             </div>
                         </div>

@@ -8,12 +8,33 @@
     <script>
         //bring php variables to js
         let token = '{{ Session::token() }}';
-        let url = '{{ route('status.ajax') }}'
+        let url = '{{ route('status.ajax') }}';
+        let firstDay = '{{ Session::get('first_day') }}';
+        let classroom = '{{ Session::get('classroom') }}';
     </script>
     <script src="{{ URL::asset('js/classroom_status.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('content')
+    @if ( Session::has('success') )
+        <div class="row justify-content-end m-2 fixed-bottom">
+            <div class="hint alert alert-success alert-sm alert-dismissible col fade show text-center" role="alert">
+                <p class="m-0 text-wrap">{{ Session::get('success') }}</p>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    @elseif( Session::has('fail') )
+        <div class="row justify-content-end m-2 fixed-bottom">
+            <div class="hint alert alert-danger alert-sm alert-dismissible col fade show text-center" role="alert">
+                <span class="text-wrap">{{ Session::get('fail') }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    @endif
     {{-- 選擇中的頁籤超連結 --}}
     <input type="hidden" id="chosen_status" value="#All">
 

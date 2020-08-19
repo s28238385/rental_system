@@ -27,9 +27,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
     </script>
-
-    <!--保留給任何的擴充資源連結-->
-    @yield('href')
 </head>
 
 <body>
@@ -42,7 +39,7 @@
 
     <footer>
         <nav class="w-100 mt-3">
-            <p class="text-center text-muted"><small>Copyright 2020 © 中央大學大數據暨程式設計研究社</small></p>
+            <p class="text-center text-muted"><small>Copyright 2020 © 中央資管大數據暨程式設計研究社</small></p>
         </nav>
     </footer>
 

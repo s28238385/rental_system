@@ -20,11 +20,7 @@ let week = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 //取得ajax
 function getAjax() {
     //classroom name 字串處理
-    let classroom = $(".active")
-        .attr("id") // classroom-tab
-        .slice(0, -4); //移除-tab
-
-    $("td[id*='-']").html(""); //清空calender
+    let classroom = $("#chosen_status").val().slice(1);
 
     let date = $("#Sun")
         .html() //年<br>月/日<br>星期
@@ -43,16 +39,17 @@ function getAjax() {
         dataType: "json",
         //查詢成功時
         success: function (data) {
+            $("td[id*='-']").html(""); //清空calender
             let reservations = data.data; //取出預約資料
 
             //若有預約存在
             if (reservations.length != 0) {
                 //判斷在總覽頁籤或是教室頁籤
-                if (classroom === "#All") {
+                if (classroom === "All") {
                     //依序填入所有預約
                     reservations.forEach((element) => {
                         let day = new Date(element["date"]);
-                        console.log(day.getDay());
+
                         for (
                             let i = element["begin_time"];
                             i <= element["end_time"];
@@ -96,6 +93,7 @@ function getAjax() {
         },
         //查詢失敗時
         error: function () {
+            $("td[id*='-']").html(""); //清空calender
             //查詢失敗的該日每格皆填入擷取失敗
             $("td").each(function () {
                 $(this).html("擷取失敗");
@@ -151,6 +149,14 @@ $("document").ready(function () {
         }
     });
 
-    //剛載入頁面時先顯示總覽頁籤
-    $("a[href='" + $("#chosen_status").val() + "']").click();
+    if ((firstDay != "") & (classroom != "null")) {
+        $("#chosen_status").val("#" + classroom);
+        $("#date-select").val(firstDay);
+
+        $("a[href='" + $("#chosen_status").val() + "']").click();
+        $("#toCertainWeek").click();
+    } else {
+        //剛載入頁面時先顯示總覽頁籤
+        $("a[href='" + $("#chosen_status").val() + "']").click();
+    }
 });

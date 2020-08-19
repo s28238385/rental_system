@@ -34,11 +34,15 @@
         <a type="button" class="btn btn-outline-success ml-auto px-3" href="{{ route('reservation.new') }}">新增預約</a>
     </div>
     <form action="{{ route('reservation.list') }}" method="get" class="form-inline justify-content-end my-2">
-        <div class="form-group">
+        <div class="form-group mx-1 my-1">
             <label for="name" class="mb-0">申請人：</label>
             <input type="text" name="name" id="name" class="form-control-sm" value="{{ old('name') }}">
         </div>
-        <div class="form-group ml-2">
+        <div class="form-group mx-1 my-1">
+            <label for="reason" class="mb-0">申請原因：</label>
+            <input type="text" name="reason" id="reason" class="form-control-sm" value="{{ old('reason') }}">
+        </div>
+        <div class="form-group mx-1 my-1">
             <label for="classroom" class="m-0">教室：</label>
             <select name="classroom" id="classroom" class="form-control-sm">
                 <option>請選擇教室</option>
@@ -54,14 +58,47 @@
                 <option {{ (old('classroom') === 'I1_933')? "selected" : "" }}>I1_933</option>
             </select>
         </div>
-        <div class="form-group ml-2">
+        <div class="form-group mx-1 my-1">
             <label for="date" class="m-0">日期：</label>
             <input type="date" name="begin_date" id="date" class="form-control-sm" value="{{ old('begin_date') }}">
             <p class="mb-0 mx-1">~</p>
             <input type="date" name="end_date" id="date" class="form-control-sm" value="{{ old('end_date') }}">
         </div>
-        <div class="form-group ml-2">
-            <button type="submit" class="btn btn-sm btn-outline-primary">查詢</button>
+        <div class="form-group ml-2 my-1">
+            <label for="loop-day" class="m-0">星期：</label>
+            <div id="loop-day" class="d-flex inline-flex align-items-center">
+                <div class="d-flex inline-flex align-items-center mx-1">
+                    <input type="checkbox" name="loop_day[]" id="sunday" value="Sun" {{ (!is_null(old('loop_day')) && in_array("Sun", old('loop_day')))? 'checked' : '' }}>
+                    <label for="sunday">星期日</label>
+                </div>
+                <div class="d-flex inline-flex align-items-center mx-1">
+                    <input type="checkbox" name="loop_day[]" id="monday" value="Mon" {{ (!is_null(old('loop_day')) && in_array("Mon", old('loop_day')))? 'checked' : '' }}>
+                    <label for="monday">星期一</label>
+                </div>
+                <div class="d-flex inline-flex align-items-center mx-1">
+                    <input type="checkbox" name="loop_day[]" id="tuesday" value="Tue" {{ (!is_null(old('loop_day')) && in_array("Tue", old('loop_day')))? 'checked' : '' }}>
+                    <label for="tuesday">星期二</label>
+                </div>
+                <div class="d-flex inline-flex align-items-center mx-1">
+                    <input type="checkbox" name="loop_day[]" id="wednesday" value="Wed" {{ (!is_null(old('loop_day')) && in_array("Wed", old('loop_day')))? 'checked' : '' }}>
+                    <label for="wednesday">星期三</label>
+                </div>
+                <div class="d-flex inline-flex align-items-center mx-1">
+                    <input type="checkbox" name="loop_day[]" id="thursday" value="Thu" {{ (!is_null(old('loop_day')) && in_array("Thu", old('loop_day')))? 'checked' : '' }}>
+                    <label for="thursday">星期四</label>
+                </div>
+                <div class="d-flex inline-flex align-items-center mx-1">
+                    <input type="checkbox" name="loop_day[]" id="friday" value="Fri" {{ (!is_null(old('loop_day')) && in_array("Fri", old('loop_day')))? 'checked' : '' }}>
+                    <label for="friday">星期五</label>
+                </div>
+                <div class="d-flex inline-flex align-items-center mx-1">
+                    <input type="checkbox" name="loop_day[]" id="saturday" value="Sat" {{ (!is_null(old('loop_day')) && in_array("Sat", old('loop_day')))? 'checked' : '' }}>
+                    <label for="saturday">星期六</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group ml-2 my-1">
+            <button type="submit" class="btn btn-sm btn-outline-primary px-3">查詢</button>
         </div>
     </form>
     <div class="d-flex justify-content-center my-2">
@@ -103,7 +140,7 @@
                         </td>
                         <td>
                             <a href="{{ route('reservation.edit', ['id' => $reservation->id]) }}" type="button" class="btn btn-outline-primary btn-sm px-3 mx-1">編輯</a>
-                            <a href="{{ route('reservation.delete', ['id' => $reservation->id]) }}" type="button" class="btn btn-outline-danger btn-sm px-3 mx-1" onclick="return confirm('確定刪除設備?')">刪除</a>
+                            <a href="{{ route('reservation.delete', ['id' => $reservation->id]) }}" type="button" class="btn btn-outline-danger btn-sm px-3 mx-1" onclick="return confirm('確定刪除預約?')">刪除</a>
                         </td>
                     </tr>
                 @endforeach

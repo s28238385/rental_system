@@ -102,12 +102,12 @@ Route::group(['prefix' => 'application'], function() {
             'as' => 'application.delete'
         ]);
 
-        Route::get('rent_key/delete/{application_id}', [
+        Route::get('rent_key_delete/{application_id}', [
             'uses' => 'ApplicationController@getRentKeyDelete',
             'as' => 'rentkey.delete'
         ]);
 
-        Route::get('rent_equipment/delete/{rent_equipment_id}', [
+        Route::get('rent_equipment_delete/{rent_equipment_id}', [
             'uses' => 'ApplicationController@getRentEquipmentDelete',
             'as' => 'rentequipment.delete'
         ]);
@@ -115,31 +115,31 @@ Route::group(['prefix' => 'application'], function() {
 
     //無效網址重導回首頁
     Route::get('/information', function () {
-        return view('homepage');
+        return redirect('/');
     });
 
     Route::get('/edit', function () {
-        return view('homepage');
+        return redirect('/');
     });
 
     Route::get('/rent', function () {
-        return view('homepage');
+        return redirect('/');
     });
 
     Route::get('/return', function () {
-        return view('homepage');
+        return redirect('/');
     });
 
     Route::get('/delete', function () {
-        return view('homepage');
+        return redirect('/');
     });
 
-    Route::get('rent_key/delete', function () {
-        return view('homepage');
+    Route::get('/rent_key_delete', function () {
+        return redirect('/');
     });
 
-    Route::get('rent_equipment/delete', function () {
-        return view('homepage');
+    Route::get('/rent_equipment_delete', function () {
+        return redirect('/');
     });
 });
 
@@ -166,6 +166,11 @@ Route::group(['prefix' => 'reservation'], function () {
             'uses' => 'ReservationController@getLongterm',
             'as' => 'reservation.longterm'
         ]);
+
+        Route::get('/longterm_add/{id}', [
+            'uses' => 'ReservationController@getLongtermAdd',
+            'as' => 'longterm.add'
+        ]);
     
         Route::get('/edit/{id}', [
             'uses' => 'ReservationController@getEdit',
@@ -181,19 +186,32 @@ Route::group(['prefix' => 'reservation'], function () {
             'uses' => 'ReservationController@getDelete',
             'as' => 'reservation.delete'
         ]);
+
+        Route::get('/longterm_delete/{id}', [
+            'uses' => 'ReservationController@getLongtermDelete',
+            'as' => 'longterm.delete'
+        ]);
     });
     
     //無效網址重導至首頁
     Route::get('/longterm', function () {
-        return view('homepage');
+        return redirect('/');
     });
 
     Route::get('/edit', function () {
-        return view('homepage');
+        return redirect('/');
     });
 
     Route::get('/delete', function () {
-        return view('homepage');
+        return redirect('/');
+    });
+
+    Route::get('/longterm_add', function () {
+        return redirect('/');
+    });
+
+    Route::get('/longterm_delete', function () {
+        return redirect('/');
     });
 });
 
@@ -241,11 +259,11 @@ Route::group(['prefix' => 'equipment'], function () {
 
     //無效網址重導回首頁
     Route::get('/edit', function () {
-        return view('homepage');
+        return redirect('/');
     });
 
     Route::get('/delete', function () {
-        return view('homepage');
+        return redirect('/');
     });
 });
 
@@ -298,6 +316,11 @@ Route::group(['prefix' => 'user'], function () {
                 'as' => 'user.signup'
             ]);
 
+            Route::get('/change_identity/{id}', [
+                'uses' => 'UserController@getChangeIdentity',
+                'as' => 'user.change.identity'
+            ]);
+
             Route::get('/resetpassword/{id}', [
                 'uses' => 'UserController@getresetPassword',
                 'as' => 'user.resetpassword'
@@ -317,10 +340,14 @@ Route::group(['prefix' => 'user'], function () {
 
     //無效網址重導回首頁
     Route::get('/resetpassword', function () {
-        return view('homepage');
+        return redirect('/');
     });
 
     Route::get('/deleteacc', function () {
-        return view('homepage');
+        return redirect('/');
+    });
+
+    Route::get('/change_identity', function () {
+        return redirect('/');
     });
 });

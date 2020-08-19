@@ -26,7 +26,7 @@ class ClassroomController extends Controller
         //是取得ajax資料的request才執行
         if ( $request->ajax() ) {
             //如果classroom是#All代表位於總覽頁面，回傳所有教室資料，其餘則只回傳該教室資料
-            if($request->input('classroom') === '#All'){
+            if($request->input('classroom') === 'All'){
                 //取得所有教室該日的借用情況
                 $reservations = Reservation::where('date', '>=', Date("Y-m-d", strtotime($request->input("date"))))
                                             ->where('date', '<=', Date("Y-m-d", strtotime($request->input("date") . ' +6 days')))

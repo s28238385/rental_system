@@ -19,6 +19,7 @@ class CreateReservationTable extends Migration
             $table->string('reason');   //理由
             $table->string('classroom');    //借用教室
             $table->date('date');   //預約日期
+            $table->string('day');  //星期
             $table->integer('begin_time');  //開始節次的index值
             $table->integer('end_time');    //結束節次的index值
             $table->integer('long_term_id')->nullable();    //長期借用的識別碼

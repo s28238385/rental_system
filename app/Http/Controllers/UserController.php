@@ -174,4 +174,34 @@ class UserController extends Controller
             return redirect()->route('user.userlist')->with('fail', '修改密碼失敗，請再次嘗試！');
         }
     }
+
+    //變更身分
+    public function getChangeIdentity($id){
+        //依據傳入$id取得資料
+        $user = User::find($id);
+        //管理員人數
+        $role_manager_num = User::where('role', '管理員')
+                            ->count();
+
+        //變更身分及確認管理者人數 > 1
+        if($user->role === '工讀生'){
+            $user->role = '管理員';
+        }
+        else if($user->role === '管理員' && $role_manager_num > 1){
+            $user->role = '工讀生';
+        }
+        else {
+            return redirect()->back()->withErrors('fail', '變更使用者身分失敗，變更後將無管理員！');
+        }
+
+        $executed = $user->save();
+
+        //重導至user.userlist，若成功則附帶成功訊息，反之附帶失敗訊息
+        if($executed){
+            return redirect()->route('user.userlist')->with('success', '變更使用者身分成功！');
+        }
+        else {
+            return redirect()->route('user.userlist')->with('fail', '變更使用者身分失敗，請再次嘗試！');
+        }
+    }
 }
