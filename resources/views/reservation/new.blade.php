@@ -58,11 +58,11 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="begin-date">借用日期</label>
-                            <input type="date" id="begin-date" class="form-control" name="begin_date" value="{{ old('begin_date') }}" required>
+                            <input type="date" id="begin-date" class="form-control" name="begin_date" value="{{ old('begin_date') }}" max="9999-12-31" required>
                         </div>
                         <div class="form-group col-md-6 d-none">
                             <label for="end-date">結束日期</label>
-                            <input type="date" name="end_date" id="end-date" class="form-control">
+                            <input type="date" name="end_date" id="end-date" class="form-control" max="9999-12-31">
                         </div>
                     </div>
                     <div class="form-row d-none">

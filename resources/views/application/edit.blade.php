@@ -99,7 +99,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="key_return_time">鑰匙歸還時間</label>
-                            <input type="datetime-local" class="form-control" name="key_return_time" id="key_return_time" value="{{ (old('key_return_time') != "")? old('key_return_time') : ((empty($rent_key))? str_replace([" ", "00:00:00"], ["T", "09:00:00"], $return_time) : str_replace(" ", "T", $rent_key->return_time)) }}" min="{{ str_replace(" ", "T", $return_time) }}">
+                            <input type="datetime-local" class="form-control" name="key_return_time" id="key_return_time" value="{{ (old('key_return_time') != "")? old('key_return_time') : ((empty($rent_key))? str_replace([" ", "00:00:00"], ["T", "09:00:00"], $return_time) : str_replace(" ", "T", $rent_key->return_time)) }}" min="{{ str_replace(" ", "T", $return_time) }}" max="9999-12-31T23:59:59">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="teacher">授課教師</label>

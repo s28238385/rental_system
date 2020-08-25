@@ -53,9 +53,9 @@
         </div>
         <div class="form-group mx-1 my-1">
             <label for="date" class="m-0">日期：</label>
-            <input type="date" name="begin_date" id="date" class="form-control-sm" value="{{ old('begin_date') }}">
+            <input type="date" name="begin_date" id="date" class="form-control-sm" value="{{ old('begin_date') }}" max="9999-12-31">
             <p class="mb-0 mx-1">~</p>
-            <input type="date" name="end_date" id="date" class="form-control-sm" value="{{ old('end_date') }}">
+            <input type="date" name="end_date" id="date" class="form-control-sm" value="{{ old('end_date') }}" max="9999-12-31">
         </div>
         <div class="form-group ml-2 my-1">
             <label for="loop-day" class="m-0">星期：</label>

@@ -48,7 +48,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="begin-date">借用日期</label>
-                            <input type="date" id="begin-date" class="form-control" name="begin_date" value="{{ $reservation->date }}" required>
+                            <input type="date" id="begin-date" class="form-control" name="begin_date" value="{{ $reservation->date }}" max="9999-12-31" required>
                         </div>
                     </div>
                     <div class="form-row">
