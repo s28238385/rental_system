@@ -1064,6 +1064,7 @@ class ReservationController extends Controller
         $duplicate = Reservation::all()
                                     ->where('date', $request->input('begin_date'))
                                     ->where('classroom', $request->input('classroom'))
+                                    ->where('id', '<>', $id)
                                     ->filter(function($value, $key) use ($request){
                                         return $value->end_time >= array_search($request->input('begin_time'), $this->course) && $value->begin_time <= array_search($request->input('end_time'), $this->course);
                                     })

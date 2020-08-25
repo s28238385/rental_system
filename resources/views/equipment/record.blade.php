@@ -43,34 +43,34 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>申請人</th>
                 <th>種類</th>
                 <th>項目</th>
                 <th>數量</th>
                 <th>狀態</th>
-                <th>借出人</th>
-                <th>歸還人</th>
+                <th>申請人</th>
+                <th>借出經辦</th>
+                <th>歸還經辦</th>
             </tr>
         </thead>
         <tbody>
             @foreach($records as $record)
                 @if(isset($record->classroom))
                     <tr>
-                        <td>{{ $record->name }}</td>
                         <td>{{ $record->classroom }}鑰匙</td>
                         <td>{{ $record->key_type }}</td>
                         <td>1</td>
                         <td>{{ $record->status }}</td>
+                        <td>{{ $record->name }}</td>
                         <td>{{ $record->rent_by }}</td>
                         <td>{{ $record->return_by }}</td>
                     </tr>
                 @elseif (isset($record->genre))
                     <tr>
-                        <td>{{ $record->name }}</td>
                         <td>{{ $record->genre }}</td>
                         <td>{{ $record->item }}</td>
                         <td>{{ $record->quantity }}</td>
                         <td>{{ $record->status }}</td>
+                        <td>{{ $record->name }}</td>
                         <td>{{ $record->rent_by }}</td>
                         <td>{{ $record->return_by }}</td>
                     </tr>

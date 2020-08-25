@@ -23,8 +23,8 @@ class CreateRentKeysTable extends Migration
             $table->string('remark')->nullable();   //備註
             $table->datetime('return_time');    //歸還時間
             $table->enum('status', ['申請中', '借出中', '已歸還']); //鑰匙狀態
-            $table->string('rent_by')->nullable();  //借出經手人
-            $table->string('return_by')->nullable();    //歸還經手人
+            $table->string('rent_by')->nullable();  //借出經辦
+            $table->string('return_by')->nullable();    //歸還經辦
         }); 
     }
 

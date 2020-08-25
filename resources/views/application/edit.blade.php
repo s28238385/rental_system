@@ -169,7 +169,7 @@
             </div>
             <div class="form-group col-md-4">
                 <label for="return_time">歸還時間</label>
-                <input type="datetime-local" class="form-control" name="return_time[]" id="return_time" value="{{ str_replace([" ", "00:00:00"], ["T", "09:00:00"], $return_time) }}" min="{{ str_replace(" ", "T", $return_time) }}">
+                <input type="datetime-local" class="form-control" name="return_time[]" id="return_time" value="{{ str_replace([" ", "00:00:00"], ["T", "09:00:00"], $return_time) }}" min="{{ str_replace(" ", "T", $return_time) }}" max="9999-12-31T23:59:59">
             </div>
             <div class="form-group col-md-4">
                 <div class="row m-0 d-flex align-items-end">
