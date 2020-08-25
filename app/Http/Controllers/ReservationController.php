@@ -927,7 +927,7 @@ class ReservationController extends Controller
             }
 
             //長期預約以第一筆預約的id作為識別，建立一個flag方便程式進行
-            if(!is_null($request->input('long_term_id'))){
+            if($request->input('long_term_id') != ""){
                 $first_record = false;
             }
             else {

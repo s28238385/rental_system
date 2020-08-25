@@ -1,46 +1,28 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Be right back.</title>
+        <title>系統維護中 | 資管系教室設備借用系統</title>
 
-        <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+        <!--中文字型-->
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap"
+            rel="stylesheet">
 
-        <style>
-            html, body {
-                height: 100%;
-            }
+        <!--Bootstrap CSS樣式表-->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-            body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                color: #B0BEC5;
-                display: table;
-                font-weight: 100;
-                font-family: 'Lato';
-            }
-
-            .container {
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            }
-
-            .content {
-                text-align: center;
-                display: inline-block;
-            }
-
-            .title {
-                font-size: 72px;
-                margin-bottom: 40px;
-            }
-        </style>
+        <!--自訂CSS樣式表-->
+        <link href="{{ URL::to('css/style.css') }}" rel="stylesheet" type="text/css">
     </head>
-    <body>
+    <body class="homepage vh-100">
         <div class="container">
-            <div class="content">
-                <div class="title">Be right back.</div>
+            <div class="vh-100 d-flex align-items-center justify-content-center">
+                <div class="black-background px-3 pt-4 pb-2 text-center">
+                    <h1 class="mx-4 px-5 pb-2 yellow-title">系統維護中...</h1>
+                    <div class="mt-3">
+                        <p class="text-center text-muted mb-0"><small>Copyright 2020 © 中央資管大數據暨程式設計研究社</small></p>
+                    </div>
+                </div>
             </div>
         </div>
     </body>

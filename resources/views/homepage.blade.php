@@ -5,7 +5,7 @@
 @endsection
 
 @section('script')
-<script type="text/javascript" src="{{ URL::asset('js/homepage.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('js/homepage.js') }}"></script>
 @endsection
 
 @section('content')
