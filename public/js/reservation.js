@@ -10,6 +10,8 @@ $(document).ready(function () {
             $("#end-date").prop("required", false).parent().addClass("d-none");
             //隱藏重複星期選項
             $("#loop-day").parent().parent().addClass("d-none");
+
+            $("#begin-date, #end-date").trigger("input");
         } else if (
             $("input[name='reservation_type']:checked").val() === "long_term"
         ) {
@@ -22,6 +24,24 @@ $(document).ready(function () {
                 .removeClass("d-none");
             //顯示重複星期選項
             $("#loop-day").parent().parent().removeClass("d-none");
+
+            $("#begin-date, #end-date").trigger("input");
+        }
+    });
+
+    $("#begin-date").on("input", function () {
+        if ($("input[name='reservation_type']:checked").val() == "long_term") {
+            $("#end-date").prop("min", $("#begin-date").val());
+        } else {
+            $("#end-date").removeAttr("min");
+        }
+    });
+
+    $("#end-date").on("input", function () {
+        if ($("input[name='reservation_type']:checked").val() == "long_term") {
+            $("#begin-date").prop("max", $("#end-date").val());
+        } else {
+            $("#begin-date").removeAttr("max");
         }
     });
 });

@@ -885,7 +885,7 @@ class ReservationController extends Controller
                 'day'=> Date("D", strtotime($request->input('begin_date'))),
                 'begin_time' => array_search($request->input('begin_time'), $this->course),
                 'end_time' => array_search($request->input('end_time'), $this->course),
-                'long_term_id' => (is_null($request->input('long_term_id')))? : $request->input('long_term_id')
+                'long_term_id' => ($request->input('long_term_id') == "")? null : $request->input('long_term_id')
             ]);
             $executed = $reservation->save();
 
@@ -981,7 +981,7 @@ class ReservationController extends Controller
                         'day' => Date("D", strtotime($dateArray[$i])),
                         'begin_time' => array_search($request->input('begin_time'), $this->course),
                         'end_time' => array_search($request->input('end_time'), $this->course),
-                        'long_term_id' => (is_null($request->input('long_term_id')))? $long_term_id : $request->input('long_term_id')
+                        'long_term_id' => ($request->input('long_term_id') == "")? $long_term_id : $request->input('long_term_id')
                     ]);
                     $executed = $reservation->save();
 
