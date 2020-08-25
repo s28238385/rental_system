@@ -8,6 +8,7 @@ use App\Http\Requests;
 
 //資料庫model
 use App\Reservation;
+use App\Classroom;
 
 class ReservationController extends Controller
 {
@@ -20,6 +21,9 @@ class ReservationController extends Controller
 
     //取得預約清單
     public function getList(Request $request){
+        //取得所有教室名稱
+        $classroomNames = Classroom::pluck('classroomName');
+
         //依查詢內容進行query並分頁，我知道寫法很爛，但是是框架的bug害的
         if($request->input('name') != ""){
             if($request->input('reason') != ""){
@@ -805,14 +809,17 @@ class ReservationController extends Controller
             $reservation->end_time = $this->end_time[$reservation->end_time];
         }
 
-        //回傳reservation.list，並附帶$reservations
-        return view('reservation.list', ['reservations' => $reservations]);
+        //回傳reservation.list，並附帶$reservations, $classroomNames
+        return view('reservation.list', ['reservations' => $reservations, 'classroomNames' => $classroomNames]);
     }
 
     //取得新增預約頁面
     public function getNew(){
+        //取得所有教室名稱
+        $classroomNames = Classroom::pluck('classroomName');
+
         //回傳reservation.new
-        return view('reservation.new');
+        return view('reservation.new', ['classroomNames' => $classroomNames]);
     }
 
     //儲存新增的預約資料
@@ -1037,13 +1044,15 @@ class ReservationController extends Controller
     public function getEdit($id){
         //以傳入$id取得資料
         $reservation = Reservation::find($id);
+        //取得所有教室名稱
+        $classroomNames = Classroom::pluck('classroomName');
 
         //把資料庫存的key值轉換成節次編號
         $reservation->begin_time = $this->course[$reservation->begin_time];
         $reservation->end_time = $this->course[$reservation->end_time];
 
         //回傳reservation.edit，並附帶$reservation
-        return view('reservation.edit', ['reservation' => $reservation]);
+        return view('reservation.edit', ['reservation' => $reservation, 'classroomNames' => $classroomNames]);
     }
 
     //更新修改的預約資料

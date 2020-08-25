@@ -49,16 +49,9 @@
                         <div class="form-group col-md-6">
                             <label for="classroom">借用教室</label>
                             <select class="form-control" id="classroom" name="classroom">
-                                <option value="I_314" {{ (old('classroom') === 'I_314')? "selected" : "" }}>I_314</option>
-                                <option value="I_315" {{ (old('classroom') === 'I_315')? "selected" : "" }}>I_315</option>
-                                <option value="I1_002" {{ (old('classroom') === 'I1_002')? "selected" : "" }}>I1_002</option>
-                                <option value="I1_017" {{ (old('classroom') === 'I1_017')? "selected" : "" }}>I1_017</option>
-                                <option value="I1_105" {{ (old('classroom') === 'I1_105')? "selected" : "" }}>I1_105</option>
-                                <option value="I1_107" {{ (old('classroom') === 'I1_107')? "selected" : "" }}>I1_107</option>
-                                <option value="I1_223" {{ (old('classroom') === 'I1_223')? "selected" : "" }}>I1_223</option>
-                                <option value="I1_404" {{ (old('classroom') === 'I1_404')? "selected" : "" }}>I1_404</option>
-                                <option value="I1_507_1" {{ (old('classroom') === 'I1_507_1')? "selected" : "" }}>I1_507_1</option>
-                                <option value="I1_933" {{ (old('classroom') === 'I1_933')? "selected" : "" }}>I1_933</option>
+                                @foreach ($classroomNames as $classroomName)
+                                    <option value="{{ $classroomName }}" {{ (old('classroom') === $classroomName)? "selected" : "" }}>{{ $classroomName }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>

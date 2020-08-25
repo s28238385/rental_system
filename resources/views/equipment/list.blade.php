@@ -4,14 +4,6 @@
     設備清單
 @endsection
 
-@section('script')
-    <script>
-        //將php變數傳至js
-        let equipments = <?php echo json_encode($records); ?>;
-    </script>
-    <script src="{{ URL::asset('js/equipment_record.js') }}" type="text/javascript"></script>
-@endsection
-
 @section('content')
     @if (Session::has('success'))
         <div class="row justify-content-end m-2 fixed-bottom">

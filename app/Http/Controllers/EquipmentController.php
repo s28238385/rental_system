@@ -10,23 +10,10 @@ use App\Http\Requests;
 use App\Equipment;
 use App\RentKey;
 use App\RentEquipment;
+use App\Classroom;
 
 class EquipmentController extends Controller
 {
-    //鑰匙種類及項目
-    private $keys = [
-        "I_314鑰匙" => ['主要鑰匙', '服務學習鑰匙', '備用鑰匙', '備備用鑰匙'],
-        "I_315鑰匙" => ['主要鑰匙', '服務學習鑰匙', '備用鑰匙', '備備用鑰匙'],
-        "I1_002鑰匙" => ['主要鑰匙', '服務學習鑰匙', '備用鑰匙', '備備用鑰匙'],
-        "I1_017鑰匙" => ['主要鑰匙', '服務學習鑰匙', '備用鑰匙', '備備用鑰匙'],
-        "I1_105鑰匙" => ['主要鑰匙', '服務學習鑰匙', '備用鑰匙', '備備用鑰匙'],
-        "I1_107鑰匙" => ['主要鑰匙', '服務學習鑰匙', '備用鑰匙', '備備用鑰匙'],
-        "I1_223鑰匙" => ['主要鑰匙', '服務學習鑰匙', '備用鑰匙', '備備用鑰匙'],
-        "I1_404鑰匙" => ['主要鑰匙', '服務學習鑰匙', '備用鑰匙', '備備用鑰匙'],
-        "I1_507_1鑰匙" => ['主要鑰匙', '服務學習鑰匙', '備用鑰匙', '備備用鑰匙'],
-        "I1_933鑰匙" => ['主要鑰匙', '服務學習鑰匙', '備用鑰匙', '備備用鑰匙']
-    ];
-
     //顯示設備清單
     public function getList(){
         //取得所有設備，並依種類、項目排列，再進行分頁
@@ -34,21 +21,8 @@ class EquipmentController extends Controller
                                 ->orderBy('item', 'ASC')
                                 ->paginate(20);
 
-        //取出所有在equipment table裡的資料，再依genre分類
-        $records = Equipment::all()
-                            ->groupBy('genre');
-
-        //把$equipments中的array元素依item分類，並更改其索引值為item，並只取出索引值
-        foreach($records as $key => $value){
-            $records[$key] = $value->keyBy('item')->keys();
-        }
-        //把資料型態從Collection object變成array
-        $records = $records->toArray();
-        //把鑰匙清單跟設備清單合併
-        $records = array_merge($this->keys, $records);
-
         //回傳equipment.list，並附帶$equipments
-        return view('equipment.list', ['equipments' => $equipments, 'records' => $records]);
+        return view('equipment.list', ['equipments' => $equipments]);
     }
 
     //顯示新增設備頁面
@@ -133,8 +107,18 @@ class EquipmentController extends Controller
         }
         //把資料型態從Collection object變成array
         $equipments = $equipments->toArray();
+
+        //取出教室名
+        $classroomNames = Classroom::pluck('classroomName');
+
+        $keys = [];
+        //建立各教室鑰匙種類
+        foreach($classroomNames as $classroomName){
+            $keys[$classroomName . '鑰匙'] = ['主要鑰匙', '服務學習鑰匙', '備用鑰匙', '備備用鑰匙'];
+        }
+
         //合併鑰匙清單及設備清單
-        $equipments = array_merge($this->keys, $equipments);
+        $equipments = array_merge($keys, $equipments);
 
         if(preg_match("/鑰匙$/", $request->input('genre'))) {
             $records = RentKey::where('classroom', str_replace('鑰匙', "", $request->input('genre')))

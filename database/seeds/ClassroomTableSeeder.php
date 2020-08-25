@@ -38,6 +38,19 @@ class ClassroomTableSeeder extends Seeder
         $Classroom -> save();
 
         $Classroom = new Classroom([
+            'classroomName' => 'I_726',
+            'imagePath' => '/img/classroom/I_726.jpg',
+            'equipmentDescription' => 
+                '基本設備：高畫質內投影顯示器、冷氣。
+                網路：無線網路。
+                聲音輸入：無。
+                顯示訊號輸入：HDMI。
+
+                ※備註：本教室無麥克風。'
+        ]);
+        $Classroom -> save();
+
+        $Classroom = new Classroom([
             'classroomName' => 'I1_002',
             'imagePath' => '/img/classroom/I1_002.jpg',
             'equipmentDescription' => 
@@ -97,7 +110,7 @@ class ClassroomTableSeeder extends Seeder
                 聲音輸入：無。
                 顯示訊號輸入：VGA、HDMI。
                 
-                ※備註：本教室無麥克風，平日11:00-14:00不外借，僅供系辦開會使用。'
+                ※備註：本教室無麥克風，平日11:00-14:00優先供系辦會議使用。'
         ]);
         $Classroom -> save();
 

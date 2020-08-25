@@ -46,23 +46,16 @@
             <label for="classroom" class="m-0">教室：</label>
             <select name="classroom" id="classroom" class="form-control-sm">
                 <option>請選擇教室</option>
-                <option {{ (old('classroom') === 'I_314')? "selected" : "" }}>I_314</option>
-                <option {{ (old('classroom') === 'I_315')? "selected" : "" }}>I_315</option>
-                <option {{ (old('classroom') === 'I1_002')? "selected" : "" }}>I1_002</option>
-                <option {{ (old('classroom') === 'I1_017')? "selected" : "" }}>I1_017</option>
-                <option {{ (old('classroom') === 'I1_105')? "selected" : "" }}>I1_105</option>
-                <option {{ (old('classroom') === 'I1_107')? "selected" : "" }}>I1_107</option>
-                <option {{ (old('classroom') === 'I1_223')? "selected" : "" }}>I1_223</option>
-                <option {{ (old('classroom') === 'I1_404')? "selected" : "" }}>I1_404</option>
-                <option {{ (old('classroom') === 'I1_507_1')? "selected" : "" }}>I1_507_1</option>
-                <option {{ (old('classroom') === 'I1_933')? "selected" : "" }}>I1_933</option>
+                @foreach ($classroomNames as $classroomName)
+                    <option value="{{ $classroomName }}" {{ (old('classroom') === $classroomName)? "selected" : "" }}>{{ $classroomName }}</option>
+                @endforeach
             </select>
         </div>
         <div class="form-group mx-1 my-1">
             <label for="date" class="m-0">日期：</label>
-            <input type="date" name="begin_date" id="date" class="form-control-sm" value="{{ old('begin_date') }}" max="9999-12-31">
+            <input type="date" name="begin_date" id="date" class="form-control-sm" value="{{ old('begin_date') }}">
             <p class="mb-0 mx-1">~</p>
-            <input type="date" name="end_date" id="date" class="form-control-sm" value="{{ old('end_date') }}" max="9999-12-31">
+            <input type="date" name="end_date" id="date" class="form-control-sm" value="{{ old('end_date') }}">
         </div>
         <div class="form-group ml-2 my-1">
             <label for="loop-day" class="m-0">星期：</label>
