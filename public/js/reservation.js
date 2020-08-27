@@ -1,4 +1,9 @@
 $(document).ready(function () {
+    //修正網址
+    if (location.href.split("/").slice(-1) != "new") {
+        history.replaceState("", "", "/reservation/new");
+    }
+
     //預約種類改變時
     $("input[name='reservation_type']").click(function () {
         if (
@@ -38,10 +43,13 @@ $(document).ready(function () {
     });
 
     $("#end-date").on("input", function () {
-        if ($("input[name='reservation_type']:checked").val() == "long_term") {
+        if (
+            $("input[name='reservation_type']:checked").val() == "long_term" &&
+            $("#end-date").val() != ""
+        ) {
             $("#begin-date").prop("max", $("#end-date").val());
         } else {
-            $("#begin-date").removeAttr("max");
+            $("#begin-date").prop("max", "9999-12-31");
         }
     });
 });

@@ -64,7 +64,7 @@
                             @if (Auth::check())
                                 @can('manager')
                                     <div class="row m-0 mt-auto d-flex justify-content-end">
-                                        <a href="{{ route('reservation.new') }}" type="button" class="btn btn-outline-success">新增預約</a>
+                                        <a href="{{ route('reservation.classroom.new', ['classroom' => $classroom->classroomName]) }}" type="button" class="btn btn-outline-success">新增預約</a>
                                     </div>
                                 @endcan
                             @endif

@@ -161,6 +161,11 @@ Route::group(['prefix' => 'reservation'], function () {
             'uses' => 'ReservationController@postNew',
             'as' => 'reservation.new'
         ]);
+
+        Route::get('/new/{classroom}', [
+            'uses' => 'ReservationController@getClassroomNew',
+            'as' => 'reservation.classroom.new'
+        ]);
     
         Route::get('/longterm/{id}', [
             'uses' => 'ReservationController@getLongterm',

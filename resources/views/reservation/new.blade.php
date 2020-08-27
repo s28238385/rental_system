@@ -50,7 +50,7 @@
                             <label for="classroom">借用教室</label>
                             <select class="form-control" id="classroom" name="classroom">
                                 @foreach ($classroomNames as $classroomName)
-                                    <option value="{{ $classroomName }}" {{ (old('classroom') === $classroomName)? "selected" : "" }}>{{ $classroomName }}</option>
+                                    <option value="{{ $classroomName }}" {{ (old('classroom') === $classroomName)? "selected" : ((isset($classroom) && $classroom === $classroomName)? 'selected' : '') }}>{{ $classroomName }}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -822,6 +822,14 @@ class ReservationController extends Controller
         return view('reservation.new', ['classroomNames' => $classroomNames]);
     }
 
+    public function getClassroomNew($classroom){
+        //取得所有教室名稱
+        $classroomNames = Classroom::pluck('classroomName');
+
+        //回傳reservation.new
+        return view('reservation.new', ['classroomNames' => $classroomNames, 'classroom' => $classroom]);
+    }
+
     //儲存新增的預約資料
     public function postNew(Request $request){
         //根據預約類型進行不同的輸入值驗證
@@ -1036,12 +1044,18 @@ class ReservationController extends Controller
 
     //新增至長期預約
     public function getLongtermAdd($id){
+        //取得所有教室名稱
+        $classroomNames = Classroom::pluck('classroomName');
+
         //回傳reservation.new，並附帶$id
-        return view('reservation.new', ['long_term_id' => $id]);
+        return view('reservation.new', ['long_term_id' => $id, 'classroomNames' => $classroomNames]);
     }
 
     //取得預約的編輯頁面
     public function getEdit($id){
+        //儲存查詢資訊
+        session()->put('redirect_url', url()->previous());
+
         //以傳入$id取得資料
         $reservation = Reservation::find($id);
         //取得所有教室名稱
@@ -1102,7 +1116,12 @@ class ReservationController extends Controller
             return redirect()->route('reservation.list')->with('fail', '修改教室預約失敗，請再次嘗試！');
         }
         else {
-            return redirect()->route('reservation.list')->with('success', '修改教室預約成功！');
+            if(session()->has('redirect_url')){
+                return redirect(session()->get('redirect_url'))->with('success', '修改教室預約成功！');
+            }
+            else {
+                return redirect()->route('reservation.list')->with('success', '修改教室預約成功！');
+            }
         }
     }
 
