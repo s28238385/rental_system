@@ -21,7 +21,8 @@ class ApplicationController extends Controller
     //顯示所有申請清單
     public function getList(){
         //將applications table裡的資料依建立時間倒序排列，20筆資料分一頁輸出
-        $applications = Application::orderBy('updated_at', 'DESC')
+        $applications = Application::where('status', '<>', '已歸還')
+                                    ->orderBy('updated_at', 'DESC')
                                     ->paginate(20);
 
         //送回application.list並附帶$applications
@@ -541,23 +542,17 @@ class ApplicationController extends Controller
 
         /*
          * 更新整筆申請的狀態
-         * 1.有無借出中
-         *  ->有 >> 借出中
-         *  ->無 >> 2.申請中設備數量
-         *            ->全部 >> 申請中
-         *            ->部分 >> 部分歸還
+         * 1.有無申請中
+         *  ->有 >> 申請中
+         *  ->無 >> 2. 有無借出中
+         *            ->有 >> 借出中
          *            ->無 >> 已歸還
          */
-        if($rent_key_status === '借出中' || in_array('借出中', $rent_equipments_status)){
-            $application->status = '借出中';
+        if($rent_key_status === '申請中' || in_array('申請中', $rent_equipments_status)){
+            $application->status = '申請中';
         }
-        else if($rent_key_status === '申請中' || in_array('申請中', $rent_equipments_status)){
-            if($rent_key_status != '已歸還' && !in_array('已歸還', $rent_equipments_status)){
-                $application->status = '申請中';
-            }
-            else {
-                $application->status = '部分歸還';
-            }
+        else if($rent_key_status === '借出中' || in_array('借出中', $rent_equipments_status)){
+            $application->status = '借出中';
         }
         else {
             $application->status = '已歸還';
@@ -639,8 +634,23 @@ class ApplicationController extends Controller
             }
         }
 
-        //將整筆申請的狀態改為借出中
-        $application->status = '借出中';
+        /*
+         * 更新整筆申請的狀態
+         * 1.有無申請中
+         *  ->有 >> 申請中
+         *  ->無 >> 2. 有無借出中
+         *            ->有 >> 借出中
+         *            ->無 >> 已歸還
+         */
+        if($rent_key_status === '申請中' || in_array('申請中', $rent_equipments_status)){
+            $application->status = '申請中';
+        }
+        else if($rent_key_status === '借出中' || in_array('借出中', $rent_equipments_status)){
+            $application->status = '借出中';
+        }
+        else {
+            $application->status = '已歸還';
+        }
 
         $executed = $application->save();
 
@@ -727,23 +737,17 @@ class ApplicationController extends Controller
 
         /*
          * 更新整筆申請的狀態
-         * 1.有無借出中
-         *  ->有 >> 借出中
-         *  ->無 >> 2.申請中設備數量
-         *            ->全部 >> 申請中
-         *            ->部分 >> 部分歸還
+         * 1.有無申請中
+         *  ->有 >> 申請中
+         *  ->無 >> 2. 有無借出中
+         *            ->有 >> 借出中
          *            ->無 >> 已歸還
          */
-        if($rent_key_status === '借出中' || in_array('借出中', $rent_equipments_status)){
-            return redirect()->route('application.list')->with('success', '設備歸還成功！');
+        if($rent_key_status === '申請中' || in_array('申請中', $rent_equipments_status)){
+            $application->status = '申請中';
         }
-        else if($rent_key_status === '申請中' || in_array('申請中', $rent_equipments_status)){
-            if($rent_key_status != '已歸還' && !in_array('已歸還', $rent_equipments_status)){
-                $application->status = '申請中';
-            }
-            else {
-                $application->status = '部分歸還';
-            }
+        else if($rent_key_status === '借出中' || in_array('借出中', $rent_equipments_status)){
+            $application->status = '借出中';
         }
         else {
             $application->status = '已歸還';
@@ -835,23 +839,17 @@ class ApplicationController extends Controller
                                                 ->toArray();
         /*
          * 更新整筆申請的狀態
-         * 1.有無借出中
-         *  ->有 >> 借出中
-         *  ->無 >> 2.申請中設備數量
-         *            ->全部 >> 申請中
-         *            ->部分 >> 部分歸還
+         * 1.有無申請中
+         *  ->有 >> 申請中
+         *  ->無 >> 2. 有無借出中
+         *            ->有 >> 借出中
          *            ->無 >> 已歸還
          */
-        if(in_array('借出中', $rent_equipments_status)){
-            return redirect()->route('application.list')->with('success', '設備歸還成功！');
+        if(in_array('申請中', $rent_equipments_status)){
+            $application->status = '申請中';
         }
-        else if(in_array('申請中', $rent_equipments_status)){
-            if(!in_array('已歸還', $rent_equipments_status)){
-                $application->status = '申請中';
-            }
-            else {
-                $application->status = '部分歸還';
-            }
+        else if(in_array('借出中', $rent_equipments_status)){
+            $application->status = '借出中';
         }
         else {
             $application->status = '已歸還';
@@ -905,23 +903,17 @@ class ApplicationController extends Controller
                                                 ->toArray();
         /*
          * 更新整筆申請的狀態
-         * 1.有無借出中
-         *  ->有 >> 借出中
-         *  ->無 >> 2.申請中設備數量
-         *            ->全部 >> 申請中
-         *            ->部分 >> 部分歸還
+         * 1.有無申請中
+         *  ->有 >> 申請中
+         *  ->無 >> 2. 有無借出中
+         *            ->有 >> 借出中
          *            ->無 >> 已歸還
          */
-        if($rent_key_status === '借出中' || in_array('借出中', $rent_equipments_status)){
-            return redirect()->route('application.list')->with('success', '設備歸還成功！');
+        if($rent_key_status === '申請中' || in_array('申請中', $rent_equipments_status)){
+            $application->status = '申請中';
         }
-        else if($rent_key_status === '申請中' || in_array('申請中', $rent_equipments_status)){
-            if($rent_key_status != '已歸還' && !in_array('已歸還', $rent_equipments_status)){
-                $application->status = '申請中';
-            }
-            else {
-                $application->status = '部分歸還';
-            }
+        else if($rent_key_status === '借出中' || in_array('借出中', $rent_equipments_status)){
+            $application->status = '借出中';
         }
         else {
             $application->status = '已歸還';

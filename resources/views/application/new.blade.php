@@ -128,7 +128,7 @@
                                     <input type="date" class="form-control" name="key_return_time" id="key_return_time" value="{{ $return_time }}" min="{{ $return_time }}" max="9999-12-31">
                                 </div>
                                 <div class="col-md-4 p-0 d-flex align-items-end">
-                                    <input type="text" name="hour" id="hour" class="form-control" value="09:00" readonly>
+                                    <input type="text" class="form-control" value="09:00" readonly>
                                 </div>
                             </div>
                         </div>
@@ -199,7 +199,7 @@
                         <input type="date" class="form-control" name="return_time[]" id="return_time" value="{{ $return_time }}" min="{{ $return_time }}" max="9999-12-31">
                     </div>
                     <div class="col-md-5 p-0 d-flex align-items-end">
-                        <input type="text" name="hour" id="hour" class="form-control" value="09:00" readonly>
+                        <input type="text" class="form-control" value="09:00" readonly>
                     </div>
                 </div>
             </div>

@@ -124,16 +124,21 @@ $("document").ready(function () {
 
     //點選刪除時
     $("#dltBtn").click(function () {
-        //移除最後一個設備表格
-        $(".equipmentContainer").children().last().remove();
-        //顯示更新後最後一個的刪除鍵
-        $(".equipmentContainer")
-            .children()
-            .last()
-            .find("#dltBtn")
-            .removeClass("d-none");
+        //移除設備表格
+        $(this).parents("#equipment").remove();
+
         //減少設備借用數
         equipmentNum--;
+
+        //重新編號
+        let i = 1;
+        $(".equipmentContainer")
+            .children()
+            .each(function () {
+                $(this)
+                    .find("#equipmentNum")
+                    .html("No." + i++);
+            });
     });
 
     //設備種類選項改變時
@@ -258,13 +263,6 @@ $("document").ready(function () {
 
     //借用更多設備點選時
     $("#moreBtn").click(function () {
-        //隱藏最後一個設備表格的刪除鍵
-        $(".equipmentContainer")
-            .children()
-            .last()
-            .find("#dltBtn")
-            .addClass("d-none");
-
         //複製設備表格模板，更改id，接到.equipmentContainer的最後方
         let equipment = $("#equipmentTemplate")
             .clone(true, true)

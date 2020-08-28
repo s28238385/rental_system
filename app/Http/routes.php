@@ -145,13 +145,22 @@ Route::group(['prefix' => 'application'], function() {
 
 //教室預約相關連結，前綴uri為reservation
 Route::group(['prefix' => 'reservation'], function () {
+    Route::get('/list', [
+        'uses' => 'ReservationController@getList',
+        'as' => 'reservation.list'
+    ]);
+
+        Route::get('/longterm/{id}', [
+            'uses' => 'ReservationController@getLongterm',
+            'as' => 'reservation.longterm'
+        ]);
+
     //中介層為auth，只有登入時才可以訪問
     Route::group(['middleware' => ['auth', 'role']], function () {
-        Route::get('/list', [
-            'uses' => 'ReservationController@getList',
-            'as' => 'reservation.list'
+        Route::get('/update', [
+            'uses' => 'UpdateReservationController@update'
         ]);
-    
+
         Route::get('/new', [
             'uses' => 'ReservationController@getNew',
             'as' => 'reservation.new'
@@ -165,11 +174,6 @@ Route::group(['prefix' => 'reservation'], function () {
         Route::get('/new/{classroom}', [
             'uses' => 'ReservationController@getClassroomNew',
             'as' => 'reservation.classroom.new'
-        ]);
-    
-        Route::get('/longterm/{id}', [
-            'uses' => 'ReservationController@getLongterm',
-            'as' => 'reservation.longterm'
         ]);
 
         Route::get('/longterm_add/{id}', [

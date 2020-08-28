@@ -31,7 +31,9 @@
     @endif
     <div class="d-flex inline-flex align-items-center mt-5 mb-3">
         <h1 class="font-weight-normal text-info">預約清單</h1>
-        <a type="button" class="btn btn-outline-success ml-auto px-3" href="{{ route('reservation.new') }}">新增預約</a>
+        @can('manager')
+            <a type="button" class="btn btn-outline-success ml-auto px-3" href="{{ route('reservation.new') }}">新增預約</a>
+        @endcan
     </div>
     <form action="{{ route('reservation.list') }}" method="get" class="form-inline justify-content-end my-2">
         <div class="form-group mx-1 my-1">
@@ -100,41 +102,51 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>編號</th>
-                <th>申請人</th>
-                <th>申請原因</th>
-                <th>教室</th>
-                <th>預約日期</th>
-                <th>開始時間</th>
-                <th>結束時間</th>
-                <th>長期預約</th>
-                <th>管理</th>
+                <th class="align-middle">編號</th>
+                <th class="align-middle">申請人</th>
+                @can('manager')
+                    <th class="align-middle">聯絡電話</th>
+                @endcan
+                <th class="align-middle">申請原因</th>
+                <th class="align-middle">教室</th>
+                <th class="align-middle">預約日期</th>
+                <th class="align-middle">開始時間</th>
+                <th class="align-middle">結束時間</th>
+                <th class="align-middle">長期預約</th>
+                @can('manager')
+                    <th class="align-middle">管理</th>
+                @endcan
             </tr>
         </thead>
         <tbody>
             @if($reservations->isEmpty())
                 <tr>
-                    <td colspan="<?php if(Auth::check()){echo 9;}else{echo 8;}?>">無登錄預約</td>
+                    <td class="align-middle" colspan="{{ (Auth::check() && Auth::user()->role === '管理員')? '10' : '8' }}">無登錄預約</td>
                 </tr>
             @else
                 @foreach($reservations as $reservation)
                     <tr>
-                        <td>{{ $reservation->id }}</td>
-                        <td>{{ $reservation->name }}</td>
-                        <td class="text-break">{{ $reservation->reason }}</td>
-                        <td>{{ $reservation->classroom }}</td>
-                        <td>{{ $reservation->date }}</td>
-                        <td>{{ $reservation->begin_time }}</td>
-                        <td>{{ $reservation->end_time }}</td>
-                        <td>
+                        <td class="align-middle">{{ $reservation->id }}</td>
+                        <td class="text-break align-middle">{{ $reservation->name }}</td>
+                        @can('manager')
+                            <td class="align-middle">{{ $reservation->phone }}</td>
+                        @endcan
+                        <td class="text-break align-middle">{{ $reservation->reason }}</td>
+                        <td class="align-middle">{{ $reservation->classroom }}</td>
+                        <td class="text-break align-middle">{{ $reservation->date }}</td>
+                        <td class="align-middle">{{ $reservation->begin_time }}</td>
+                        <td class="align-middle">{{ $reservation->end_time }}</td>
+                        <td class="align-middle">
                             @if(!empty($reservation->long_term_id))
-                                <a type="button" href="{{ route('reservation.longterm', ['long_term_id' => $reservation->long_term_id]) }}" class="btn btn-sm btn-outline-primary">查看同期預約</a>
+                                <a type="button" href="{{ route('reservation.longterm', ['long_term_id' => $reservation->long_term_id]) }}" class="btn btn-sm btn-outline-primary px-3">查看</a>
                             @endif
                         </td>
-                        <td>
-                            <a href="{{ route('reservation.edit', ['id' => $reservation->id]) }}" type="button" class="btn btn-outline-primary btn-sm px-3 mx-1">編輯</a>
-                            <a href="{{ route('reservation.delete', ['id' => $reservation->id]) }}" type="button" class="btn btn-outline-danger btn-sm px-3 mx-1" onclick="return confirm('確定刪除預約?')">刪除</a>
-                        </td>
+                        @can('manager')
+                            <td class="align-middle px-1">
+                                <a href="{{ route('reservation.edit', ['id' => $reservation->id]) }}" type="button" class="btn btn-outline-primary btn-sm px-3 mx-1 my-1">編輯</a>
+                                <a href="{{ route('reservation.delete', ['id' => $reservation->id]) }}" type="button" class="btn btn-outline-danger btn-sm px-3 mx-1 my-1" onclick="return confirm('確定刪除預約?')">刪除</a>
+                            </td>
+                        @endcan
                     </tr>
                 @endforeach
             @endif

@@ -16,6 +16,7 @@ class CreateReservationTable extends Migration
             $table->increments('id');
             $table->timestamps();   //建立、更新時間
             $table->string('name'); //申請人姓名
+            $table->string('phone')->nullable();    //連絡電話
             $table->string('reason');   //理由
             $table->string('classroom');    //借用教室
             $table->date('date');   //預約日期

@@ -837,6 +837,7 @@ class ReservationController extends Controller
             $this->validate($request, [
                 'long_term_id' => 'integer',
                 'name' => 'required|string',
+                'phone' => array('string', 'regex: /^(09\d{8})|\d{5}$/'),
                 'reason' => 'required|string',
                 'classroom' => 'required|string',
                 'begin_date' => 'required|date',
@@ -848,6 +849,7 @@ class ReservationController extends Controller
             $this->validate($request, [
                 'long_term_id' => 'integer',
                 'name' => 'required|string',
+                'phone' => array('string', 'regex: /^(09\d{8})|\d{5}$/'),
                 'reason' => 'required|string',
                 'classroom' => 'required|string',
                 'begin_date' => 'required|date',
@@ -894,6 +896,7 @@ class ReservationController extends Controller
             //建立model以存入資料庫
             $reservation = new Reservation([
                 'name' => $request->input('name'),
+                'phone' => $request->input('phone'),
                 'reason' => $request->input('reason'),
                 'classroom' => $request->input('classroom'),
                 'date' => $request->input('begin_date'),
@@ -954,6 +957,7 @@ class ReservationController extends Controller
                     //建立model以存入資料庫
                     $reservation = new Reservation([
                         'name' => $request->input('name'),
+                        'phone' => $request->input('phone'),
                         'reason' => $request->input('reason'),
                         'classroom' => $request->input('classroom'),
                         'date' => $dateArray[$i],
@@ -990,6 +994,7 @@ class ReservationController extends Controller
                     //建立model以存入資料庫
                     $reservation = new Reservation([
                         'name' => $request->input('name'),
+                        'phone' => $request->input('phone'),
                         'reason' => $request->input('reason'),
                         'classroom' => $request->input('classroom'),
                         'date' => $dateArray[$i],
@@ -1046,9 +1051,11 @@ class ReservationController extends Controller
     public function getLongtermAdd($id){
         //取得所有教室名稱
         $classroomNames = Classroom::pluck('classroomName');
+        //取得長期預約中的第一筆預約
+        $reservation = Reservation::find($id);
 
         //回傳reservation.new，並附帶$id
-        return view('reservation.new', ['long_term_id' => $id, 'classroomNames' => $classroomNames]);
+        return view('reservation.longterm_new', ['reservation' => $reservation, 'classroomNames' => $classroomNames]);
     }
 
     //取得預約的編輯頁面
@@ -1074,6 +1081,7 @@ class ReservationController extends Controller
         //進行輸入驗證
         $this->validate($request, [
             'name' => 'required|string',
+            'phone' => array('string', 'regex: /^(09\d{8})|\d{5}$/'),
             'reason' => 'required|string',
             'classroom' => 'required|string',
             'begin_date' => 'required|date',
@@ -1103,6 +1111,7 @@ class ReservationController extends Controller
 
         //更新資料
         $reservation->name = $request->input('name');
+        $reservation->phone = $request->input('phone');
         $reservation->reason = $request->input('reason');
         $reservation->classroom = $request->input('classroom');
         $reservation->date = $request->input('begin_date');

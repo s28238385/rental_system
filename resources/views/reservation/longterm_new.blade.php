@@ -19,9 +19,13 @@
                 </div>
             @endif
             <div class="card p-4">
-                <h1 class="text-primary mb-4">新增教室預約</h1>
-                <form action="{{ route('reservation.new') }}" method="post">
+                <div class="d-flex inline-flex align-items-end">
+                    <h1 class="text-primary mb-0">新增教室預約</h1>
+                    <p class="mb-0 ml-auto mr-3">長期預約編號：{{ $reservation->long_term_id }}</p>
+                </div>
+                <form action="{{ route('reservation.new') }}" method="post" class="mt-4">
                     {{ csrf_field() }}
+                    <input type="hidden" name="long_term_id" value="{{ $reservation->long_term_id }}">
                     <div class="form-row">
                         <div class="form-group d-flex inline-flex">
                             <div>
@@ -36,26 +40,18 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="name">申請人<span class="required">*</span></label>
-                            <input type="text" id="name" class="form-control" name="name" placeholder="必填" value="{{ old('name') }}" autocomplete="off" required>
+                            <label for="name">申請人</label>
+                            <input type="text" id="name" class="form-control" name="name" placeholder="必填" value="{{ $reservation->name }}" readonly>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="phone">連絡電話</label>
-                            <input type="text" id="phone" class="form-control" name="phone" value="{{ old('phone') }}" autocomplete="off">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="reason">申請原因<sapn class="required">*</sapn></label>
-                            <input type="text" id="name" class="form-control" name="reason" placeholder="必填" value="{{ old('reason') }}" required>
+                            <label for="reason">申請原因</label>
+                            <input type="text" id="name" class="form-control" name="reason" placeholder="必填" value="{{ $reservation->reason }}" readonly>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="classroom">借用教室</label>
-                            <select class="form-control" id="classroom" name="classroom">
-                                @foreach ($classroomNames as $classroomName)
-                                    <option value="{{ $classroomName }}" {{ (old('classroom') === $classroomName)? "selected" : ((isset($classroom) && $classroom === $classroomName)? 'selected' : '') }}>{{ $classroomName }}</option>
-                                @endforeach
-                            </select>
+                            <input type="text" id="classroom" class="form-control" name="classroom" value="{{ $reservation->classroom }}" readonly>
                         </div>
                     </div>
                     <div class="form-row">

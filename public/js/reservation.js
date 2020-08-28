@@ -1,6 +1,7 @@
 $(document).ready(function () {
     //修正網址
-    if (location.href.split("/").slice(-1) != "new") {
+    url = location.href.split("/");
+    if (url[4] == "new" && url.slice(-1) != "new") {
         history.replaceState("", "", "/reservation/new");
     }
 
@@ -50,6 +51,40 @@ $(document).ready(function () {
             $("#begin-date").prop("max", $("#end-date").val());
         } else {
             $("#begin-date").prop("max", "9999-12-31");
+        }
+    });
+
+    $("form").submit(function () {
+        if (
+            $("#phone").val() != "" &&
+            !$("#phone")
+                .val()
+                .match(/^09\d{8}$/) &&
+            !$("#phone")
+                .val()
+                .match(/^\d{5}$/)
+        ) {
+            alert("聯絡電話格式不符");
+
+            return false;
+        }
+
+        if (
+            $("input[name='reservation_type']:checked").val() == "long_term" &&
+            $("#loop-day").find("input:checked").length == 0
+        ) {
+            alert("請選擇重複時間");
+
+            return false;
+        }
+
+        if (
+            $("#begin-time option:selected").text().slice(0, 2) >
+            $("#end-time option:selected").text().slice(0, 2)
+        ) {
+            alert("開始時間必須比結束時間早");
+
+            return false;
         }
     });
 });

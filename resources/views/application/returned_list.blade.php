@@ -16,45 +16,36 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>申請編號</th>
-                <th>申請時間</th>
-                <th>申請人</th>
-                <th>身分</th>
+                <th class="align-middle">申請編號</th>
+                <th class="align-middle">申請時間</th>
+                <th class="align-middle">申請人</th>
+                <th class="align-middle">身分</th>
                 @can('manager')
-                    <th>手機/分機</th>
+                    <th class="align-middle">手機/分機</th>
                 @endcan
-                <th>證件</th>
-                <th>狀態</th>
-                @if (Auth::check())
-                    <th>借出/歸還</th>
-                @endif
-                <th>詳細資料</th>
+                <th class="align-middle">證件</th>
+                <th class="align-middle">狀態</th>
+                <th class="align-middle">詳細資料</th>
             </tr>
         </thead>
         <tbody>
             @if($applications->isEmpty())
                 <tr>
-                    <td colspan="<?php if(Auth::check()){echo 9;}else{echo 8;}?>">無已歸還申請</td>
+                    <td class="align-middle" colspan="{{ (Auth::check())? '8' : '7' }}">無已歸還申請</td>
                 </tr>
             @else
                 @foreach($applications as $application)
                     <tr>
-                        <td>{{ $application->id }}</td>
-                        <td>{{ $application->created_at }}</td>
-                        <td>{{ $application->name }}</td>
-                        <td>{{ $application->identity }}</td>
+                        <td class="align-middle">{{ $application->id }}</td>
+                        <td class="align-middle text-break">{{ $application->created_at }}</td>
+                        <td class="align-middle">{{ $application->name }}</td>
+                        <td class="align-middle">{{ $application->identity }}</td>
                         @can('manager')
-                            <td>{{ $application->phone }}</td>
+                            <td class="align-middle">{{ $application->phone }}</td>
                         @endcan
-                        <td>{{ $application->certificate }}</td>
-                        <td>{{ $application->status }}</td>
-                        @if (Auth::check())
-                            <td>
-                                <a type="button" href="{{ route('application.rent', ['application_id' => $application->id]) }}" class="btn btn-sm btn-outline-success px-3">借出</a>
-                                <a type="button" href="{{ route('application.return', ['application_id' => $application->id]) }}" class="btn btn-sm btn-outline-success px-3">歸還</a>
-                            </td>
-                        @endif
-                        <td>
+                        <td class="align-middle">{{ $application->certificate }}</td>
+                        <td class="align-middle">{{ $application->status }}</td>
+                        <td class="align-middle">
                             <a href="{{ route('application.information', ['application_id' => $application->id]) }}" type="button" class="btn btn-sm btn-outline-primary">詳細資料</a>
                         </td>
                     </tr>

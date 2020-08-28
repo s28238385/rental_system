@@ -34,22 +34,22 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>名稱</th>
-                <th>身分</th>
-                <th>電子信箱</th>
-                <th>管理</th>
+                <th class="align-middle">名稱</th>
+                <th class="align-middle">身分</th>
+                <th class="align-middle">電子信箱</th>
+                <th class="align-middle">管理</th>
             </tr>
         </thead>
         <tbody>
             @foreach($users as $user)
-                <tr class="<?php if($user->role === '管理員'){echo "bg-spary";}?>">
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->role }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>
-                        <a type="button" class="btn btn-sm btn-outline-primary px-3 <?php if(Auth::user()->id === $user->id){echo 'disabled';}?>" href="{{ route('user.change.identity', ['id' => $user->id]) }}">變更身分</a>
-                        <a type="button" class="btn btn-sm btn-outline-primary px-3 <?php if(Auth::user()->id === $user->id){echo 'disabled';}?>" href="{{ route('user.resetpassword', ['id' => $user->id]) }}">重設密碼</a>
-                        <a type="button" id="delete-account" class="btn btn-sm btn-outline-danger px-3" onclick="return confirm('確定刪除帳號?')" href="{{ route('user.deleteacc',['id'=>$user->id]) }}">刪除帳號</a>
+                <tr class="{{ ($user->role === '管理員')? 'bg-spary' : '' }}">
+                    <td class="align-middle">{{ $user->name }}</td>
+                    <td class="align-middle">{{ $user->role }}</td>
+                    <td class="align-middle">{{ $user->email }}</td>
+                    <td class="align-middle">
+                        <a type="button" class="btn btn-sm btn-outline-primary px-3 m-1 {{ (Auth::user()->id === $user->id)? 'disabled' : '' }}" href="{{ route('user.change.identity', ['id' => $user->id]) }}">變更身分</a>
+                        <a type="button" class="btn btn-sm btn-outline-primary px-3 m-1 {{ (Auth::user()->id === $user->id)? 'disabled' : '' }}" href="{{ route('user.resetpassword', ['id' => $user->id]) }}">重設密碼</a>
+                        <a type="button" id="delete-account" class="btn btn-sm btn-outline-danger px-3 m-1" onclick="return confirm('確定刪除帳號?')" href="{{ route('user.deleteacc',['id'=>$user->id]) }}">刪除帳號</a>
                     </td>
                 </tr>
             @endforeach

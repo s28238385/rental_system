@@ -4,6 +4,10 @@
     編輯教室預約
 @endsection
 
+@section('script')
+    <script src="{{ URL::asset('js/reservation.js') }}" type="text/javascript"></script>
+@endsection
+
 @section('content')
     <div class="d-flex justify-content-center">
         <div class="col-md-8 mt-3">
@@ -24,6 +28,10 @@
                             <input type="text" id="name" class="form-control" name="name" placeholder="必填" value="{{ $reservation->name }}" required>
                         </div>
                         <div class="form-group col-md-6">
+                            <label for="phone">連絡電話</label>
+                            <input type="text" id="phone" class="form-control" name="phone" value="{{ $reservation->phone }}">
+                        </div>
+                        <div class="form-group col-md-6">
                             <label for="reason">申請原因<sapn class="required">*</sapn></label>
                             <input type="text" id="name" class="form-control" name="reason" placeholder="必填" value="{{ $reservation->reason }}" required>
                         </div>
@@ -32,16 +40,9 @@
                         <div class="form-group col-md-6">
                             <label for="classroom">借用教室</label>
                             <select class="form-control" id="classroom" name="classroom">
-                                <option value="I_314" {{ ($reservation->classroom === 'I_314')? "selected" : "" }}>I_314</option>
-                                <option value="I_315" {{ ($reservation->classroom === 'I_315')? "selected" : "" }}>I_315</option>
-                                <option value="I1_002" {{ ($reservation->classroom === 'I1_002')? "selected" : "" }}>I1_002</option>
-                                <option value="I1_017" {{ ($reservation->classroom === 'I1_017')? "selected" : "" }}>I1_017</option>
-                                <option value="I1_105" {{ ($reservation->classroom === 'I1_105')? "selected" : "" }}>I1_105</option>
-                                <option value="I1_107" {{ ($reservation->classroom === 'I1_107')? "selected" : "" }}>I1_107</option>
-                                <option value="I1_223" {{ ($reservation->classroom === 'I1_223')? "selected" : "" }}>I1_223</option>
-                                <option value="I1_404" {{ ($reservation->classroom === 'I1_404')? "selected" : "" }}>I1_404</option>
-                                <option value="I1_507_1" {{ ($reservation->classroom === 'I1_507_1')? "selected" : "" }}>I1_507_1</option>
-                                <option value="I1_933" {{ ($reservation->classroom === 'I1_933')? "selected" : "" }}>I1_933</option>
+                                @foreach ($classroomNames as $classroomName)
+                                    <option value="{{ $classroomName }}" {{ ($reservation->classroom === $classroomName)? "selected" : "" }}>{{ $classroomName }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>

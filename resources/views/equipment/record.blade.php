@@ -43,36 +43,36 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>種類</th>
-                <th>項目</th>
-                <th>數量</th>
-                <th>狀態</th>
-                <th>申請人</th>
-                <th>借出經辦</th>
-                <th>歸還經辦</th>
+                <th class="align-middle">種類</th>
+                <th class="align-middle">項目</th>
+                <th class="align-middle">數量</th>
+                <th class="align-middle">狀態</th>
+                <th class="align-middle">申請人</th>
+                <th class="align-middle">借出經辦</th>
+                <th class="align-middle">歸還經辦</th>
             </tr>
         </thead>
         <tbody>
             @foreach($records as $record)
                 @if(isset($record->classroom))
                     <tr>
-                        <td>{{ $record->classroom }}鑰匙</td>
-                        <td>{{ $record->key_type }}</td>
-                        <td>1</td>
-                        <td>{{ $record->status }}</td>
-                        <td>{{ $record->name }}</td>
-                        <td>{{ $record->rent_by }}</td>
-                        <td>{{ $record->return_by }}</td>
+                        <td class="align-middle">{{ $record->classroom }}鑰匙</td>
+                        <td class="align-middle">{{ $record->key_type }}</td>
+                        <td class="align-middle">1</td>
+                        <td class="align-middle">{{ $record->status }}</td>
+                        <td class="align-middle">{{ $record->name }}</td>
+                        <td class="align-middle">{{ $record->rent_by }}</td>
+                        <td class="align-middle">{{ $record->return_by }}</td>
                     </tr>
                 @elseif (isset($record->genre))
                     <tr>
-                        <td>{{ $record->genre }}</td>
-                        <td>{{ $record->item }}</td>
-                        <td>{{ $record->quantity }}</td>
-                        <td>{{ $record->status }}</td>
-                        <td>{{ $record->name }}</td>
-                        <td>{{ $record->rent_by }}</td>
-                        <td>{{ $record->return_by }}</td>
+                        <td class="align-middle">{{ $record->genre }}</td>
+                        <td class="align-middle">{{ $record->item }}</td>
+                        <td class="align-middle">{{ $record->quantity }}</td>
+                        <td class="align-middle">{{ $record->status }}</td>
+                        <td class="align-middle">{{ $record->name }}</td>
+                        <td class="align-middle">{{ $record->rent_by }}</td>
+                        <td class="align-middle">{{ $record->return_by }}</td>
                     </tr>
                 @endif
             @endforeach

@@ -30,8 +30,8 @@
                 <h2 class="text-primary mb-0">基本資料</h2>
                 @if(Auth::check())
                     <div class="ml-auto mr-3">
-                        <a type="button" href="{{ route('application.rent', ['application_id' => $application->id]) }}" class="btn btn-outline-success px-3 mx-1">借出</a>
-                        <a type="button" href="{{ route('application.return', ['application_id' => $application->id]) }}" class="btn btn-outline-success px-3 mx-1">歸還</a>
+                        <a type="button" href="{{ route('application.rent', ['application_id' => $application->id]) }}" class="btn btn-outline-success px-3 mx-1 {{ ($application->status == '申請中')? '' : 'disabled' }}">借出</a>
+                        <a type="button" href="{{ route('application.return', ['application_id' => $application->id]) }}" class="btn btn-outline-success px-3 mx-1 {{ ($application->status != '已歸還')? '' : 'disabled' }}">歸還</a>
                         <a type="button" href="{{ route('application.edit', ['application_id' => $application->id]) }}" class="btn btn-outline-primary px-3 mx-1">編輯</a>
                         @can('manager')
                             <a type="button" href="{{ route('application.delete', ['application_id' => $application->id]) }}" class="btn btn-outline-danger px-3 mx-1" onclick="return confirm('確定刪除這筆申請？')">刪除</a>
@@ -114,31 +114,31 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <td>種類</td>
-                                <td>項目</td>
-                                <td>數量</td>
-                                <td>用途</td>
-                                <td>備註</td>
-                                <td>歸還時間</td>
-                                <td>狀態</td>
+                                <td class="align-middle">種類</td>
+                                <td class="align-middle">項目</td>
+                                <td class="align-middle">數量</td>
+                                <td class="align-middle">用途</td>
+                                <td class="align-middle">備註</td>
+                                <td class="align-middle">歸還時間</td>
+                                <td class="align-middle">狀態</td>
                                 @if (Auth::check())
-                                    <td>刪除</td>
+                                    <td class="align-middle">刪除</td>
                                 @endif
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($rent_equipments as $rent_equipment)
-                                <tr>
-                                    <td>{{ $rent_equipment->genre }}</td>
-                                    <td>{{ $rent_equipment->item }}</td>
-                                    <td>{{ $rent_equipment->quantity }}</td>
-                                    <td class="text-break">{{ $rent_equipment->usage }}</td>
-                                    <td class="text-break">{{ $rent_equipment->remark }}</td>
-                                    <td class="text-break">{{ $rent_equipment->return_time }}</td>
-                                    <td>{{ $rent_equipment->status }}</td>
+                                <tr class="align-middle">
+                                    <td class="align-middle">{{ $rent_equipment->genre }}</td>
+                                    <td class="align-middle text-break">{{ $rent_equipment->item }}</td>
+                                    <td class="align-middle">{{ $rent_equipment->quantity }}</td>
+                                    <td class="align-middle text-break">{{ $rent_equipment->usage }}</td>
+                                    <td class="align-middle text-break">{{ $rent_equipment->remark }}</td>
+                                    <td class="align-middle text-break">{{ $rent_equipment->return_time }}</td>
+                                    <td class="align-middle">{{ $rent_equipment->status }}</td>
                                     @if (Auth::check())
-                                        <td>
-                                            <a href="{{ route('rentequipment.delete', ['rent_equipment_id' => $rent_equipment->id]) }}" type="button" class="btn btn-sm btn-outline-danger ml-auto px-3 <?php if($rent_equipment->status != '申請中'){echo 'disabled';}?>" onclick="return confirm('確定刪除這筆設備借用？')">刪除</a>
+                                        <td class="align-middle">
+                                            <a href="{{ route('rentequipment.delete', ['rent_equipment_id' => $rent_equipment->id]) }}" type="button" class="btn btn-sm btn-outline-danger ml-auto px-3 {{ ($rent_equipment->status != '申請中')? 'disabled' : '' }}" onclick="return confirm('確定刪除這筆設備借用？')">刪除</a>
                                         </td>
                                     @endif
                                 </tr>

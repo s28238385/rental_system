@@ -14,7 +14,7 @@
             <div class="d-flex inline-flex align-items-end">
                 <h2 class="text-primary mb-0">基本資料</h2>
                 <div class="ml-auto">
-                    <a href="{{ route('application.return', ['application_id' => $application->id]) }}" type="button" class="btn btn-outline-success px-3 mx-1">歸還</a>
+                    <a href="{{ route('application.return', ['application_id' => $application->id]) }}" type="button" class="btn btn-outline-success px-3 mx-1 {{ ($application->status != '已歸還')? '' : 'disabled' }}">歸還</a>
                     <a href="{{ route('application.information', ['application_id' => $application->id]) }}" type="button" class="btn btn-outline-primary px-3 mx-1">詳細資料</a>
                 </div>
             </div>
@@ -63,24 +63,24 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <td>種類</td>
-                                <td>項目</td>
-                                <td>數量</td>
-                                <td>借出</td>
+                                <td class="align-middle">種類</td>
+                                <td class="align-middle">項目</td>
+                                <td class="align-middle">數量</td>
+                                <td class="align-middle">借出</td>
                             </tr>
                         </thead>
                         <tbody>
                             @if (empty($rent_key) && $rent_equipments->isEmpty())
                                 <tr>
-                                    <td colspan="5">所有申請設備皆已借出或歸還</td>
+                                    <td class="align-middle" colspan="5">所有申請設備皆已借出或歸還</td>
                                 </tr>
                             @endif
                             @if (!empty($rent_key))
                                 <tr>
-                                    <td>{{ $rent_key->classroom }}鑰匙</td>
-                                    <td>{{ $rent_key->key_type }}</td>
-                                    <td>1</td>
-                                    <td>
+                                    <td class="align-middle">{{ $rent_key->classroom }}鑰匙</td>
+                                    <td class="align-middle">{{ $rent_key->key_type }}</td>
+                                    <td class="align-middle">1</td>
+                                    <td class="align-middle">
                                         <input type="checkbox" name="key_rent" id="rentkey" value="{{ $rent_key->id }}">
                                         <label for="rentkey">借出</label>
                                     </td>
@@ -89,10 +89,10 @@
                             @if (!$rent_equipments->isEmpty())
                                 @foreach ($rent_equipments as $rent_equipment)
                                     <tr>
-                                        <td>{{ $rent_equipment->genre }}</td>
-                                        <td>{{ $rent_equipment->item }}</td>
-                                        <td>{{ $rent_equipment->quantity }}</td>
-                                        <td>
+                                        <td class="align-middle">{{ $rent_equipment->genre }}</td>
+                                        <td class="align-middle">{{ $rent_equipment->item }}</td>
+                                        <td class="align-middle">{{ $rent_equipment->quantity }}</td>
+                                        <td class="align-middle">
                                             <input type="checkbox" name="rent[]" id="rent{{ $rent_equipment->id }}" value="{{ $rent_equipment->id }}">
                                             <label for="rent{{ $rent_equipment->id }}">借出</label>
                                         </td>

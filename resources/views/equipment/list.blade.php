@@ -34,28 +34,26 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th class="table-cell pl-4">種類</th>
-                <th class="table-cell">項目</th>
-                <th class="table-cell">數量</th>
-                <th class="teble-cell">管理</th>
+                <th class="align-middle table-cell pl-4">種類</th>
+                <th class="align-middle table-cell">項目</th>
+                <th class="align-middle table-cell">數量</th>
+                <th class="align-middle teble-cell">管理</th>
             </tr>
         </thead>
         <tbody>
             @if($equipments->isEmpty())
                 <tr>
-                    <td colspan="4">無登錄設備</td>
+                    <td class="align-middle " colspan="4">無登錄設備</td>
                 </tr>
             @else
                 @foreach($equipments as $equipment)
                     <tr>
-                        <td class="pl-4 table-cell">{{ $equipment->genre }}</td>
-                        <td class="teble-cell">{{ $equipment->item }}</td>
-                        <td class="teble-cell">{{ $equipment->quantity }}</td>
-                        <td class="teble-cell">
-                            <div id="management-button">
-                                <a href="{{ route('equipment.edit', ['id' => $equipment->id]) }}" type="button" class="btn btn-outline-primary btn-sm px-3 mx-1">編輯</a>
-                                <a href="{{ route('equipment.delete', ['id' => $equipment->id]) }}" type="button" class="btn btn-outline-danger btn-sm px-3 mx-1 {{ (Auth::user()->role === '管理員')? "" : "disabled" }}" onclick="return confirm('確定刪除設備?')">刪除</a>
-                            </div>
+                        <td class="align-middle pl-4 table-cell">{{ $equipment->genre }}</td>
+                        <td class="align-middle teble-cell">{{ $equipment->item }}</td>
+                        <td class="align-middle teble-cell">{{ $equipment->quantity }}</td>
+                        <td class="align-middle teble-cell">
+                            <a href="{{ route('equipment.edit', ['id' => $equipment->id]) }}" type="button" class="btn btn-outline-primary btn-sm px-3 m-1">編輯</a>
+                            <a href="{{ route('equipment.delete', ['id' => $equipment->id]) }}" type="button" class="btn btn-outline-danger btn-sm px-3 m-1 {{ (Auth::user()->role === '管理員')? "" : "disabled" }}" onclick="return confirm('確定刪除設備?')">刪除</a>
                         </td>
                     </tr>
                 @endforeach

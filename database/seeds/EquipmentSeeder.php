@@ -177,7 +177,7 @@ class EquipmentSeeder extends Seeder
 
         $equipment = new Equipment([
             'genre' => '投影機',
-            'item' => '單槍投影機',
+            'item' => '單槍投影機 - 1',
             'quantity' => '2'
         ]);
         $equipment->save();
