@@ -157,10 +157,6 @@ Route::group(['prefix' => 'reservation'], function () {
 
     //中介層為auth，只有登入時才可以訪問
     Route::group(['middleware' => ['auth', 'role']], function () {
-        Route::get('/update', [
-            'uses' => 'UpdateReservationController@update'
-        ]);
-
         Route::get('/new', [
             'uses' => 'ReservationController@getNew',
             'as' => 'reservation.new'

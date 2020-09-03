@@ -25,14 +25,14 @@ class ReservationController extends Controller
         $classroomNames = Classroom::pluck('classroomName');
 
         //依查詢內容進行query並分頁，我知道寫法很爛，但是是框架的bug害的
-        if($request->input('name') != ""){
-            if($request->input('reason') != ""){
+        if(trim($request->input('name')) != ""){
+            if(trim($request->input('reason')) != ""){
                 if($request->input('classroom') != '' & $request->input('classroom') != '請選擇教室'){
                     if($request->input('begin_date') != ''){
                         if($request->input('end_date') != ""){
                             if(!empty($request->input('loop_day'))){
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
-                                                            ->where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
+                                                            ->where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('classroom', $request->input('classroom'))
                                                             ->where('date', '>=', $request->input('begin_date'))
                                                             ->where('date', '<=', $request->input('end_date'))
@@ -44,8 +44,8 @@ class ReservationController extends Controller
                                                             ->setPath('');
                             }
                             else {
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
-                                                            ->where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
+                                                            ->where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('classroom', $request->input('classroom'))
                                                             ->where('date', '>=', $request->input('begin_date'))
                                                             ->where('date', '<=', $request->input('end_date'))
@@ -58,8 +58,8 @@ class ReservationController extends Controller
                         }
                         else {
                             if(!empty($request->input('loop_day'))){
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
-                                                            ->where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
+                                                            ->where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('classroom', $request->input('classroom'))
                                                             ->where('date', '>=', $request->input('begin_date'))
                                                             ->whereIn('day', $request->input('loop_day'))
@@ -70,8 +70,8 @@ class ReservationController extends Controller
                                                             ->setPath('');
                             }
                             else {
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
-                                                            ->where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
+                                                            ->where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('classroom', $request->input('classroom'))
                                                             ->where('date', '>=', $request->input('begin_date'))
                                                             ->orderBy('date', 'ASC')
@@ -85,8 +85,8 @@ class ReservationController extends Controller
                     else {
                         if($request->input('end_date') != ""){
                             if(!empty($request->input('loop_day'))){
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
-                                                            ->where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
+                                                            ->where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('classroom', $request->input('classroom'))
                                                             ->where('date', '<=', $request->input('end_date'))
                                                             ->whereIn('day', $request->input('loop_day'))
@@ -97,8 +97,8 @@ class ReservationController extends Controller
                                                             ->setPath('');
                             }
                             else {
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
-                                                            ->where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
+                                                            ->where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('classroom', $request->input('classroom'))
                                                             ->where('date', '<=', $request->input('end_date'))
                                                             ->orderBy('date', 'ASC')
@@ -110,8 +110,8 @@ class ReservationController extends Controller
                         }
                         else {
                             if(!empty($request->input('loop_day'))){
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
-                                                            ->where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
+                                                            ->where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('classroom', $request->input('classroom'))
                                                             ->whereIn('day', $request->input('loop_day'))
                                                             ->orderBy('date', 'ASC')
@@ -121,8 +121,8 @@ class ReservationController extends Controller
                                                             ->setPath('');
                             }
                             else {
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
-                                                            ->where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
+                                                            ->where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('classroom', $request->input('classroom'))
                                                             ->orderBy('date', 'ASC')
                                                             ->orderBy('begin_time', 'ASC')
@@ -137,8 +137,8 @@ class ReservationController extends Controller
                     if($request->input('begin_date') != ''){
                         if($request->input('end_date') != ""){
                             if(!empty($request->input('loop_day'))){
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
-                                                            ->where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
+                                                            ->where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('date', '>=', $request->input('begin_date'))
                                                             ->where('date', '<=', $request->input('end_date'))
                                                             ->whereIn('day', $request->input('loop_day'))
@@ -149,8 +149,8 @@ class ReservationController extends Controller
                                                             ->setPath('');
                             }
                             else {
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
-                                                            ->where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
+                                                            ->where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('date', '>=', $request->input('begin_date'))
                                                             ->where('date', '<=', $request->input('end_date'))
                                                             ->orderBy('date', 'ASC')
@@ -162,8 +162,8 @@ class ReservationController extends Controller
                         }
                         else {
                             if(!empty($request->input('loop_day'))){
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
-                                                            ->where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
+                                                            ->where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('date', '>=', $request->input('begin_date'))
                                                             ->whereIn('day', $request->input('loop_day'))
                                                             ->orderBy('date', 'ASC')
@@ -173,8 +173,8 @@ class ReservationController extends Controller
                                                             ->setPath('');
                             }
                             else {
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
-                                                            ->where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
+                                                            ->where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('date', '>=', $request->input('begin_date'))
                                                             ->orderBy('date', 'ASC')
                                                             ->orderBy('begin_time', 'ASC')
@@ -187,8 +187,8 @@ class ReservationController extends Controller
                     else {
                         if($request->input('end_date') != ""){
                             if(!empty($request->input('loop_day'))){
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
-                                                            ->where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
+                                                            ->where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('date', '<=', $request->input('end_date'))
                                                             ->whereIn('day', $request->input('loop_day'))
                                                             ->orderBy('date', 'ASC')
@@ -198,8 +198,8 @@ class ReservationController extends Controller
                                                             ->setPath('');
                             }
                             else {
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
-                                                            ->where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
+                                                            ->where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('date', '<=', $request->input('end_date'))
                                                             ->orderBy('date', 'ASC')
                                                             ->orderBy('begin_time', 'ASC')
@@ -210,8 +210,8 @@ class ReservationController extends Controller
                         }
                         else {
                             if(!empty($request->input('loop_day'))){
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
-                                                            ->where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
+                                                            ->where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->whereIn('day', $request->input('loop_day'))
                                                             ->orderBy('date', 'ASC')
                                                             ->orderBy('begin_time', 'ASC')
@@ -220,8 +220,8 @@ class ReservationController extends Controller
                                                             ->setPath('');
                             }
                             else {
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
-                                                            ->where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
+                                                            ->where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->orderBy('date', 'ASC')
                                                             ->orderBy('begin_time', 'ASC')
                                                             ->orderBy('end_time', 'ASC')
@@ -237,7 +237,7 @@ class ReservationController extends Controller
                     if($request->input('begin_date') != ''){
                         if($request->input('end_date') != ""){
                             if(!empty($request->input('loop_day'))){
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
                                                             ->where('classroom', $request->input('classroom'))
                                                             ->where('date', '>=', $request->input('begin_date'))
                                                             ->where('date', '<=', $request->input('end_date'))
@@ -249,7 +249,7 @@ class ReservationController extends Controller
                                                             ->setPath('');
                             }
                             else {
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
                                                             ->where('classroom', $request->input('classroom'))
                                                             ->where('date', '>=', $request->input('begin_date'))
                                                             ->where('date', '<=', $request->input('end_date'))
@@ -262,7 +262,7 @@ class ReservationController extends Controller
                         }
                         else {
                             if(!empty($request->input('loop_day'))){
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
                                                             ->where('classroom', $request->input('classroom'))
                                                             ->where('date', '>=', $request->input('begin_date'))
                                                             ->whereIn('day', $request->input('loop_day'))
@@ -273,7 +273,7 @@ class ReservationController extends Controller
                                                             ->setPath('');
                             }
                             else {
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
                                                             ->where('classroom', $request->input('classroom'))
                                                             ->where('date', '>=', $request->input('begin_date'))
                                                             ->orderBy('date', 'ASC')
@@ -287,7 +287,7 @@ class ReservationController extends Controller
                     else {
                         if($request->input('end_date') != ""){
                             if(!empty($request->input('loop_day'))){
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
                                                             ->where('classroom', $request->input('classroom'))
                                                             ->where('date', '<=', $request->input('end_date'))
                                                             ->whereIn('day', $request->input('loop_day'))
@@ -298,7 +298,7 @@ class ReservationController extends Controller
                                                             ->setPath('');
                             }
                             else {
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
                                                             ->where('classroom', $request->input('classroom'))
                                                             ->where('date', '<=', $request->input('end_date'))
                                                             ->orderBy('date', 'ASC')
@@ -310,7 +310,7 @@ class ReservationController extends Controller
                         }
                         else {
                             if(!empty($request->input('loop_day'))){
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
                                                             ->where('classroom', $request->input('classroom'))
                                                             ->whereIn('day', $request->input('loop_day'))
                                                             ->orderBy('date', 'ASC')
@@ -320,7 +320,7 @@ class ReservationController extends Controller
                                                             ->setPath('');
                             }
                             else {
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
                                                             ->where('classroom', $request->input('classroom'))
                                                             ->orderBy('date', 'ASC')
                                                             ->orderBy('begin_time', 'ASC')
@@ -335,7 +335,7 @@ class ReservationController extends Controller
                     if($request->input('begin_date') != ''){
                         if($request->input('end_date') != ""){
                             if(!empty($request->input('loop_day'))){
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
                                                             ->where('date', '>=', $request->input('begin_date'))
                                                             ->where('date', '<=', $request->input('end_date'))
                                                             ->whereIn('day', $request->input('loop_day'))
@@ -346,7 +346,7 @@ class ReservationController extends Controller
                                                             ->setPath('');
                             }
                             else {
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
                                                             ->where('date', '>=', $request->input('begin_date'))
                                                             ->where('date', '<=', $request->input('end_date'))
                                                             ->orderBy('date', 'ASC')
@@ -358,7 +358,7 @@ class ReservationController extends Controller
                         }
                         else {
                             if(!empty($request->input('loop_day'))){
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
                                                             ->where('date', '>=', $request->input('begin_date'))
                                                             ->whereIn('day', $request->input('loop_day'))
                                                             ->orderBy('date', 'ASC')
@@ -368,7 +368,7 @@ class ReservationController extends Controller
                                                             ->setPath('');
                             }
                             else {
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
                                                             ->where('date', '>=', $request->input('begin_date'))
                                                             ->orderBy('date', 'ASC')
                                                             ->orderBy('begin_time', 'ASC')
@@ -381,7 +381,7 @@ class ReservationController extends Controller
                     else {
                         if($request->input('end_date') != ""){
                             if(!empty($request->input('loop_day'))){
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
                                                             ->where('date', '<=', $request->input('end_date'))
                                                             ->whereIn('day', $request->input('loop_day'))
                                                             ->orderBy('date', 'ASC')
@@ -391,7 +391,7 @@ class ReservationController extends Controller
                                                             ->setPath('');
                             }
                             else {
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
                                                             ->where('date', '<=', $request->input('end_date'))
                                                             ->orderBy('date', 'ASC')
                                                             ->orderBy('begin_time', 'ASC')
@@ -402,7 +402,7 @@ class ReservationController extends Controller
                         }
                         else {
                             if(!empty($request->input('loop_day'))){
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
                                                             ->whereIn('day', $request->input('loop_day'))
                                                             ->orderBy('date', 'ASC')
                                                             ->orderBy('begin_time', 'ASC')
@@ -411,7 +411,7 @@ class ReservationController extends Controller
                                                             ->setPath('');
                             }
                             else {
-                                $reservations = Reservation::where('name', 'like', "%" . $request->input('name') . "%")
+                                $reservations = Reservation::where('name', 'like', "%" . trim($request->input('name')) . "%")
                                                             ->orderBy('date', 'ASC')
                                                             ->orderBy('begin_time', 'ASC')
                                                             ->orderBy('end_time', 'ASC')
@@ -424,12 +424,12 @@ class ReservationController extends Controller
             }
         }
         else {
-            if($request->input('reason') != ""){
+            if(trim($request->input('reason')) != ""){
                 if($request->input('classroom') != '' & $request->input('classroom') != '請選擇教室'){
                     if($request->input('begin_date') != ''){
                         if($request->input('end_date') != ""){
                             if(!empty($request->input('loop_day'))){
-                                $reservations = Reservation::where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('classroom', $request->input('classroom'))
                                                             ->where('date', '>=', $request->input('begin_date'))
                                                             ->where('date', '<=', $request->input('end_date'))
@@ -441,7 +441,7 @@ class ReservationController extends Controller
                                                             ->setPath('');
                             }
                             else {
-                                $reservations = Reservation::where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('classroom', $request->input('classroom'))
                                                             ->where('date', '>=', $request->input('begin_date'))
                                                             ->where('date', '<=', $request->input('end_date'))
@@ -454,7 +454,7 @@ class ReservationController extends Controller
                         }
                         else {
                             if(!empty($request->input('loop_day'))){
-                                $reservations = Reservation::where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('classroom', $request->input('classroom'))
                                                             ->where('date', '>=', $request->input('begin_date'))
                                                             ->whereIn('day', $request->input('loop_day'))
@@ -465,7 +465,7 @@ class ReservationController extends Controller
                                                             ->setPath('');
                             }
                             else {
-                                $reservations = Reservation::where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('classroom', $request->input('classroom'))
                                                             ->where('date', '>=', $request->input('begin_date'))
                                                             ->orderBy('date', 'ASC')
@@ -479,7 +479,7 @@ class ReservationController extends Controller
                     else {
                         if($request->input('end_date') != ""){
                             if(!empty($request->input('loop_day'))){
-                                $reservations = Reservation::where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('classroom', $request->input('classroom'))
                                                             ->where('date', '<=', $request->input('end_date'))
                                                             ->whereIn('day', $request->input('loop_day'))
@@ -490,7 +490,7 @@ class ReservationController extends Controller
                                                             ->setPath('');
                             }
                             else {
-                                $reservations = Reservation::where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('classroom', $request->input('classroom'))
                                                             ->where('date', '<=', $request->input('end_date'))
                                                             ->orderBy('date', 'ASC')
@@ -502,7 +502,7 @@ class ReservationController extends Controller
                         }
                         else {
                             if(!empty($request->input('loop_day'))){
-                                $reservations = Reservation::where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('classroom', $request->input('classroom'))
                                                             ->whereIn('day', $request->input('loop_day'))
                                                             ->orderBy('date', 'ASC')
@@ -512,7 +512,7 @@ class ReservationController extends Controller
                                                             ->setPath('');
                             }
                             else {
-                                $reservations = Reservation::where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('classroom', $request->input('classroom'))
                                                             ->orderBy('date', 'ASC')
                                                             ->orderBy('begin_time', 'ASC')
@@ -527,7 +527,7 @@ class ReservationController extends Controller
                     if($request->input('begin_date') != ''){
                         if($request->input('end_date') != ""){
                             if(!empty($request->input('loop_day'))){
-                                $reservations = Reservation::where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('date', '>=', $request->input('begin_date'))
                                                             ->where('date', '<=', $request->input('end_date'))
                                                             ->whereIn('day', $request->input('loop_day'))
@@ -538,7 +538,7 @@ class ReservationController extends Controller
                                                             ->setPath('');
                             }
                             else {
-                                $reservations = Reservation::where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('date', '>=', $request->input('begin_date'))
                                                             ->where('date', '<=', $request->input('end_date'))
                                                             ->orderBy('date', 'ASC')
@@ -550,7 +550,7 @@ class ReservationController extends Controller
                         }
                         else {
                             if(!empty($request->input('loop_day'))){
-                                $reservations = Reservation::where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('date', '>=', $request->input('begin_date'))
                                                             ->whereIn('day', $request->input('loop_day'))
                                                             ->orderBy('date', 'ASC')
@@ -560,7 +560,7 @@ class ReservationController extends Controller
                                                             ->setPath('');
                             }
                             else {
-                                $reservations = Reservation::where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('date', '>=', $request->input('begin_date'))
                                                             ->orderBy('date', 'ASC')
                                                             ->orderBy('begin_time', 'ASC')
@@ -573,7 +573,7 @@ class ReservationController extends Controller
                     else {
                         if($request->input('end_date') != ""){
                             if(!empty($request->input('loop_day'))){
-                                $reservations = Reservation::where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('date', '<=', $request->input('end_date'))
                                                             ->whereIn('day', $request->input('loop_day'))
                                                             ->orderBy('date', 'ASC')
@@ -583,7 +583,7 @@ class ReservationController extends Controller
                                                             ->setPath('');
                             }
                             else {
-                                $reservations = Reservation::where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->where('date', '<=', $request->input('end_date'))
                                                             ->orderBy('date', 'ASC')
                                                             ->orderBy('begin_time', 'ASC')
@@ -594,7 +594,7 @@ class ReservationController extends Controller
                         }
                         else {
                             if(!empty($request->input('loop_day'))){
-                                $reservations = Reservation::where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->whereIn('day', $request->input('loop_day'))
                                                             ->orderBy('date', 'ASC')
                                                             ->orderBy('begin_time', 'ASC')
@@ -603,7 +603,7 @@ class ReservationController extends Controller
                                                             ->setPath('');
                             }
                             else {
-                                $reservations = Reservation::where('reason', 'like', '%' . $request->input('reason') . "%")
+                                $reservations = Reservation::where('reason', 'like', '%' . trim($request->input('reason')) . "%")
                                                             ->orderBy('date', 'ASC')
                                                             ->orderBy('begin_time', 'ASC')
                                                             ->orderBy('end_time', 'ASC')
@@ -794,7 +794,7 @@ class ReservationController extends Controller
 
         //增加搜尋變數至網址列
         $pagination = $reservations->appends([
-            'name' => $request->input('name'),
+            'name' => trim($request->input('name')),
             'classroom' => $request->input('classroom'),
             'begin_date' => $request->input('begin_date'),
             'end_date' => $request->input('end_date')
@@ -895,9 +895,9 @@ class ReservationController extends Controller
 
             //建立model以存入資料庫
             $reservation = new Reservation([
-                'name' => $request->input('name'),
+                'name' => trim($request->input('name')),
                 'phone' => $request->input('phone'),
-                'reason' => $request->input('reason'),
+                'reason' => trim($request->input('reason')),
                 'classroom' => $request->input('classroom'),
                 'date' => $request->input('begin_date'),
                 'day'=> Date("D", strtotime($request->input('begin_date'))),
@@ -956,9 +956,9 @@ class ReservationController extends Controller
                 if($first_record === true){
                     //建立model以存入資料庫
                     $reservation = new Reservation([
-                        'name' => $request->input('name'),
+                        'name' => trim($request->input('name')),
                         'phone' => $request->input('phone'),
-                        'reason' => $request->input('reason'),
+                        'reason' => trim($request->input('reason')),
                         'classroom' => $request->input('classroom'),
                         'date' => $dateArray[$i],
                         'day' => Date("D", strtotime($dateArray[$i])),
@@ -993,9 +993,9 @@ class ReservationController extends Controller
                 else {
                     //建立model以存入資料庫
                     $reservation = new Reservation([
-                        'name' => $request->input('name'),
+                        'name' => trim($request->input('name')),
                         'phone' => $request->input('phone'),
-                        'reason' => $request->input('reason'),
+                        'reason' => trim($request->input('reason')),
                         'classroom' => $request->input('classroom'),
                         'date' => $dateArray[$i],
                         'day' => Date("D", strtotime($dateArray[$i])),
@@ -1110,9 +1110,9 @@ class ReservationController extends Controller
         $reservation = Reservation::find($id);
 
         //更新資料
-        $reservation->name = $request->input('name');
+        $reservation->name = trim($request->input('name'));
         $reservation->phone = $request->input('phone');
-        $reservation->reason = $request->input('reason');
+        $reservation->reason = trim($request->input('reason'));
         $reservation->classroom = $request->input('classroom');
         $reservation->date = $request->input('begin_date');
         $reservation->day = Date("D", strtotime($request->input('begin_date')));

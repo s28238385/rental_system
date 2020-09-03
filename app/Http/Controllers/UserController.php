@@ -34,8 +34,8 @@ class UserController extends Controller
 
         //建立model以輸入資料
         $user = new User([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
+            'name' => trim($request->input('name')),
+            'email' => trim($request->input('email')),
             'password' => bcrypt($request->input('password')),
             'role' => $request->input('role'),
         ]);
@@ -65,7 +65,7 @@ class UserController extends Controller
         ]);
 
         //登入嘗試
-        if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
+        if (Auth::attempt(['email' => trim($request->input('email')), 'password' => $request->input('password')])) {
             //重導至首頁並顯示成功訊息
             return redirect('/')->with('success', '登入成功！');
         }

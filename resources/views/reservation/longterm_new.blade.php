@@ -44,6 +44,10 @@
                             <input type="text" id="name" class="form-control" name="name" placeholder="必填" value="{{ $reservation->name }}" readonly>
                         </div>
                         <div class="form-group col-md-6">
+                            <label for="phone"">連絡電話</label>
+                            <input type="text" id="phone" class="form-control" name="phone" value="{{ $reservation->phone }}" readonly>
+                        </div>
+                        <div class="form-group col-md-6">
                             <label for="reason">申請原因</label>
                             <input type="text" id="name" class="form-control" name="reason" placeholder="必填" value="{{ $reservation->reason }}" readonly>
                         </div>

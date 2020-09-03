@@ -21,7 +21,7 @@ class ApplicationController extends Controller
     //顯示所有申請清單
     public function getList(){
         //將applications table裡的資料依建立時間倒序排列，20筆資料分一頁輸出
-        $applications = Application::where('status', '<>', '已歸還')
+        $applications = Application::where('status', '申請中')
                                     ->orderBy('updated_at', 'DESC')
                                     ->paginate(20);
 
@@ -166,18 +166,18 @@ class ApplicationController extends Controller
 
         //建立Model物件以存入資料庫
         $application = new Application([
-            'name' => $request->input('name'),
+            'name' => trim($request->input('name')),
             'status' => '申請中'
         ]);
 
         //根據身分填入資料
         if ($request->input('identity') === "學生") {
-            $application->identity = $request->input('grade');
+            $application->identity = trim($request->input('grade'));
             $application->phone = $request->input('phone');
 
             //根據證件填入資料
             if($request->input('certificate') === '其他'){
-                $application->certificate = $request->input('certificateOther');
+                $application->certificate = trim($request->input('certificateOther'));
             }
             else {
                 $application->certificate = $request->input('certificate');
@@ -200,7 +200,7 @@ class ApplicationController extends Controller
             $rent_key = new RentKey([
                 'application_id' => $application->id,
                 'classroom' => $request->input('classroom'),
-                'teacher' =>($request->input('teacher') === "") ? '無' : $request->input('teacher'),
+                'teacher' =>(trim($request->input('teacher')) === "") ? '無' : trim($request->input('teacher')),
                 'key_type' => $request->input('key_type'),
                 'remark' => ($request->input('key_remark') === "") ? '無' : $request->input('key_remark'),
                 'return_time' => Date("Y-m-d H:i:s", strtotime($request->input('key_return_time') . "9:00")),
@@ -208,7 +208,7 @@ class ApplicationController extends Controller
             ]);
 
             if($request->input('key_usage') === '系學會' || $request->input('key_usage') === '其他'){
-                $rent_key->usage = $request->input('key_usage') . "/" . $request->input('key_sub_usage');
+                $rent_key->usage = $request->input('key_usage') . "/" . trim($request->input('key_sub_usage'));
             }
             else {
                 $rent_key->usage = $request->input('key_usage');
@@ -233,13 +233,13 @@ class ApplicationController extends Controller
                     'genre' => $request->input('genre')[$i],
                     'item' => $request->input('item')[$i],
                     'quantity' => $request->input('quantity')[$i],
-                    'remark' => ($request->input('remark')[$i] === "") ? '無' : $request->input('remark')[$i],
+                    'remark' => (trim($request->input('remark')[$i] === "")) ? '無' : trim($request->input('remark')[$i]),
                     'return_time' => Date("Y-m-d H:i:s", strtotime($request->input('return_time')[$i] . "9:00")),
                     'status' => '申請中'
                 ]);
 
                 if($request->input('usage')[$i] === '系學會' || $request->input('usage')[$i] === '其他'){
-                    $rent_equipment->usage = $request->input('usage')[$i] . "/" . $request->input('sub_usage')[$i];
+                    $rent_equipment->usage = $request->input('usage')[$i] . "/" . trim($request->input('sub_usage')[$i]);
                 }
                 else {
                     $rent_equipment->usage = $request->input('usage')[$i];
@@ -393,16 +393,16 @@ class ApplicationController extends Controller
                                             ->toArray();
 
         //更新申請資料
-        $application->name = $request->input('name');
+        $application->name = trim($request->input('name'));
 
         //根據身分更新資料
         if ($request->input('identity') === "學生") {
-            $application->identity = $request->input('grade');
+            $application->identity = trim($request->input('grade'));
             $application->phone = $request->input('phone');
 
             //根據證件更新資料
             if($request->input('certificate') === '其他'){
-                $application->certificate = $request->input('certificateOther');
+                $application->certificate = trim($request->input('certificateOther'));
             }
             else {
                 $application->certificate = $request->input('certificate');
@@ -419,9 +419,9 @@ class ApplicationController extends Controller
                 $rent_key = new RentKey([
                     'application_id' => $application->id,
                     'classroom' => $request->input('classroom'),
-                    'teacher' => ($request->input('teacher') === "") ? '無' : $request->input('teacher'),
+                    'teacher' => (trim($request->input('teacher')) === "") ? '無' : trim($request->input('teacher')),
                     'key_type' => $request->input('key_type'),
-                    'remark' => ($request->input('key_remark') === '')? '無' : $request->input('key_remark'),
+                    'remark' => (trim($request->input('key_remark')) === '')? '無' : trim($request->input('key_remark')),
                     'return_time' => Date("Y-m-d H:i:s", strtotime(str_replace("T", " ", $request->input('key_return_time')))),
                     'status' => $request->input('key_status')
                 ]);
@@ -429,14 +429,14 @@ class ApplicationController extends Controller
             else {
                 $rent_key->key_type = $request->input('key_type');
                 $rent_key->classroom = $request->input('classroom');
-                $rent_key->teacher = ($request->input('teacher') === "") ? '無' : $request->input('teacher');
-                $rent_key->remark = ($request->input('key_remark') === "")? '無' : $request->input('key_remark');
+                $rent_key->teacher = (trim($request->input('teacher')) === "") ? '無' : trim($request->input('teacher'));
+                $rent_key->remark = (trim($request->input('key_remark')) === "")? '無' : trim($request->input('key_remark'));
                 $rent_key->return_time = Date("Y-m-d H:i:s", strtotime(str_replace("T", " ", $request->input('key_return_time'))));
                 $rent_key->status = $request->input('key_status');
             }
 
             if($request->input('key_usage') === '系學會' || $request->input('key_usage') === '其他'){
-                $rent_key->usage = $request->input('key_usage') . "/" . $requeset->input('key_sub_usage');
+                $rent_key->usage = $request->input('key_usage') . "/" . trim($requeset->input('key_sub_usage'));
             }
             else {
                 $rent_key->usage = $request->input('key_usage');
@@ -472,12 +472,12 @@ class ApplicationController extends Controller
                     $rent_equipment->item = $request->input('item')[$i];
                     $rent_equipment->quantity = $request->input('quantity')[$i];
                     if($request->input('usage')[$i] === '系學會' || $request->input('usage')[$i] === '其他'){
-                        $rent_equipment->usage = $request->input('usage')[$i] . "/" . $request->input('sub_usage')[$i];
+                        $rent_equipment->usage = $request->input('usage')[$i] . "/" . trim($request->input('sub_usage')[$i]);
                     }
                     else {
                         $rent_equipment->usage = $request->input('usage')[$i];
                     }
-                    $rent_equipment->remark = ($request->input('remark')[$i] === "") ? '無' : $request->input('remark')[$i];
+                    $rent_equipment->remark = (trim($request->input('remark')[$i]) === "") ? '無' : trim($request->input('remark')[$i]);
                     $rent_equipment->return_time = Date("Y-m-d H:i:s", strtotime(str_replace("T", " ", $request->input('return_time')[$i])));
                     $rent_equipment->status = $request->input('status')[$i];
 
@@ -498,12 +498,12 @@ class ApplicationController extends Controller
                         'genre' => $request->input('genre')[$i],
                         'item' => $request->input('item')[$i],
                         'quantity' => $request->input('quantity')[$i],
-                        'remark' => ($request->input('remark')[$i] === "") ? '無' : $request->input('remark')[$i],
+                        'remark' => (trim($request->input('remark')[$i]) === "") ? '無' : trim($request->input('remark')[$i]),
                         'return_time' => Date("Y-m-d H:i:s", strtotime(str_replace("T", " ", $request->input('return_time')[$i]))),
                         'status' => $request->input('status')[$i]
                     ]);
                     if($request->input('usage')[$i] === '系學會' || $request->input('usage')[$i] === '其他'){
-                        $rent_equipment->usage = $request->input('usage')[$i] . "/" . $request->input('sub_usage')[$i];
+                        $rent_equipment->usage = $request->input('usage')[$i] . "/" . trim($request->input('sub_usage')[$i]);
                     }
                     else {
                         $rent_equipment->usage = $request->input('usage')[$i];
@@ -633,6 +633,14 @@ class ApplicationController extends Controller
                 }
             }
         }
+
+        $rent_key_status = Rentkey::where('application_id', $application->id)
+                                    ->pluck('status')
+                                    ->first();
+        //用FK application_id取出所有借用設備的狀態，並轉成陣列型態
+        $rent_equipments_status = RentEquipment::where('application_id', $application->id)
+                                            ->pluck('status')
+                                            ->toArray();
 
         /*
          * 更新整筆申請的狀態

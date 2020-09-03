@@ -4,6 +4,10 @@
     編輯設備
 @endsection
 
+@section('script')
+    <script src="{{ URL::asset('js/equipment_add_or_edit.js') }}" type="text/javascript"></script>
+@endsection
+
 @section('content')
 <div class="row d-flex justify-content-center mt-5">
     <div class="col-md-4">
@@ -19,7 +23,13 @@
             {{ csrf_field() }}
             <div class="form-group">
                 <label for="genre">種類<span class="required">*</span></label>
-                <input type="text" id="genre" name="genre" class="form-control" placeholder="種類" value="{{ $equipment->genre }}" required>
+                <select name="genre" id="genre" class="form-control">
+                    @foreach ($genres as $genre)
+                        <option {{ (old('genre') === $genre)? 'selected' : (($equipment->genre === $genre)? 'selected' : '') }}>{{ $genre }}</option>
+                    @endforeach
+                    <option {{ (old('genre') === '新增設備種類')? 'selected' : '' }}>新增設備種類</option>
+                </select>
+                <input type="text" id="genreOther" name="genreOther" class="form-control my-1 d-none" value="{{ old('genreOther') }}">
             </div>
             <div class="form-group">
                 <label for="item">項目<span class="required">*</span></label>

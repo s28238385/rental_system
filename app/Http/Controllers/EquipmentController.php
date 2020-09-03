@@ -27,8 +27,12 @@ class EquipmentController extends Controller
 
     //顯示新增設備頁面
     public function getAdd(){
+        $genres = Equipment::all()
+                            ->groupBy('genre')
+                            ->keys();
+
         //回傳equipment.add
-        return view('equipment.add');
+        return view('equipment.add', ['genres' => $genres]);
     }
 
     //儲存新增設備資料
@@ -36,15 +40,16 @@ class EquipmentController extends Controller
         //輸入值驗證
         $this->validate($request, [
             'genre' => 'required|string',
+            'genreOther' => 'string',
             'item' => 'required|string|unique:equipment,item',
             'quantity' => 'required|integer'
         ]);
 
         //建立model以儲存資料
         $equipment = new Equipment([
-            'genre' => $request->input('genre'),
-            'item' => $request->input('item'),
-            'quantity' => $request->input('quantity')
+            'genre' => ($request->input('genre') === '新增設備種類')? trim($request->input('genreOther')) : $request->input('genre'),
+            'item' => trim($request->input('item')),
+            'quantity' => trim($request->input('quantity'))
         ]);
         $executed = $equipment->save();
 
@@ -62,8 +67,12 @@ class EquipmentController extends Controller
         //依傳入值$id取得資料
         $equipment = Equipment::find($id);
 
+        $genres = Equipment::all()
+                            ->groupBy('genre')
+                            ->keys();
+
         //回傳equipment.edit，並附帶$equipment
-        return view('equipment.edit', ['equipment' => $equipment]);
+        return view('equipment.edit', ['equipment' => $equipment, 'genres' => $genres]);
     }
 
     //更新編輯過的設備資料
@@ -71,7 +80,8 @@ class EquipmentController extends Controller
         //輸入值驗證
         $this->validate($request, [
             'genre' => 'required|string',
-            'item' => 'required|string|unique:equipment,item',
+            'genreOther' => 'string',
+            'item' => 'required|string|unique:equipment,item,' . $id,
             'quantity' => 'required|integer'
         ]);
 
@@ -79,9 +89,9 @@ class EquipmentController extends Controller
         $equipment = Equipment::find($id);
 
         //更新資料
-        $equipment->genre = $request->input('genre');
-        $equipment->item = $request->input('item');
-        $equipment->quantity = $request->input('quantity');
+        $equipment->genre = ($request->input('genre') === '新增設備種類')? trim($request->input('genreOther')) : $request->input('genre');
+        $equipment->item = trim($request->input('item'));
+        $equipment->quantity = trim($request->input('quantity'));
         $executed = $equipment->save();
 
         //重導至equipment.list，如果更新成功則回傳成功訊息，否則回傳失敗訊息
@@ -159,10 +169,10 @@ class EquipmentController extends Controller
 
         //重導至equipment.list，如果刪除成功則回傳成功訊息，否則回傳失敗訊息
         if ($executed) {
-            return redirect()->route('equipment.list')->with('success', '刪除設備成功！');
+            return redirect()->back()->with('success', '刪除設備成功！');
         }
         else {
-            return redirect()->route('equipment.list')->with('fail', '刪除設備失敗，請再次嘗試！');
+            return redirect()->back()->with('fail', '刪除設備失敗，請再次嘗試！');
         }
     }
 }
