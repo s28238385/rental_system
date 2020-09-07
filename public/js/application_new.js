@@ -171,11 +171,22 @@ $("document").ready(function () {
             .remove()
             .end();
         //#quantity填入選項
-        for (let i = 1; i <= equipments[genrekey][itemkey]["quantity"]; i++) {
+        if (equipments[genrekey][itemkey]["quantity"] <= 0) {
             $(this)
                 .parents("#equipment")
                 .find("#quantity")
-                .append(new Option(i));
+                .append(new Option("無庫存"));
+        } else {
+            for (
+                let i = 1;
+                i <= equipments[genrekey][itemkey]["quantity"];
+                i++
+            ) {
+                $(this)
+                    .parents("#equipment")
+                    .find("#quantity")
+                    .append(new Option(i));
+            }
         }
     });
 
@@ -196,11 +207,22 @@ $("document").ready(function () {
             .remove()
             .end();
         //#quantity填入選項
-        for (let i = 1; i <= equipments[genrekey][itemkey]["quantity"]; i++) {
+        if (equipments[genrekey][itemkey]["quantity"] <= 0) {
             $(this)
                 .parents("#equipment")
                 .find("#quantity")
-                .append(new Option(i));
+                .append(new Option("無庫存"));
+        } else {
+            for (
+                let i = 1;
+                i <= equipments[genrekey][itemkey]["quantity"];
+                i++
+            ) {
+                $(this)
+                    .parents("#equipment")
+                    .find("#quantity")
+                    .append(new Option(i));
+            }
         }
     });
 
@@ -256,8 +278,16 @@ $("document").ready(function () {
         //清空#quantity選項
         equipment.find("#quantity").children().remove().end();
         //填入#quantity的選項
-        for (let i = 1; i <= equipments[genrekey][itemkey]["quantity"]; i++) {
-            equipment.find("#quantity").append(new Option(i));
+        if (equipments[genrekey][itemkey]["quantity"] <= 0) {
+            equipment.find("#quantity").append(new Option("無庫存"));
+        } else {
+            for (
+                let i = 1;
+                i <= equipments[genrekey][itemkey]["quantity"];
+                i++
+            ) {
+                equipment.find("#quantity").append(new Option(i));
+            }
         }
     }
 
@@ -376,16 +406,31 @@ $("document").ready(function () {
                 }
             });
 
+        let illegalQuantity = false;
+        $(".equipmentContainer")
+            .find("select[id='quantity']")
+            .each(function () {
+                if ($(this).find("option:selected").text() === "無庫存") {
+                    illegalQuantity = true;
+                    equipmentFlag = false;
+                }
+            });
+        if (illegalQuantity) {
+            alert("有無庫存的設備申請");
+        }
+
+        let illegalUsage = false;
+        let illegalSubusageDept = false;
+        let illegalSubusageOther = false;
         $(".equipmentContainer")
             .find("select[id='usage']")
             .each(function () {
                 if ($(this).find("option:selected").text() === "請選擇用途") {
-                    alert("請選擇設備用途");
-
+                    illegalUsage = true;
                     equipmentFlag = false;
-                } else if (
-                    $(this).find("option:selected").text() === "系學會"
-                ) {
+                }
+
+                if ($(this).find("option:selected").text() === "系學會") {
                     if (
                         $.trim(
                             $(this)
@@ -394,11 +439,12 @@ $("document").ready(function () {
                                 .val()
                         ) === ""
                     ) {
-                        alert("部名不可為空白");
-
+                        illegalSubusageDept = true;
                         equipmentFlag = false;
                     }
-                } else if ($(this).find("option:selected").text() === "其他") {
+                }
+
+                if ($(this).find("option:selected").text() === "其他") {
                     if (
                         $.trim(
                             $(this)
@@ -407,12 +453,22 @@ $("document").ready(function () {
                                 .val()
                         ) === ""
                     ) {
-                        alert("用途不可為空白");
-
+                        illegalSubusageOther = true;
                         equipmentFlag = false;
                     }
                 }
             });
+        if (illegalUsage) {
+            alert("請選擇設備用途");
+        }
+
+        if (illegalSubusageDept) {
+            alert("部名不可為空白");
+        }
+
+        if (illegalSubusageOther) {
+            alert("用途不可為空白");
+        }
 
         return equipmentFlag;
     });

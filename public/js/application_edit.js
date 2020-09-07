@@ -554,16 +554,18 @@ $("document").ready(function () {
                 }
             });
 
+        let illegalUsage = false;
+        let illegalSubusageDept = false;
+        let illegalSubusageOther = false;
         $(".equipmentContainer")
             .find("select[id='usage']")
             .each(function () {
                 if ($(this).find("option:selected").text() === "請選擇用途") {
-                    alert("請選擇設備用途");
-
+                    illegalUsage = true;
                     equipmentFlag = false;
-                } else if (
-                    $(this).find("option:selected").text() === "系學會"
-                ) {
+                }
+
+                if ($(this).find("option:selected").text() === "系學會") {
                     if (
                         $.trim(
                             $(this)
@@ -572,11 +574,12 @@ $("document").ready(function () {
                                 .val()
                         ) === ""
                     ) {
-                        alert("部名不可為空白");
-
+                        illegalSubusageDept = true;
                         equipmentFlag = false;
                     }
-                } else if ($(this).find("option:selected").text() === "其他") {
+                }
+
+                if ($(this).find("option:selected").text() === "其他") {
                     if (
                         $.trim(
                             $(this)
@@ -585,12 +588,22 @@ $("document").ready(function () {
                                 .val()
                         ) === ""
                     ) {
-                        alert("用途不可為空白");
-
+                        illegalSubusageOther = true;
                         equipmentFlag = false;
                     }
                 }
             });
+        if (illegalUsage) {
+            alert("請選擇設備用途");
+        }
+
+        if (illegalSubusageDept) {
+            alert("部名不可為空白");
+        }
+
+        if (illegalSubusageOther) {
+            alert("用途不可為空白");
+        }
 
         return equipmentFlag;
     });

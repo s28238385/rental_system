@@ -88,7 +88,18 @@ class ApplicationController extends Controller
         }
         //把資料型態從Collection object變成array
         $equipments = $equipments->toArray();
-        
+
+        foreach($equipments as $genreKey => $genre){
+            foreach($genre as $itemKey => $item){
+                $rent_quantity = RentEquipment::where('item', $item['item'])
+                                                ->where('status', '借出中')
+                                                ->pluck('quantity')
+                                                ->toArray();
+
+                $equipments[$genreKey][$itemKey]['quantity'] -= array_sum($rent_quantity);
+            }
+        }
+
         //送回application.new並附帶$classrommNames, $equipments, $return_time
         return view('application.new', ['classroomNames' => $classroomNames, 'equipments' => $equipments, 'return_time' => $return_time]);
     }
@@ -162,6 +173,21 @@ class ApplicationController extends Controller
                 'remark' => 'array',
                 'reamerk.*' => 'string'
             ]);
+
+            for($i = 0; $i < count($request->input('genre')); $i++){
+                $rent_quantity = RentEquipment::where('item', $request->input('item'))
+                                                ->where('status', '借用中')
+                                                ->pluck('quantity')
+                                                ->toArray();
+
+                $equipment_quantity = Equipment::where('item', $request->input('item'))
+                                                ->pluck('quantity')
+                                                ->toArray();
+
+                if(array_sum($rent_quantity) >= $equipment_quantity){
+                    return redirect()->back()->withErrors('有無庫存設備的借用申請')->withInput();
+                }
+            }
         }
 
         //建立Model物件以存入資料庫
@@ -581,6 +607,20 @@ class ApplicationController extends Controller
         $rent_equipments = RentEquipment::where('application_id', $application->id)
                                         ->where('status', '申請中')
                                         ->get();
+
+        foreach($rent_equipments as $rent_equipment){
+            $equipment_quantity = Equipment::where('item', $rent_equipment->item)
+                                            ->pluck('quantity')->first();
+
+            $rent_quantity = RentEquipment::where('item', $rent_equipment->item)
+                                            ->where('status', '借出中')
+                                            ->pluck('quantity')
+                                            ->toArray();
+
+            if(array_sum($rent_quantity) >= $equipment_quantity){
+                $rent_equipment->status = '無庫存';
+            }
+        }
 
         //回傳application.rent，並附帶$application, $rent_equipments
         return view('application.rent', ['application' => $application, 'rent_key' => $rent_key, 'rent_equipments' => $rent_equipments]);

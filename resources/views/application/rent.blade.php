@@ -93,8 +93,12 @@
                                         <td class="align-middle">{{ $rent_equipment->item }}</td>
                                         <td class="align-middle">{{ $rent_equipment->quantity }}</td>
                                         <td class="align-middle">
-                                            <input type="checkbox" name="rent[]" id="rent{{ $rent_equipment->id }}" value="{{ $rent_equipment->id }}">
-                                            <label for="rent{{ $rent_equipment->id }}">借出</label>
+                                            @if ($rent_equipment->status === '無庫存')
+                                                <p class="mb-1">無庫存</p>
+                                            @else
+                                                <input type="checkbox" name="rent[]" id="rent{{ $rent_equipment->id }}" value="{{ $rent_equipment->id }}">
+                                                <label for="rent{{ $rent_equipment->id }}">借出</label>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
