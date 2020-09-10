@@ -25,7 +25,7 @@
                 <label for="genre">種類<span class="required">*</span></label>
                 <select name="genre" id="genre" class="form-control">
                     @foreach ($genres as $genre)
-                        <option {{ (old('genre') === $genre)? 'selected' : (($equipment->genre === $genre)? 'selected' : '') }}>{{ $genre }}</option>
+                        <option {{ (old('genre') === $genre)? 'selected' : (($equipment->genre == $genre)? 'selected' : '') }}>{{ $genre }}</option>
                     @endforeach
                     <option {{ (old('genre') === '新增設備種類')? 'selected' : '' }}>新增設備種類</option>
                 </select>

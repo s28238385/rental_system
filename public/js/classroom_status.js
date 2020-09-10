@@ -30,11 +30,10 @@ function getAjax() {
     //送出ajax查詢
     $.ajax({
         url: url,
-        method: "POST",
+        method: "GET",
         data: {
             classroom: classroom,
             date: date,
-            _token: token,
         },
         dataType: "json",
         //查詢成功時

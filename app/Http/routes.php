@@ -25,7 +25,7 @@ Route::group(['prefix' => 'classroom'], function () {
     ]);
     
     //ajax取得預約資訊用網址
-    Route::post('/statusCalender', [
+    Route::get('/statusCalender', [
         'uses' => 'ClassroomController@ajaxGetReservation',
         'as' => 'status.ajax'
     ]);

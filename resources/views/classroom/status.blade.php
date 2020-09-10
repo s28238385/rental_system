@@ -7,7 +7,6 @@
 @section('script')
     <script>
         //bring php variables to js
-        let token = '{{ Session::token() }}';
         let url = '{{ route('status.ajax') }}';
         let firstDay = '{{ Session::get('first_day') }}';
         let classroom = '{{ Session::get('classroom') }}';
