@@ -7,6 +7,8 @@ $(document).ready(function () {
         }
     });
 
+    $("#genre").trigger("change");
+
     $("form").submit(function () {
         if ($("#genre option:selected").text() === "新增設備種類") {
             if ($.trim($("#genreOther").val()) === "") {
