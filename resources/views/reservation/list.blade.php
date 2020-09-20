@@ -93,7 +93,8 @@
             </div>
         </div>
         <div class="form-group ml-2 my-1">
-            <button type="submit" class="btn btn-sm btn-outline-primary px-3">查詢</button>
+            <button type="submit" class="btn btn-sm btn-outline-primary px-3 m-1">查詢</button>
+            <button id="reset" class="btn btn-sm btn-outline-danger m-1">清除</button>
         </div>
     </form>
     <div class="d-flex justify-content-center my-2">

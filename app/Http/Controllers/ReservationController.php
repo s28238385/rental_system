@@ -795,9 +795,11 @@ class ReservationController extends Controller
         //增加搜尋變數至網址列
         $pagination = $reservations->appends([
             'name' => trim($request->input('name')),
+            'reason' => trim($request->input('reason')),
             'classroom' => $request->input('classroom'),
             'begin_date' => $request->input('begin_date'),
-            'end_date' => $request->input('end_date')
+            'end_date' => $request->input('end_date'),
+            'loop_day' => $request->input('loop_day')
         ]);
 
         //將搜尋值存入session
