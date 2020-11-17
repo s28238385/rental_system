@@ -54,6 +54,7 @@ Route::group(['prefix' => 'application'], function() {
     ]);
 
     Route::post('/new', [
+        'middleware' => 'ip',
         'uses' => 'ApplicationController@postNew',
         'as' => 'application.new'
     ]);
