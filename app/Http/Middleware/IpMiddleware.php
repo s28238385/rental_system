@@ -20,7 +20,11 @@ class IpMiddleware
         if(preg_match($pattern, $request->ip()) == 0 && preg_match("/not_allowed_ip$/", $request->url()) == 0){
             return redirect('not_allowed_ip');
         }
-
-        return $next($request);
+        else if(preg_match($pattern, $request->ip()) == 1 && preg_match("/not_allowed_ip$/", $request->url()) == 1){
+            return redirect('/');
+        }
+        else {
+            return $next($request);
+        }
     }
 }
