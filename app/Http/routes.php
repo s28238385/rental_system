@@ -167,7 +167,7 @@ Route::group(['prefix' => 'reservation'], function () {
             'uses' => 'ReservationController@getNew',
             'as' => 'reservation.new'
         ]);
-    
+
         Route::post('/new', [
             'uses' => 'ReservationController@postNew',
             'as' => 'reservation.new'
@@ -281,7 +281,7 @@ Route::group(['prefix' => 'equipment'], function () {
 //使用者相關，前綴uri為user
 Route::group(['prefix' => 'user'], function () {
     //中介層為guest，只有未登入狀況才可以訪問
-    Route::group(['middleware' => 'guest'], function () {
+    Route::group(['middleware' => ['ip', 'guest']], function () {
         Route::get('/signin', [
             'uses' => 'UserController@getSignin',
             'as' => 'user.signin'
