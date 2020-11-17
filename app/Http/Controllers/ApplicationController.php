@@ -80,7 +80,7 @@ class ApplicationController extends Controller
         //取出所有在equipment table裡的資料，並依name排序，再依name分類
         $equipments = Equipment::all()
                                 ->groupBy('genre');
-        
+
         //把$equipments中的array元素依item分類，並更改其索引值為item
         foreach($equipments as $key => $value){
             $equipments[$key] = $value->sortBy('item')
