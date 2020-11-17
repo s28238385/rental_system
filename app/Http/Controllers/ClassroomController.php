@@ -43,5 +43,8 @@ class ClassroomController extends Controller
             //轉成json格式後回傳
             return response()->json(['data' => $reservations]);
         }
+        else {
+            return redirect('/');
+        }
     }
 }

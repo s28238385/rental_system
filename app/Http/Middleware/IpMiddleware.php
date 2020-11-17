@@ -21,7 +21,7 @@ class IpMiddleware
             return redirect('not_allowed_ip');
         }
         else if(preg_match($pattern, $request->ip()) == 1 && preg_match("/not_allowed_ip$/", $request->url()) == 1){
-            return redirect('/');
+            return redirect()->route('application.new');
         }
         else {
             return $next($request);

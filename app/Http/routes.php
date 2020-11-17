@@ -27,7 +27,7 @@ Route::group(['prefix' => 'classroom'], function () {
         'uses' => 'ClassroomController@getStatus',
         'as' => 'classroom.status'
     ]);
-    
+
     //ajax取得預約資訊用網址
     Route::get('/statusCalender', [
         'uses' => 'ClassroomController@ajaxGetReservation',
@@ -48,6 +48,7 @@ Route::group(['prefix' => 'application'], function() {
     ]);
 
     Route::get('/new', [
+        'middleware' => 'ip',
         'uses' => 'ApplicationController@getNew',
         'as' => 'application.new'
     ]);
