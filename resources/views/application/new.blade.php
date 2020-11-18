@@ -125,7 +125,7 @@
                             <div class="row m-0 d-flex align-items-end">
                                 <div class="col-md-8 p-0">
                                     <label for="key_return_time">鑰匙歸還時間</label>
-                                    <input type="date" class="form-control" name="key_return_time" id="key_return_time" value="{{ $return_time }}" min="{{ $return_time }}" max="9999-12-31">
+                                    <input type="date" class="form-control" name="key_return_time" id="key_return_time" value="{{ $return_time }}" min="{{ Date('Y-m-d', strtotime('today')) }}" max="9999-12-31">
                                 </div>
                                 <div class="col-md-4 p-0 d-flex align-items-end">
                                     <input type="text" class="form-control" value="09:00" readonly>
@@ -150,7 +150,6 @@
                                 </div>
                                 <input type="text" name="key_sub_usage" id="key_sub_usage" class="form-control col-md-7 d-none">
                             </div>
-                            
                         </div>
                         <div class="form-group col-md-4">
                             <label for="key_remark">備註</label>
@@ -196,7 +195,7 @@
                 <div class="row m-0 d-flex align-items-end">
                     <div class="col-md-7 p-0">
                         <label for="return_time">歸還時間</label>
-                        <input type="date" class="form-control" name="return_time[]" id="return_time" value="{{ $return_time }}" min="{{ $return_time }}" max="9999-12-31">
+                        <input type="date" class="form-control" name="return_time[]" id="return_time" value="{{ $return_time }}" min="{{ Date('Y-m-d', strtotime('today')) }}" max="9999-12-31">
                     </div>
                     <div class="col-md-5 p-0 d-flex align-items-end">
                         <input type="text" class="form-control" value="09:00" readonly>
