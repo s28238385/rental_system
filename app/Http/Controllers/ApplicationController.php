@@ -70,12 +70,7 @@ class ApplicationController extends Controller
         $classroomNames = Classroom::pluck('classroomName')->toArray();
 
         //產生歸還日期
-        if(Date("N") === 5 || Date("N") === 6){
-            $return_time = Date("Y-m-d", strtotime('next monday'));
-        }
-        else {
-            $return_time = Date("Y-m-d", strtotime('tomorrow'));
-        }
+        $return_time = Date("Y-m-d", strtotime('today'));
 
         //取出所有在equipment table裡的資料，並依name排序，再依name分類
         $equipments = Equipment::all()
@@ -319,7 +314,7 @@ class ApplicationController extends Controller
                                         ->get();
 
         //產生歸還日期
-        $return_time = Date("Y-m-d H:i:s", strtotime('tomorrow 0:00', strtotime($application->created_at)));
+        $return_time = Date("Y-m-d H:i:s", strtotime('today 0:00', strtotime($application->created_at)));
 
         //回傳application.edit，並附帶$application, $classroomNames, $equipments, $rent_equipments
         return view('application.edit', ['application' => $application, 'classroomNames' => $classroomNames, 'equipments' => $equipments, 'return_time' => $return_time, 'rent_key' => $rent_key, 'rent_equipments' => $rent_equipments]);
@@ -746,6 +741,7 @@ class ApplicationController extends Controller
         if(!is_null($request->input('return_key')) && $request->input('return_key') == $rent_key->id) {
             $rent_key->status = '已歸還';
             $rent_key->return_by = Auth::user()->name;
+            $rent_key->return_time = Date('Y-m-d H:i:s', strtotime('now'));
 
             $executed = $rent_key->save();
 
@@ -763,6 +759,7 @@ class ApplicationController extends Controller
 
                     $rent_equipment->status = '已歸還';
                     $rent_equipment->return_by = Auth::user()->name;
+                    $rent_equipment->return_time = Date('Y-m-d H:i:s', strtotime('now'));
 
                     $executed = $rent_equipment->save();
 

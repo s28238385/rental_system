@@ -103,6 +103,14 @@
                         <div class="col-md-3">
                             <p>狀態：{{ $rent_key->status }}</p>
                         </div>
+                        @if (Auth::check())
+                            <div class="col-md-3">
+                                <p>借出經辦：{{ ($rent_key->status != '申請中')? $rent_key->rent_by : '' }}</p>
+                            </div>
+                            <div class="col-md-3">
+                                <p>歸還經辦：{{ $rent_key->return_by }}</p>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -121,7 +129,9 @@
                                 <td class="align-middle">備註</td>
                                 <td class="align-middle">歸還時間</td>
                                 <td class="align-middle">狀態</td>
-                                @if (Auth::check())
+                                @if(Auth::check())
+                                    <td class="align-middle">借出經辦</td>
+                                    <td class="align-middle">歸還經辦</td>
                                     <td class="align-middle">刪除</td>
                                 @endif
                             </tr>
@@ -137,6 +147,8 @@
                                     <td class="align-middle text-break">{{ $rent_equipment->return_time }}</td>
                                     <td class="align-middle">{{ $rent_equipment->status }}</td>
                                     @if (Auth::check())
+                                        <td class="align-middle">{{ ($rent_equipment->status != '申請中')?$rent_equipment->rent_by : '' }}</td>
+                                        <td class="align-middle">{{ ($rent_equipment->status == '已歸還')?$rent_equipment->return_by : '' }}</td>
                                         <td class="align-middle">
                                             <a href="{{ route('rentequipment.delete', ['rent_equipment_id' => $rent_equipment->id]) }}" type="button" class="btn btn-sm btn-outline-danger ml-auto px-3 {{ ($rent_equipment->status != '申請中')? 'disabled' : '' }}" onclick="return confirm('確定刪除這筆設備借用？')">刪除</a>
                                         </td>
