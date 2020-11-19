@@ -22,7 +22,7 @@ class ApplicationController extends Controller
     public function getList(){
         //將applications table裡的資料依建立時間倒序排列，20筆資料分一頁輸出
         $applications = Application::where('status', '申請中')
-                                    ->orderBy('updated_at', 'DESC')
+                                    ->orderBy('id', 'DESC')
                                     ->paginate(20);
 
         //送回application.list並附帶$applications
@@ -33,7 +33,7 @@ class ApplicationController extends Controller
     public function getRentingList(){
         //將applications table裡借出中的資料依建立時間倒序排列，20筆資料分一頁輸出
         $applications = Application::where('status', '借出中')
-                                    ->orderBy('updated_at', 'DESC')
+                                    ->orderBy('id', 'DESC')
                                     ->paginate(20);
 
         //送回application.renting_list並附帶$applications
@@ -44,7 +44,7 @@ class ApplicationController extends Controller
     public function getReturnedList(){
         //將applications table裡的資料依建立時間倒序排列，20筆資料分一頁輸出
         $applications = Application::where('status', '已歸還')
-                                    ->orderBy('updated_at', 'DESC')
+                                    ->orderBy('id', 'DESC')
                                     ->paginate(20);
 
         //送回application.returned_list並附帶$applications
