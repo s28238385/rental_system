@@ -150,7 +150,7 @@ Route::group(['prefix' => 'application'], function() {
 });
 
 //教室預約相關連結，前綴uri為reservation
-Route::group(['prefix' => 'reservation'], function () {
+Route::group(['prefix' => 'reservation', 'middleware' => 'auth'], function () {
     Route::get('/list', [
         'uses' => 'ReservationController@getList',
         'as' => 'reservation.list'
@@ -162,7 +162,7 @@ Route::group(['prefix' => 'reservation'], function () {
         ]);
 
     //中介層為auth，只有登入時才可以訪問
-    Route::group(['middleware' => ['auth', 'role']], function () {
+    Route::group(['middleware' => ['role']], function () {
         Route::get('/new', [
             'uses' => 'ReservationController@getNew',
             'as' => 'reservation.new'
@@ -255,12 +255,12 @@ Route::group(['prefix' => 'equipment'], function () {
             'as' => 'equipment.edit'
         ]);
 
-        Route::group(['middleware' => 'role'], function () {
-            Route::get('/record', [
-                'uses' => 'EquipmentController@getRecord',
-                'as' => 'equipment.record'
-            ]);
+        Route::get('/record', [
+            'uses' => 'EquipmentController@getRecord',
+            'as' => 'equipment.record'
+        ]);
 
+        Route::group(['middleware' => 'role'], function () {
             Route::get('delete/{id}', [
                 'uses' => 'EquipmentController@getDelete',
                 'as' => 'equipment.delete'

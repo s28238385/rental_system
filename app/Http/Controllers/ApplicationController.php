@@ -806,8 +806,8 @@ class ApplicationController extends Controller
             return redirect()->route('application.list')->with('fail', '設備歸還失敗，請再次嘗試！');
         }
         else{
-            //若成功歸還則附帶成功訊息重導至application.returned_list
-            return redirect()->route('application.list')->with('success', '設備歸還成功！');
+            //若成功歸還則附帶成功訊息重導至application.renting_list
+            return redirect()->route('application.renting_list')->with('success', '設備歸還成功！');
         }
     }
 

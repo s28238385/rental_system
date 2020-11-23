@@ -54,6 +54,9 @@
                                 <a class="text-decoration-none" href="{{ route('application.returned_list') }}">
                                     <h5 class="px-2 yellow-subindex">已歸還清單</h5>
                                 </a>
+                                <a class="text-decoration-none" href="{{ route('equipment.record') }}">
+                                    <h5 class="px-2 yellow-subindex">設備借用紀錄</h5>
+                                </a>
                             @endif
                         </div>
                     </div>
@@ -69,7 +72,7 @@
                                 </a>
                             </div>
                         </div>
-                    @else
+                    @elseif(Auth::check())
                         <a href="{{ route('reservation.list') }}" class="text-decoration-none">
                             <h3 class="px-3 py-1 yellow-index">教室預約清單</h3>
                         </a>
@@ -85,9 +88,6 @@
                                     <h5 class="px-2 yellow-subindex">設備清單</h5>
                                 </a>
                                 @can('manager')
-                                    <a class="text-decoration-none" href="{{ route('equipment.record') }}">
-                                        <h5 class="px-2 yellow-subindex">設備借用紀錄</h5>
-                                    </a>
                                 @endcan
                             </div>
                         </div>

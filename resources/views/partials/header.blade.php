@@ -18,6 +18,7 @@
                     @if (Auth::check())
                         <a class="dropdown-item" href="{{ route('application.renting_list') }}">借出中清單</a>
                         <a class="dropdown-item" href="{{ route('application.returned_list') }}">已歸還清單</a>
+                        <a class="dropdown-item" href="{{ route('equipment.record') }}">設備借用紀錄</a>
                     @endif
                 </div>
             </li>
@@ -31,7 +32,7 @@
                         <a class="dropdown-item" href="{{ route('reservation.list') }}">預約清單</a>
                     </div>
                 </li>
-            @else
+            @elseif(Auth::check())
                 <li class="nav-item">
                     <a class="nav-link header-button" href="{{ route('reservation.list') }}">教室預約清單</a>
                 </li>
@@ -44,9 +45,6 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ route('equipment.add') }}">新增設備</a>
                         <a class="dropdown-item" href="{{ route('equipment.list') }}">設備清單</a>
-                        @can('manager')
-                            <a class="dropdown-item" href="{{ route('equipment.record') }}">設備借用紀錄</a>
-                        @endcan
                     </div>
                 </li>
                 <li class="nav-item dropdown">

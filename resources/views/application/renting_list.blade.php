@@ -40,7 +40,7 @@
                 @foreach($applications as $application)
                     <tr>
                         <td class="align-middle">{{ $application->id }}</td>
-                        <td class="align-middle text-break">{{ $application->created_at }}</td>
+                        <td class="align-middle text-break">{{ Date('Y-m-d', strtotime($application->created_at)) }}</td>
                         <td class="align-middle">{{ $application->name }}</td>
                         <td class="align-middle">{{ $application->identity }}</td>
                         @can('manager')

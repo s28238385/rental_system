@@ -16,15 +16,18 @@ class IpMiddleware
     public function handle($request, Closure $next)
     {
         $pattern = "/^140\.115/";
+        $environment = 1;   // 1 for online, 0 for testing
 
-        if(preg_match($pattern, $request->ip()) == 0 && preg_match("/not_allowed_ip$/", $request->url()) == 0){
-            return redirect('not_allowed_ip');
-        }
-        else if(preg_match($pattern, $request->ip()) == 1 && preg_match("/not_allowed_ip$/", $request->url()) == 1){
-            return redirect()->route('application.new');
+        if(preg_match($pattern, $request->ip()) == $environment){
+            if(preg_match("/not_allowed_ip$/", $request->url()) == 0){
+                return $next($request);
+            }
+            else {
+                return redirecct('/');
+            }
         }
         else {
-            return $next($request);
+            return redirect('not_allowed_ip');
         }
     }
 }

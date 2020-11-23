@@ -59,11 +59,11 @@
                     <div class="col-md-6">
                         <p>身分：{{ $application->identity }}</p>
                     </div>
-                    @can('manager')
+                    @if (Auth::check())
                         <div class="col-md-6">
                             <p>手機/分機：{{ $application->phone }}</p>
                         </div>
-                    @endcan
+                    @endif
                     @if (!is_null($application->certificate))
                         <div class="col-md-6">
                             <p>抵押證件：{{ $application->certificate }}</p>
