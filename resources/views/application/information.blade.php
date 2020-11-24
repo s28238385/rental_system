@@ -48,7 +48,7 @@
                         <p>申請狀態：{{ $application->status }}</p>
                     </div>
                     <div class="col-md-6">
-                        <p>申請時間：{{ $application->created_at }}</p>
+                        <p>申請時間：{{ Date('Y-m-d H:i', strtotime($application->created_at)) }}</p>
                     </div>
                 </div>
                 <div class="dropdown-divider"></div>
@@ -89,7 +89,7 @@
                             <p>鑰匙種類：{{ $rent_key->key_type }}</p>
                         </div>
                         <div class="col-md-6">
-                            <p>歸還時間：{{ $rent_key->return_time }}</p>
+                            <p>歸還時間：{{ ($rent_key->status != '已歸還')? Date('Y-m-d', strtotime($rent_key->return_time)) : Date('Y-m-d H:i', strtotime($rent_key->return_time)) }}</p>
                         </div>
                         <div class="col-md-3">
                             <p>授課教師：{{ $rent_key->teacher }}</p>
@@ -144,7 +144,7 @@
                                     <td class="align-middle">{{ $rent_equipment->quantity }}</td>
                                     <td class="align-middle text-break">{{ $rent_equipment->usage }}</td>
                                     <td class="align-middle text-break">{{ $rent_equipment->remark }}</td>
-                                    <td class="align-middle text-break">{{ $rent_equipment->return_time }}</td>
+                                    <td class="align-middle text-break">{{ ($rent_equipment->status != '已歸還')? Date('Y-m-d', strtotime($rent_equipment->return_time)) : Date('Y-m-d H:i', strtotime($rent_equipment->return_time)) }}</td>
                                     <td class="align-middle">{{ $rent_equipment->status }}</td>
                                     @if (Auth::check())
                                         <td class="align-middle">{{ ($rent_equipment->status != '申請中')?$rent_equipment->rent_by : '' }}</td>

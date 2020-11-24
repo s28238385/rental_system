@@ -314,7 +314,7 @@ class ApplicationController extends Controller
                                         ->get();
 
         //產生歸還日期
-        $return_time = Date("Y-m-d H:i:s", strtotime('today 0:00', strtotime($application->created_at)));
+        $return_time = Date("Y-m-d", strtotime('today', strtotime($application->created_at)));
 
         //回傳application.edit，並附帶$application, $classroomNames, $equipments, $rent_equipments
         return view('application.edit', ['application' => $application, 'classroomNames' => $classroomNames, 'equipments' => $equipments, 'return_time' => $return_time, 'rent_key' => $rent_key, 'rent_equipments' => $rent_equipments]);

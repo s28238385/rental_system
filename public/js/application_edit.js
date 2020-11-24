@@ -395,7 +395,7 @@ $("document").ready(function () {
             .children()
             .last()
             .find("#return_time")
-            .val(rent_equipment["return_time"].replace(" ", "T"));
+            .val(rent_equipment["return_time"].replace(" ", "T").slice(0, -3));
         //填入用途
         if (
             (rent_equipment["usage"] === "上課") |
