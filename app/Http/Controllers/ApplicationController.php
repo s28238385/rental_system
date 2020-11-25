@@ -607,12 +607,14 @@ class ApplicationController extends Controller
                                         ->where('status', '申請中')
                                         ->get();
 
-        $renting_key = RentKey::where('classroom', $rent_key->classroom)
-                                ->where('key_type', $rent_key->key_type)
-                                ->where('status', '借出中')
-                                ->first();
-        if(!empty($renting_key)){
-            $rent_key->status = '無庫存';
+        if(!empty($rent_key)){
+            $renting_key = RentKey::where('classroom', $rent_key->classroom)
+                                    ->where('key_type', $rent_key->key_type)
+                                    ->where('status', '借出中')
+                                    ->first();
+            if(!empty($renting_key)){
+                $rent_key->status = '無庫存';
+            }
         }
 
         foreach($rent_equipments as $rent_equipment){
