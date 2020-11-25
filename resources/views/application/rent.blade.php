@@ -81,8 +81,12 @@
                                     <td class="align-middle">{{ $rent_key->key_type }}</td>
                                     <td class="align-middle">1</td>
                                     <td class="align-middle">
-                                        <input type="checkbox" name="key_rent" id="rentkey" value="{{ $rent_key->id }}">
-                                        <label for="rentkey">借出</label>
+                                        @if ($rent_key->status == '無庫存')
+                                            <p class="mb-1">無庫存</p>
+                                        @else
+                                            <input type="checkbox" name="key_rent" id="rentkey" value="{{ $rent_key->id }}">
+                                            <label for="rentkey">借出</label>
+                                        @endif
                                     </td>
                                 </tr>
                             @endif

@@ -354,7 +354,7 @@ class ApplicationController extends Controller
                 'phone' => array('required', 'regex: /^\d{5}$/')
             ]);
         }
-        
+
         //根據是否借用教室進行驗證
         if(!is_null($request->input('wantRentChk'))){
             $this->validate($request, [
@@ -443,7 +443,7 @@ class ApplicationController extends Controller
                     'teacher' => (trim($request->input('teacher')) === "") ? '無' : trim($request->input('teacher')),
                     'key_type' => $request->input('key_type'),
                     'remark' => (trim($request->input('key_remark')) === '')? '無' : trim($request->input('key_remark')),
-                    'return_time' => Date("Y-m-d H:i:s", strtotime(str_replace("T", " ", $request->input('key_return_time')))),
+                    'return_time' => Date("Y-m-d H:i:s", strtotime($request->input('key_return_time'))),
                     'status' => $request->input('key_status')
                 ]);
             }
@@ -452,22 +452,26 @@ class ApplicationController extends Controller
                 $rent_key->classroom = $request->input('classroom');
                 $rent_key->teacher = (trim($request->input('teacher')) === "") ? '無' : trim($request->input('teacher'));
                 $rent_key->remark = (trim($request->input('key_remark')) === "")? '無' : trim($request->input('key_remark'));
-                $rent_key->return_time = Date("Y-m-d H:i:s", strtotime(str_replace("T", " ", $request->input('key_return_time'))));
+                $rent_key->return_time = Date("Y-m-d H:i:s", strtotime($request->input('key_return_time')));
                 $rent_key->status = $request->input('key_status');
             }
 
             if($request->input('key_usage') === '系學會' || $request->input('key_usage') === '其他'){
-                $rent_key->usage = $request->input('key_usage') . "/" . trim($requeset->input('key_sub_usage'));
+                $rent_key->usage = $request->input('key_usage') . "/" . trim($request->input('key_sub_usage'));
             }
             else {
                 $rent_key->usage = $request->input('key_usage');
             }
-            $executed = $rent_key->save();
 
-            //若未成功儲存則重導至application.information，並附帶失敗訊息
-            if(!$executed){
-                return redirect()->route('application.information', ['application_id' => $application->id])->with('fail', '修改申請失敗，請再次嘗試！');
+            if($rent_key->status != '已歸還'){
+                $executed = $rent_key->save();
+
+                //若未成功儲存則重導至application.information，並附帶失敗訊息
+                if(!$executed){
+                    return redirect()->route('application.information', ['application_id' => $application->id])->with('fail', '修改申請失敗，請再次嘗試！');
+                }
             }
+
         }
         else {
             if(!empty($rent_key)){
@@ -484,7 +488,7 @@ class ApplicationController extends Controller
         if(!empty($request->input('genre'))){
             for($i = 0; $i < count($request->input('genre')); $i++){
                 //如果是原有設備則修改其資料，如是新增借用設備則建立model以存入資料庫
-                if(in_array($request->input('equipment_id')[$i], $rent_equipments_id)){
+                if(in_array($request->input('equipment_id')[$i], $rent_equipments_id) && $request->input('status')[$i] != '已歸還'){
                     //取出借用設備資料
                     $rent_equipment = RentEquipment::find($request->input('equipment_id')[$i]);
 
@@ -499,7 +503,7 @@ class ApplicationController extends Controller
                         $rent_equipment->usage = $request->input('usage')[$i];
                     }
                     $rent_equipment->remark = (trim($request->input('remark')[$i]) === "") ? '無' : trim($request->input('remark')[$i]);
-                    $rent_equipment->return_time = Date("Y-m-d H:i:s", strtotime(str_replace("T", " ", $request->input('return_time')[$i])));
+                    $rent_equipment->return_time = Date("Y-m-d H:i:s", strtotime($request->input('return_time')[$i]));
                     $rent_equipment->status = $request->input('status')[$i];
 
                     $executed = $rent_equipment->save();
@@ -520,7 +524,7 @@ class ApplicationController extends Controller
                         'item' => $request->input('item')[$i],
                         'quantity' => $request->input('quantity')[$i],
                         'remark' => (trim($request->input('remark')[$i]) === "") ? '無' : trim($request->input('remark')[$i]),
-                        'return_time' => Date("Y-m-d H:i:s", strtotime(str_replace("T", " ", $request->input('return_time')[$i]))),
+                        'return_time' => Date("Y-m-d H:i:s", strtotime($request->input('return_time')[$i])),
                         'status' => $request->input('status')[$i]
                     ]);
                     if($request->input('usage')[$i] === '系學會' || $request->input('usage')[$i] === '其他'){
@@ -602,6 +606,14 @@ class ApplicationController extends Controller
         $rent_equipments = RentEquipment::where('application_id', $application->id)
                                         ->where('status', '申請中')
                                         ->get();
+
+        $renting_key = RentKey::where('classroom', $rent_key->classroom)
+                                ->where('key_type', $rent_key->key_type)
+                                ->where('status', '借出中')
+                                ->first();
+        if(!empty($renting_key)){
+            $rent_key->status = '無庫存';
+        }
 
         foreach($rent_equipments as $rent_equipment){
             $equipment_quantity = Equipment::where('item', $rent_equipment->item)
