@@ -97,6 +97,42 @@ $("document").ready(function () {
         }
     });
 
+    //教室改變時
+    $("#classroom").change(function () {
+        $(this)
+            .parents("#classroomSection")
+            .find("#key_type option")
+            .each(function () {
+                if ($(this).text().includes("無庫存")) {
+                    $(this).text($(this).text().slice(5));
+                }
+            });
+
+        if (
+            Object.keys(renting_keys).includes(
+                $(this).find("option:selected").text()
+            )
+        ) {
+            renting_keys[$(this).find("option:selected").text()].forEach(
+                (element) => {
+                    $(this)
+                        .parents("#classroomSection")
+                        .find(
+                            "#key_type option:contains(" +
+                                element["key_type"] +
+                                ")"
+                        )
+                        .filter(function () {
+                            return $(this).text() === element["key_type"];
+                        })
+                        .prepend("(無庫存)");
+                }
+            );
+        }
+    });
+
+    $("#classroom").change();
+
     //鑰匙用途改變時
     $("#key_usage").change(function () {
         if ($(this).find("option:selected").text() === "系學會") {
@@ -519,6 +555,15 @@ $("document").ready(function () {
             $("#key_type option:selected").text() === "請選擇鑰匙種類"
         ) {
             alert("請選擇鑰匙種類");
+
+            return false;
+        }
+
+        if (
+            $("#wantRentChk").prop("checked") === true &&
+            $("#key_type option:selected").text().includes("無庫存")
+        ) {
+            alert("請選擇其他鑰匙種類");
 
             return false;
         }

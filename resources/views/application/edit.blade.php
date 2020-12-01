@@ -8,6 +8,7 @@
     <script>
         //把php變數傳入js
         let application = <?php echo json_encode($application); ?>;
+        let renting_keys = <?php echo json_encode($renting_keys); ?>;
         let rent_key = <?php echo json_encode($rent_key); ?>;
         let rent_equipments = <?php echo json_encode($rent_equipments); ?>;
         let equipments = <?php echo json_encode($equipments); ?>;

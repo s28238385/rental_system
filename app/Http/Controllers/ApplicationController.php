@@ -72,6 +72,11 @@ class ApplicationController extends Controller
         //產生歸還日期
         $return_time = Date("Y-m-d", strtotime('today'));
 
+        $renting_keys = RentKey::where('status', '借出中')
+                                ->get(['classroom', 'key_type'])
+                                ->groupBy('classroom')
+                                ->toArray();
+
         //取出所有在equipment table裡的資料，並依name排序，再依name分類
         $equipments = Equipment::all()
                                 ->groupBy('genre');
@@ -96,7 +101,7 @@ class ApplicationController extends Controller
         }
 
         //送回application.new並附帶$classrommNames, $equipments, $return_time
-        return view('application.new', ['classroomNames' => $classroomNames, 'equipments' => $equipments, 'return_time' => $return_time]);
+        return view('application.new', ['classroomNames' => $classroomNames, 'equipments' => $equipments, 'renting_keys' => $renting_keys, 'return_time' => $return_time]);
     }
 
     //存入新申請資料
@@ -293,6 +298,11 @@ class ApplicationController extends Controller
         $classroomNames = Classroom::pluck('classroomName')
                                     ->toArray();
 
+        $renting_keys = RentKey::where('status', '借出中')
+                                ->get(['classroom', 'key_type'])
+                                ->groupBy('classroom')
+                                ->toArray();
+
         //取出所有在equipment table裡的資料，並依genre排序，再依genre分類
         $equipments = Equipment::all()
                                 ->groupBy('genre');
@@ -317,7 +327,7 @@ class ApplicationController extends Controller
         $return_time = Date("Y-m-d", strtotime('today', strtotime($application->created_at)));
 
         //回傳application.edit，並附帶$application, $classroomNames, $equipments, $rent_equipments
-        return view('application.edit', ['application' => $application, 'classroomNames' => $classroomNames, 'equipments' => $equipments, 'return_time' => $return_time, 'rent_key' => $rent_key, 'rent_equipments' => $rent_equipments]);
+        return view('application.edit', ['application' => $application, 'classroomNames' => $classroomNames,'renting_keys' => $renting_keys, 'equipments' => $equipments, 'return_time' => $return_time, 'rent_key' => $rent_key, 'rent_equipments' => $rent_equipments]);
     }
 
     //更新申請資料

@@ -8,6 +8,7 @@
     <script>
         //傳遞php變數至js
         let equipments = <?php echo json_encode($equipments); ?>;
+        let renting_keys = <?php echo json_encode($renting_keys); ?>;
     </script>
     <script src="{{ URL::asset('js/application_new.js') }}" type="text/javascript"></script>
 @endsection

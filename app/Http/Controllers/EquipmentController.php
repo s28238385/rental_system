@@ -108,7 +108,7 @@ class EquipmentController extends Controller
         //取出所有在equipment table裡的資料，依genre分類
         $equipments = Equipment::all()
                                 ->groupBy('genre');
-        
+
         //把$equipments中的array元素依item分類，並更改其索引值為item，並只取出索引值
         foreach($equipments as $key => $value){
             $equipments[$key] = $value->sortBy('item')
